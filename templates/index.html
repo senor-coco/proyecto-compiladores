@@ -3,34 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Softness - Crear Base de Datos</title>
+    <title>Proyecto</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="light-mode">
     <header>
-        <div class="logo">Softness</div>
+        <img src="{{ url_for('static', filename='img/sql.png') }}" style="width:50px; height:50px;">
+        <div class="logo">PostgreSQL</div>
         <div class="theme-switch">
             <label class="switch">
                 <input type="checkbox" id="theme-toggle">
                 <span class="slider"></span>
             </label>
             <a href="https://github.com" target="_blank">
-                    <img src="#" alt="GitHub" style="width:50px; height:50px;">
+                <img src="{{ url_for('static', filename='img/git.png') }}" alt="GitHub" style="width:50px; height:50px;">
             </a>            
         </div>
     </header>
     
     <main>
-        <h1>Crea una base de datos SQL</h1>
-        <p>Siguiendo este flujo...</p>
-        <ul>
-            <li>1. Crea tu base de datos (CREATE DATABASE)</li>
-            <li>2. Utilízala en tu base de datos (USE)</li>
-            <li>3. Crea una tabla en tu base de datos (CREATE TABLE)</li>
-            <li>4. Añade entradas a tu base de datos (INSERT INTO)</li>
-        </ul>
-        <div class="db-icon">
-            <img src="database.png" alt="Icono de base de datos">
+        <div class="content">
+            <!-- Sección con 5 contenedores para los pasos -->
+            <div class="steps-container">
+                <h1>Crea una base de datos SQL</h1>
+                     <h2>Con estos pasos..</h2>
+                         <br>
+                <div class="step">
+                    <p>Paso 1-Crea tu base de datos (CREATE DATABASE)</p>
+                </div>
+                <div class="step">
+                    <p>Paso 2-Utilízala en tu base de datos (USE)</p>
+                </div>
+                <div class="step">
+                    <p>Paso 3-Crea una tabla en tu base de datos (CREATE TABLE)</p>
+                </div>
+                <div class="step">
+                    <p>Paso 4-Añade entradas a tu base de datos (INSERT INTO)</p>
+                </div>
+                <div class="step">
+                    <p>Paso 5-Consulta y gestiona los datos (SELECT, UPDATE, DELETE)</p>
+                </div>
+            </div>
+            <!-- Imagen de base de datos alineada a la derecha con animación -->
+            <div class="db-icon">
+                <img src="{{ url_for('static', filename='img/bd.png') }}" alt="Icono de base de datos" class="animate-image">
+            </div>
         </div>
     </main>
 

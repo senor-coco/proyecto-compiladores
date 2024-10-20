@@ -27,6 +27,7 @@ header {
 .logo {
     font-size: 1.5em;
     font-weight: bold;
+    margin-right: 62pc;
 }
 
 .theme-switch {
@@ -81,7 +82,11 @@ input:checked + .slider:before {
 }
 
 main {
+    display: flex;
+    justify-content: right;
+    align-items: right;
     padding: 50px 20px;
+    min-height: 80vh;
     text-align: center;
 }
 
@@ -99,10 +104,66 @@ ul li {
     margin: 10px 0;
 }
 
-.db-icon {
-    margin-top: 30px;
+/* Contenedor de pasos */
+.content {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 120pc;
+}
+.steps-container {
+    flex: 1;
 }
 
-.db-icon img {
-    width: 100px;
+.step {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.5s, color 0.5s;
+}
+
+h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+p {
+    margin: 10px 0 0;
+    font-size: 16px;
+}
+
+.light-mode .step {
+    background-color: #fff;
+    color: #333;
+}
+
+.dark-mode .step {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Imagen de base de datos a la derecha */
+.db-icon {
+    flex-shrink: 0;
+    margin-left: 30px;
+}
+/* Activar animación solo al pasar el cursor */
+.db-icon img:hover {
+    animation: slide-in-bounce 0.5s ease-in-out;
+}
+/* Animación de la imagen */
+@keyframes slide-in-bounce {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
