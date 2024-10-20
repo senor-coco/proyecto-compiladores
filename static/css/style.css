@@ -1,3 +1,4 @@
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,6 +6,7 @@ body {
     transition: background-color 0.5s, color 0.5s;
 }
 
+/* Modo claro y oscuro */
 .light-mode {
     background-color: #f0f0f0;
     color: #333;
@@ -15,6 +17,7 @@ body {
     color: #fff;
 }
 
+/* Encabezado */
 header {
     display: flex;
     justify-content: space-between;
@@ -30,6 +33,7 @@ header {
     margin-right: 62pc;
 }
 
+/* Interruptor del tema */
 .theme-switch {
     display: flex;
     align-items: center;
@@ -57,7 +61,7 @@ header {
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    transition: .4s;
+    transition: .8s;
     border-radius: 20px;
 }
 
@@ -81,6 +85,7 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
+/* Contenido principal */
 main {
     display: flex;
     justify-content: right;
@@ -90,11 +95,13 @@ main {
     text-align: center;
 }
 
+/* Títulos */
 h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
 }
 
+/* Listas */
 ul {
     list-style: none;
     padding: 0;
@@ -104,58 +111,96 @@ ul li {
     margin: 10px 0;
 }
 
-/* Contenedor de pasos */
+/* Contenedor de pasos e inputs */
 .content {
-    align-items: center;
     display: flex;
     justify-content: space-between;
-    width: 90%;
+    align-items: center;
+    width: 95%;
     max-width: 120pc;
 }
+
 .steps-container {
     flex: 1;
 }
 
-.step {
+/* Estilo de los inputs */
+.step-input {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.5s, color 0.5s;
+    width: 95%;
+    transition: background-color 0.5s, color 0.5s, transform 0.3s ease;
+    font-size: 17px;
 }
 
-h2 {
-    margin: 0;
-    font-size: 22px;
-}
-
-p {
-    margin: 10px 0 0;
-    font-size: 16px;
-}
-
-.light-mode .step {
+/* Inputs en modo claro */
+.light-mode .step-input {
     background-color: #fff;
     color: #333;
+    border-color: #ccc;
 }
 
-.dark-mode .step {
+.light-mode .step-input:focus {
+    background-color: #e8f0fe;
+    outline: none;
+    border-color: #4a90e2;
+}
+
+/* Inputs en modo oscuro */
+.dark-mode .step-input {
     background-color: #333;
     color: #fff;
+    border-color: #555;
 }
 
-/* Imagen de base de datos a la derecha */
+.dark-mode .step-input:focus {
+    background-color: #444;
+    outline: none;
+    border-color: #2196F3;
+}
+
+/* Estilo de los botones */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 9px;
+    background-color: #2196F3;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 16px;
+    margin-top: 0%;
+    margin-bottom: 20px;
+}
+
+/* Animación del botón al pasar el cursor */
+button:hover {
+    background-color: #1e7dd2;
+    transform: scale(1.05);
+}
+
+/* Estilos de la imagen de la base de datos */
 .db-icon {
     flex-shrink: 0;
     margin-left: 30px;
+    text-align: right;
 }
-/* Activar animación solo al pasar el cursor */
+
+.db-icon img {
+    width: 100%;
+    height: auto;
+}
+
+/* Animación de la imagen al pasar el cursor */
 .db-icon img:hover {
     animation: slide-in-bounce 0.5s ease-in-out;
 }
-/* Animación de la imagen */
+
+/* Animación de rebote para la imagen */
 @keyframes slide-in-bounce {
     0% {
         transform: translateY(0);

@@ -23,34 +23,37 @@
     
     <main>
         <div class="content">
-            <!-- Sección con 5 contenedores para los pasos -->
+            <!-- Sección con inputs para los pasos -->
             <div class="steps-container">
                 <h1>Crea una base de datos SQL</h1>
-                     <h2>Con estos pasos..</h2>
-                         <br>
-                <div class="step">
-                    <p>Paso 1-Crea tu base de datos (CREATE DATABASE)</p>
-                </div>
-                <div class="step">
-                    <p>Paso 2-Utilízala en tu base de datos (USE)</p>
-                </div>
-                <div class="step">
-                    <p>Paso 3-Crea una tabla en tu base de datos (CREATE TABLE)</p>
-                </div>
-                <div class="step">
-                    <p>Paso 4-Añade entradas a tu base de datos (INSERT INTO)</p>
-                </div>
-                <div class="step">
-                    <p>Paso 5-Consulta y gestiona los datos (SELECT, UPDATE, DELETE)</p>
-                </div>
+                <br>
+                <form action="/submit" method="POST">
+                    <input type="text" name="db_name" placeholder="Paso 1-Crea tu base de datos (CREATE DATABASE)" class="step-input">
+                    <button type="submit">Enviar</button>
+                </form>
+                <form action="/submit" method="POST">
+                    <input type="text" name="use_db" placeholder="Paso 2-Utilízala en tu base de datos (USE)" class="step-input">
+                    <button type="submit">Enviar</button>
+                </form>
+                <form action="/submit" method="POST">
+                    <input type="text" name="table_name" placeholder="Paso 3-Crea una tabla en tu base de datos (CREATE TABLE)" class="step-input">
+                    <button type="submit">Enviar</button>
+                </form>
+                <form action="/submit" method="POST">
+                    <input type="text" name="insert_data" placeholder="Paso 4-Añade entradas a tu base de datos (INSERT INTO)" class="step-input">
+                    <button type="submit">Enviar</button>
+                </form>
+                <form action="/submit" method="POST">
+                    <input type="text" name="query_data" placeholder="Paso 5-Consulta y gestiona los datos (SELECT, UPDATE, DELETE)" class="step-input">
+                    <button type="submit">Enviar</button>
+                </form>
             </div>
             <!-- Imagen de base de datos alineada a la derecha con animación -->
             <div class="db-icon">
                 <img src="{{ url_for('static', filename='img/bd.png') }}" alt="Icono de base de datos" class="animate-image">
             </div>
         </div>
-    </main>
-
+    </main>    
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
