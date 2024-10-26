@@ -19,9 +19,29 @@ function borrarCampos() {
         input.value = '';
     });
 }
-
 // Función para el botón "Analizar" (opcional)
 function analizarCodigo() {
     // Aquí puedes agregar la lógica para analizar el código ingresado
+    alert("Análisis en proceso...");
+}
+function toggleCuadroTexto() {
+    const cuadroTexto = document.getElementById('cuadro-texto');
+    if (cuadroTexto.classList.contains('cuadro-texto-oculto')) {
+        cuadroTexto.classList.remove('cuadro-texto-oculto');
+        cuadroTexto.classList.add('cuadro-texto-visible');
+    } else {
+        cuadroTexto.classList.remove('cuadro-texto-visible');
+        cuadroTexto.classList.add('cuadro-texto-oculto');
+    }
+}
+
+function borrarCampos() {
+    const inputs = document.querySelectorAll('form input[type="text"], form textarea');
+    inputs.forEach(input => {
+        input.value = '';
+    });
+}
+
+function analizarCodigo() {
     alert("Análisis en proceso...");
 }

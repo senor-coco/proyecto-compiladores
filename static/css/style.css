@@ -242,3 +242,22 @@ h1 {
         transform: rotate(360deg);
     }
 }
+/* Estilos específicos para el botón "Mostrar Cuadro de Texto" */
+.btn.mostrar {
+    background-color: #008CBA; /* Azul */
+}
+
+.btn.mostrar:hover {
+    background-color: #007bb5;
+}
+
+/* Estilos para el cuadro de texto oculto y visible */
+.cuadro-texto-oculto {
+    display: none;
+    margin-top: 20px;
+}
+
+.cuadro-texto-visible {
+    display: block;
+    margin-top: 20px;
+}
