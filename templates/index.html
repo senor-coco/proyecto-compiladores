@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto PostgreSQL</title>
+    <!-- Enlace al archivo CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="light-mode">
@@ -44,8 +45,13 @@
                     <!-- Paso 5: Consultar datos -->
                     <input type="text" name="query_data" placeholder="Paso 5 - Consulta y gestiona los datos (SELECT, UPDATE, DELETE)" class="step-input" required>
                     <br>
-                    <!-- Botón para enviar -->
-                    <button type="submit">Enviar</button>
+                    <!-- Contenedor de los botones -->
+                 <div class="button-container">
+                    <button type="submit" class="btn enviar">Enviar</button>
+                    <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
+                    <button type="button" class="btn borrar" onclick="borrarCampos()">Borrar</button>
+                    <button type="submit" class="btn enviar">Enviar</button>
+                </div>
                 </form>
             </div>
             <!-- Imagen de base de datos alineada a la derecha con animación -->
@@ -54,6 +60,7 @@
             </div>
         </div>
     </main>    
+    <!-- Enlace al archivo JavaScript -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

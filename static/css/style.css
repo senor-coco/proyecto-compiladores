@@ -101,16 +101,6 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* Listas */
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-ul li {
-    margin: 10px 0;
-}
-
 /* Contenedor de pasos e inputs */
 .content {
     display: flex;
@@ -163,24 +153,55 @@ ul li {
     border-color: #2196F3;
 }
 
-/* Estilo de los botones */
-button {
+/* Estilo común para todos los botones */
+.btn {
     padding: 10px 20px;
     border: none;
     border-radius: 9px;
-    background-color: #2196F3;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     font-size: 16px;
-    margin-top: 0%;
-    margin-bottom: 20px;
+    margin: 5px;
 }
 
 /* Animación del botón al pasar el cursor */
-button:hover {
-    background-color: #1e7dd2;
+.btn:hover {
     transform: scale(1.05);
+}
+
+/* Estilos específicos para cada botón */
+.btn.enviar {
+    background-color: #4CAF50; /* Verde */
+}
+
+.btn.enviar:hover {
+    background-color: #45a049;
+}
+
+.btn.analizar {
+    background-color: #ff9800; /* Naranja */
+}
+
+.btn.analizar:hover {
+    background-color: #fb8c00;
+}
+
+.btn.borrar {
+    background-color: #f44336; /* Rojo */
+}
+
+.btn.borrar:hover {
+    background-color: #d32f2f;
+}
+
+/* Contenedor de los botones */
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre los botones */
+    margin-top: 20px;
 }
 
 /* Estilos de la imagen de la base de datos */
@@ -212,7 +233,6 @@ button:hover {
         transform: translateY(0);
     }
 }
-
 /* Animación de rotación para la imagen */
 @keyframes rotate {
     from {
