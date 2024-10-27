@@ -250,14 +250,24 @@ h1 {
 .btn.mostrar:hover {
     background-color: #007bb5;
 }
-
-/* Estilos para el cuadro de texto oculto y visible */
-.cuadro-texto-oculto {
-    display: none;
+/* Estilos para el cuadro blanco */
+#cuadro-blanco {
+    width: 95%;
     margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 17px;
+    overflow: auto;
+    max-height: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.cuadro-texto-visible {
-    display: block;
-    margin-top: 20px;
+/* Ajustes para el modo oscuro */
+.dark-mode #cuadro-blanco {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
 }

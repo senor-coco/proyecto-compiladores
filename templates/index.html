@@ -7,6 +7,7 @@
     <!-- Enlace al archivo CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body class="light-mode">
     <header>
         <img src="{{ url_for('static', filename='img/sql.png') }}" style="width:50px; height:50px;">
@@ -50,19 +51,22 @@
                     <button type="submit" class="btn enviar">Enviar</button>
                     <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
                     <button type="button" class="btn borrar" onclick="borrarCampos()">Borrar</button>
-                    <button type="button" class="btn mostrar" onclick="toggleCuadroTexto()">Mostrar Cuadro de Texto</button>
-                </div>
-                
-                 <!-- Cuadro de texto oculto -->
-                 <div id="cuadro-texto" class="cuadro-texto-oculto">
-                    <textarea name="texto_adicional" placeholder="Escribe aquí..." class="step-input"></textarea>
-                </div>
+                    <button type="button" class="btn mostrar" onclick="toggleCuadroBlanco()">Mostrar Código Completo</button>               
+                 </div>
                 </form>
+                <!-- Mostrar el cuadro blanco con el texto completo si existe -->
+                {% if texto_completo %}
+                <div id="cuadro-blanco" class="cuadro-blanco">
+                    <h2>Código Completo:</h2>
+                    <pre>{{ texto_completo }}</pre>
+                </div>
+                {% endif %}
             </div>
             <!-- Imagen de base de datos alineada a la derecha con animación -->
             <div class="db-icon">
                 <img src="{{ url_for('static', filename='img/bd.png') }}" alt="Icono de base de datos" class="animate-image">
             </div>
+            
         </div>
     </main>    
     <!-- Enlace al archivo JavaScript -->

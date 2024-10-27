@@ -1,6 +1,7 @@
 const toggleSwitch = document.getElementById('theme-toggle');
 const body = document.body;
 
+//Modo oscuro//
 toggleSwitch.addEventListener('change', () => {
     if (toggleSwitch.checked) {
         body.classList.remove('light-mode');
@@ -10,6 +11,7 @@ toggleSwitch.addEventListener('change', () => {
         body.classList.add('light-mode');
     }
 });
+//Borrar//
 function borrarCampos() {
     // Selecciona todos los inputs de tipo texto dentro del formulario
     const inputs = document.querySelectorAll('form input[type="text"]');
@@ -19,29 +21,19 @@ function borrarCampos() {
         input.value = '';
     });
 }
-// Función para el botón "Analizar" (opcional)
-function analizarCodigo() {
-    // Aquí puedes agregar la lógica para analizar el código ingresado
-    alert("Análisis en proceso...");
-}
-function toggleCuadroTexto() {
-    const cuadroTexto = document.getElementById('cuadro-texto');
-    if (cuadroTexto.classList.contains('cuadro-texto-oculto')) {
-        cuadroTexto.classList.remove('cuadro-texto-oculto');
-        cuadroTexto.classList.add('cuadro-texto-visible');
-    } else {
-        cuadroTexto.classList.remove('cuadro-texto-visible');
-        cuadroTexto.classList.add('cuadro-texto-oculto');
+//Cuadro blanco//
+function toggleCuadroBlanco() {
+    const cuadroBlanco = document.getElementById('cuadro-blanco');
+    const botonMostrar = document.querySelector('.btn.mostrar');
+
+    if (cuadroBlanco && (cuadroBlanco.style.display === 'none' || cuadroBlanco.style.display === '')) {
+        cuadroBlanco.style.display = 'block';
+        botonMostrar.textContent = 'Ocultar Código Completo';
+    } else if (cuadroBlanco) {
+        cuadroBlanco.style.display = 'none';
+        botonMostrar.textContent = 'Mostrar Código Completo';
     }
 }
-
-function borrarCampos() {
-    const inputs = document.querySelectorAll('form input[type="text"], form textarea');
-    inputs.forEach(input => {
-        input.value = '';
-    });
-}
-
 function analizarCodigo() {
     alert("Análisis en proceso...");
 }
