@@ -1,0 +1,100 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    COLON
+    DATABASE
+    DIVIDE
+    DOT
+    DROP
+    ELSE
+    EQUAL_EQUAL
+    FOR
+    GREATER_THAN
+    GREATER_THAN_EQUAL
+    IF
+    LEFT_BRACE
+    LEFT_BRACKET
+    LESS_THAN
+    LESS_THAN_EQUAL
+    MINUS
+    NOT_EQUAL
+    OR
+    PLUS
+    RIGHT_BRACE
+    RIGHT_BRACKET
+    SEMICOLON
+    WHILE
+
+Grammar
+
+Rule 0     S' -> statement
+Rule 1     statement -> CREATE TABLE ID LPAREN column_definitions RPAREN
+Rule 2     column_definitions -> column_definitions COMMA column_definition
+Rule 3     column_definitions -> column_definition
+Rule 4     column_definition -> ID
+Rule 5     statement -> INSERT INTO ID LPAREN values RPAREN VALUES LPAREN values RPAREN
+Rule 6     values -> values COMMA value
+Rule 7     values -> value
+Rule 8     value -> ID
+Rule 9     value -> STRING
+Rule 10    statement -> SELECT TIMES FROM ID
+Rule 11    statement -> UPDATE ID SET ID EQUALS STRING WHERE ID EQUALS NUMBER
+Rule 12    statement -> DELETE FROM ID WHERE ID EQUALS NUMBER
+
+Terminals, with rules where they appear
+
+AND                  : 
+COLON                : 
+COMMA                : 2 6
+CREATE               : 1
+DATABASE             : 
+DELETE               : 12
+DIVIDE               : 
+DOT                  : 
+DROP                 : 
+ELSE                 : 
+EQUALS               : 11 11 12
+EQUAL_EQUAL          : 
+FOR                  : 
+FROM                 : 10 12
+GREATER_THAN         : 
+GREATER_THAN_EQUAL   : 
+ID                   : 1 4 5 8 10 11 11 11 12 12
+IF                   : 
+INSERT               : 5
+INTO                 : 5
+LEFT_BRACE           : 
+LEFT_BRACKET         : 
+LESS_THAN            : 
+LESS_THAN_EQUAL      : 
+LPAREN               : 1 5 5
+MINUS                : 
+NOT_EQUAL            : 
+NUMBER               : 11 12
+OR                   : 
+PLUS                 : 
+RIGHT_BRACE          : 
+RIGHT_BRACKET        : 
+RPAREN               : 1 5 5
+SELECT               : 10
+SEMICOLON            : 
+SET                  : 11
+TABLE                : 1
+TIMES                : 10
+UPDATE               : 11
+VALUES               : 5
+WHERE                : 11 12
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+STRING               : 9 11
+column_definition    : 2 3
+column_definitions   : 1 2
+statement            : 0
+value                : 6 7
+values               : 5 5 6
+
