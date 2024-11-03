@@ -195,6 +195,14 @@ h1 {
     background-color: #d32f2f;
 }
 
+.btn.generar {
+    background-color: #008CBA; /* Azul */
+}
+
+.btn.generar:hover {
+    background-color: #007bb5;
+}
+
 /* Contenedor de los botones */
 .button-container {
     display: flex;
@@ -233,6 +241,7 @@ h1 {
         transform: translateY(0);
     }
 }
+
 /* Animación de rotación para la imagen */
 @keyframes rotate {
     from {
@@ -242,14 +251,7 @@ h1 {
         transform: rotate(360deg);
     }
 }
-/* Estilos específicos para el botón "Mostrar Cuadro de Texto" */
-.btn.mostrar {
-    background-color: #008CBA; /* Azul */
-}
 
-.btn.mostrar:hover {
-    background-color: #007bb5;
-}
 /* Estilos para el cuadro blanco */
 #cuadro-blanco {
     width: 95%;
@@ -270,4 +272,38 @@ h1 {
     background-color: #333;
     color: #fff;
     border-color: #555;
+}
+
+/* Estilos para la tabla de tokens */
+.tabla-tokens {
+    width: 95%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    font-size: 17px;
+}
+
+.tabla-tokens th, .tabla-tokens td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.tabla-tokens th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.dark-mode .tabla-tokens th {
+    background-color: #444;
+    color: #fff;
+}
+
+.dark-mode .tabla-tokens td {
+    border-color: #555;
+}
+.btn.enviar-todo {
+    background-color: #5C6BC0; /* Morado */
+}
+
+.btn.enviar-todo:hover {
+    background-color: #3949AB;
 }
