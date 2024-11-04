@@ -1,111 +1,172 @@
 import ply.lex as lex
 
-# Lista de palabras reservadas en PostgreSQL
-reserved = {
+resultadoLex = []
+
+# Palabras reservadas de PostgreSQL
+reservadas = {
     'select': 'SELECT',
     'insert': 'INSERT',
     'update': 'UPDATE',
     'delete': 'DELETE',
     'create': 'CREATE',
     'drop': 'DROP',
-    'table': 'TABLE',
-    'database': 'DATABASE',
+    'alter': 'ALTER',
     'from': 'FROM',
     'where': 'WHERE',
+    'and': 'AND',
+    'or': 'OR',
+    'not': 'NOT',
+    'in': 'IN',
+    'is': 'IS',
+    'null': 'NULL',
+    'table': 'TABLE',
     'into': 'INTO',
     'values': 'VALUES',
     'set': 'SET',
-    'and': 'AND',
-    'or': 'OR',
-    'if': 'IF',
-    'else': 'ELSE',
-    'for': 'FOR',
-    'while': 'WHILE'
+    'join': 'JOIN',
+    'on': 'ON',
+    'as': 'AS',
+    'distinct': 'DISTINCT',
+    'order': 'ORDER',
+    'by': 'BY',
+    'group': 'GROUP',
+    'having': 'HAVING',
+    'limit': 'LIMIT',
+    'offset': 'OFFSET',
+    'union': 'UNION',
+    'all': 'ALL',
+    'primary': 'PRIMARY',
+    'key': 'KEY',
+    'foreign': 'FOREIGN',
+    'references': 'REFERENCES',
+    'constraint': 'CONSTRAINT',
+    'check': 'CHECK',
+    'default': 'DEFAULT',
+    'unique': 'UNIQUE',
+    'index': 'INDEX',
+    'view': 'VIEW',
+    'trigger': 'TRIGGER',
+    'procedure': 'PROCEDURE',
+    'function': 'FUNCTION',
+    'begin': 'BEGIN',
+    'end': 'END',
+    'commit': 'COMMIT',
+    'rollback': 'ROLLBACK',
+    'grant': 'GRANT',
+    'revoke': 'REVOKE',
+    'use': 'USE',
+    'database': 'DATABASE',
 }
 
-# Tokens
 tokens = [
-    'PLUS',
-    'MINUS',
-    'TIMES',
-    'DIVIDE',
-    'LPAREN',
-    'RPAREN',
-    'NUMBER',
-    'EQUALS',
-    'COMMA',
-    'SEMICOLON',
-    'COLON',
-    'DOT',
-    'LEFT_BRACKET',
-    'RIGHT_BRACKET',
-    'LEFT_BRACE',
-    'RIGHT_BRACE',
-    'ID',
-    'LESS_THAN',
-    'GREATER_THAN',
-    'LESS_THAN_EQUAL',
-    'GREATER_THAN_EQUAL',
-    'EQUAL_EQUAL',
-    'NOT_EQUAL'
-] + list(reserved.values())
+    'IDENTIFICADOR',
+    'NUMERO',
+    'CADENA',
+    # Operadores
+    'MAS',  # +
+    'MENOS',  # -
+    'MULTIPLICACION',  # *
+    'DIVISION',  # /
+    'MODULO',  # %
+    # Operadores de comparación
+    'IGUAL',        # =
+    'DIFERENTE',    # <> or !=
+    'MENORQUE',     # <
+    'MAYORQUE',     # >
+    'MENORIGUAL',   # <=
+    'MAYORIGUAL',   # >=
+    # Símbolos
+    'PARIZQ',       # (
+    'PARDER',       # )
+    'COMA',         # ,
+    'PUNTO',        # .
+    'PUNTOCOMA',    # ;
+    'DOS_PUNTOS',   # :
+] + list(reservadas.values())  # Incluimos las palabras reservadas como tokens
 
-# Reglas para expresiones regulares para tokens simples
-t_PLUS = r'\+'
-t_MINUS = r'\-'
-t_TIMES = r'\*'
-t_DIVIDE = r'/'
-t_LPAREN = r'\('
-t_RPAREN = r'\)'
-t_EQUALS = r'='
-t_COMMA = r','
-t_SEMICOLON = r';'
-t_COLON = r':'
-t_DOT = r'\.'
-t_LEFT_BRACKET = r'\['
-t_RIGHT_BRACKET = r'\]'
-t_LEFT_BRACE = r'\{'
-t_RIGHT_BRACE = r'\}'
-t_LESS_THAN = r'<'
-t_GREATER_THAN = r'>'
-t_LESS_THAN_EQUAL = r'<='
-t_GREATER_THAN_EQUAL = r'>='
-t_EQUAL_EQUAL = r'=='
-t_NOT_EQUAL = r'!='
+# Reglas de expresiones regulares para tokens simples
+t_MAS             = r'\+'
+t_MENOS           = r'-'
+t_MULTIPLICACION  = r'\*'
+t_DIVISION        = r'/'
+t_MODULO          = r'%'
+
+t_IGUAL           = r'='
+t_DIFERENTE       = r'<>|!='
+t_MENORIGUAL      = r'<='
+t_MAYORIGUAL      = r'>='
+t_MENORQUE        = r'<'
+t_MAYORQUE        = r'>'
+
+t_PARIZQ          = r'\('
+t_PARDER          = r'\)'
+t_COMA            = r','
+t_PUNTO           = r'\.'
+t_PUNTOCOMA       = r';'
+t_DOS_PUNTOS      = r':'
 
 # Ignorar espacios y tabulaciones
 t_ignore = ' \t'
 
-# Definir la expresión regular para números
-def t_NUMBER(t):
+# Identificadores y palabras reservadas
+def t_IDENTIFICADOR(t):
+    r'[A-Za-z_][A-Za-z0-9_]*'
+    t.type = reservadas.get(t.value.lower(), 'IDENTIFICADOR')  # Verificar palabras reservadas
+    return t
+
+# Literales de cadena
+def t_CADENA(t):
+    r"\'([^\\']|(\\.))*?\'"
+    t.value = t.value[1:-1]  # Eliminar las comillas simples
+    return t
+
+# Números (enteros y flotantes)
+def t_NUMERO(t):
     r'\d+(\.\d+)?'
-    t.value = float(t.value)
+    if '.' in t.value:
+        t.value = float(t.value)
+    else:
+        t.value = int(t.value)
     return t
 
-# Definir la expresión regular para cadenas
-def t_STRING(t):
-    r'\"([^\\\n]|(\\.))*?\"'
+# Identificadores entre comillas dobles
+def t_IDENTIFIER_QUOTED(t):
+    r'\"([^\\"]|(\\.))*?\"'
+    t.type = 'IDENTIFICADOR'
+    t.value = t.value[1:-1]  # Eliminar las comillas dobles
     return t
 
-# Definir identificadores y palabras reservadas
-def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    t.type = reserved.get(t.value.lower(), 'ID')  # Verificar si es palabra reservada
-    return t
+# Manejo de comentarios de una línea
+def t_COMENTARIO_SIMPLE(t):
+    r'--.*'
+    pass  # Ignorar comentarios
 
-# Contador de líneas
+# Manejo de comentarios de múltiples líneas
+def t_COMENTARIO_MULTILINEA(t):
+    r'/\*[\s\S]*?\*/'
+    t.lexer.lineno += t.value.count('\n')
+    pass  # Ignorar comentarios
+
+# Manejo de saltos de línea
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
 # Manejo de errores
 def t_error(t):
-    print(f"Carácter ilegal: {t.value[0]}")
+    print(f"Caracter ilegal '{t.value[0]}' en la línea {t.lineno}")
     t.lexer.skip(1)
 
-# Inicializar el analizador léxico
 lexer = lex.lex()
 
-# Función para reiniciar el contador de líneas
-def reset_lexer():
-    lexer.lineno = 1
+def prueba(data):
+    lexer.input(data)
+    tokens = []
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        # Convertir el valor del token a cadena para garantizar la serialización
+        valor = str(tok.value)
+        tokens.append((tok.lineno, tok.type, valor))
+    return tokens

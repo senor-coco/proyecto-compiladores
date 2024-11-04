@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+from lexer import prueba
 
 app = Flask(__name__)
 
@@ -23,7 +24,8 @@ def index():
 
 {query_data}
 """
-    return render_template('index.html', texto_completo=texto_completo)
+    # No ejecutamos el análisis aquí
+    return render_template('index.html', texto_completo=texto_completo, db_name=db_name, use_db=use_db, table_name=table_name, insert_data=insert_data, query_data=query_data)
 
 @app.route('/submit_db_name', methods=['POST'])
 def submit_db_name():
@@ -55,30 +57,21 @@ def submit_query_data():
     query_data = request.form.get('query_data', '')
     return redirect(url_for('index'))
 
-@app.route('/submit_all', methods=['POST'])
-def submit_all():
-    global db_name, use_db, table_name, insert_data, query_data
-
+# Nueva ruta para el análisis léxico
+@app.route('/analizar', methods=['POST'])
+def analizar():
     data = request.get_json()
-    db_name = data.get('db_name', '')
-    use_db = data.get('use_db', '')
-    table_name = data.get('table_name', '')
-    insert_data = data.get('insert_data', '')
-    query_data = data.get('query_data', '')
+    texto_completo = data.get('texto_completo', '')
 
-    # Combinar todos los textos en uno solo
-    texto_completo = f"""
-{db_name}
+    # Realizar el análisis léxico
+    tokens = prueba(texto_completo)
 
-{use_db}
+    # Imprimir los tokens en la consola para depuración
+    print('Tokens generados:', tokens)
 
-{table_name}
+    # Devolver los tokens como JSON
+    return jsonify({'tokens': tokens})
 
-{insert_data}
-
-{query_data}
-"""
-    return jsonify({'texto_completo': texto_completo})
 
 if __name__ == '__main__':
     app.run(debug=True)
