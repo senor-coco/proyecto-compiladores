@@ -103,5 +103,23 @@ function borrarScript() {
 }
 
 function generarScript() {
-    // Tu lógica para generar el script
+    console.log("La función generarScript() se ha llamado.");
+    var textoCompleto = document.getElementById('texto-completo').innerText;
+    console.log("Contenido de textoCompleto:", textoCompleto);
+
+    var blob = new Blob([textoCompleto], { type: 'text/sql;charset=utf-8;' });
+    var link = document.createElement('a');
+    if (link.download !== undefined) {
+        var nombreArchivo = 'script.sql';
+        var url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', nombreArchivo);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    } else {
+        alert('Tu navegador no soporta la descarga de archivos. Por favor, copia y pega el contenido manualmente.');
+    }
 }
