@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from lexer import prueba
+import psycopg2
 
 app = Flask(__name__)
 
@@ -9,6 +10,20 @@ use_db = ''
 table_name = ''
 insert_data = ''
 query_data = ''
+
+# Función de conexión a PostgreSQL
+def get_db_connection():
+    try:
+        conn = psycopg2.connect(
+            host="localhost",
+            database="compiladores",  # Cambia este nombre al de tu base de datos
+            user="root",
+            password="contraseña"
+        )
+        return conn
+    except Exception as e:
+        print("Error al conectar a PostgreSQL:", e)
+        return None
 
 @app.route('/')
 def index():
@@ -31,6 +46,19 @@ def index():
 def submit_db_name():
     global db_name
     db_name = request.form.get('db_name', '')
+
+    # Crear la base de datos en PostgreSQL
+    conn = get_db_connection()
+    if conn:
+        conn.autocommit = True
+        cursor = conn.cursor()
+        try:
+            cursor.execute(f"CREATE DATABASE {db_name};")
+            print("Base de datos creada exitosamente.")
+        except Exception as e:
+            print(f"Error al crear la base de datos: {e}")
+        cursor.close()
+        conn.close()
     return redirect(url_for('index'))
 
 @app.route('/submit_use_db', methods=['POST'])
@@ -43,18 +71,61 @@ def submit_use_db():
 def submit_table_name():
     global table_name
     table_name = request.form.get('table_name', '')
+
+    # Crear una tabla en PostgreSQL
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(table_name)  # Asumimos que table_name contiene la instrucción completa CREATE TABLE
+            conn.commit()
+            print("Tabla creada exitosamente.")
+        except Exception as e:
+            print(f"Error al crear la tabla: {e}")
+        cursor.close()
+        conn.close()
     return redirect(url_for('index'))
 
 @app.route('/submit_insert_data', methods=['POST'])
 def submit_insert_data():
     global insert_data
     insert_data = request.form.get('insert_data', '')
+
+    # Insertar datos en la tabla
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(insert_data)  # Asumimos que insert_data contiene la instrucción completa INSERT INTO
+            conn.commit()
+            print("Datos insertados exitosamente.")
+        except Exception as e:
+            print(f"Error al insertar datos: {e}")
+        cursor.close()
+        conn.close()
     return redirect(url_for('index'))
 
 @app.route('/submit_query_data', methods=['POST'])
 def submit_query_data():
     global query_data
     query_data = request.form.get('query_data', '')
+
+    # Ejecutar consulta en la base de datos
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query_data)  # Asumimos que query_data contiene una instrucción SELECT, UPDATE, o DELETE
+            if query_data.strip().upper().startswith("SELECT"):
+                results = cursor.fetchall()
+                print("Resultados de la consulta:", results)
+            else:
+                conn.commit()
+                print("Operación realizada exitosamente.")
+        except Exception as e:
+            print(f"Error al ejecutar la consulta: {e}")
+        cursor.close()
+        conn.close()
     return redirect(url_for('index'))
 
 # Nueva ruta para el análisis léxico
@@ -71,7 +142,6 @@ def analizar():
 
     # Devolver los tokens como JSON
     return jsonify({'tokens': tokens})
-
 
 if __name__ == '__main__':
     app.run(debug=True)
