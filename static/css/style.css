@@ -300,11 +300,47 @@ h1 {
 .dark-mode .tabla-tokens td {
     border-color: #555;
 }
-
-.btn.enviar-todo {
-    background-color: #5C6BC0; /* Morado */
+/* Estilo de los inputs */
+.step-input {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 95%;
+    transition: background-color 0.5s, color 0.5s, transform 0.3s ease;
+    font-size: 17px;
+    resize: vertical; /* Permitir cambiar el tamaño verticalmente */
 }
 
-.btn.enviar-todo:hover {
-    background-color: #3949AB;
+/* Estilo específico para textarea */
+.textarea {
+    min-height: 100px; /* Altura mínima para el textarea */
+}
+
+/* Inputs en modo claro */
+.light-mode .step-input {
+    background-color: #fff;
+    color: #333;
+    border-color: #ccc;
+}
+
+.light-mode .step-input:focus {
+    background-color: #e8f0fe;
+    outline: none;
+    border-color: #4a90e2;
+}
+
+/* Inputs en modo oscuro */
+.dark-mode .step-input {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+.dark-mode .step-input:focus {
+    background-color: #444;
+    outline: none;
+    border-color: #2196F3;
 }

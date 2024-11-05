@@ -14,10 +14,10 @@ toggleSwitch.addEventListener('change', () => {
 
 // Borrar campos de los formularios
 function borrarCampos() {
-    // Selecciona todos los inputs de tipo texto dentro del formulario
-    const inputs = document.querySelectorAll('form input[type="text"]');
+    // Selecciona todos los textareas dentro de los formularios
+    const inputs = document.querySelectorAll('form textarea');
     
-    // Itera sobre cada input y borra su valor
+    // Itera sobre cada textarea y borra su valor
     inputs.forEach(input => {
         input.value = '';
     });
@@ -26,11 +26,11 @@ function borrarCampos() {
 // Función para enviar todos los formularios
 function enviarTodosLosFormularios() {
     // Recopilar datos de todos los formularios
-    const db_name = document.querySelector('input[name="db_name"]').value;
-    const use_db = document.querySelector('input[name="use_db"]').value;
-    const table_name = document.querySelector('input[name="table_name"]').value;
-    const insert_data = document.querySelector('input[name="insert_data"]').value;
-    const query_data = document.querySelector('input[name="query_data"]').value;
+    const db_name = document.querySelector('textarea[name="db_name"]').value;
+    const use_db = document.querySelector('textarea[name="use_db"]').value;
+    const table_name = document.querySelector('textarea[name="table_name"]').value;
+    const insert_data = document.querySelector('textarea[name="insert_data"]').value;
+    const query_data = document.querySelector('textarea[name="query_data"]').value;
 
     // Crear un objeto con todos los datos
     const datos = {
@@ -56,7 +56,7 @@ function enviarTodosLosFormularios() {
         if (cuadroBlanco) {
             cuadroBlanco.innerHTML = `
                 <h2>Código Completo:</h2>
-                <pre>${data.texto_completo}</pre>
+                <pre id="texto-completo">${data.texto_completo}</pre>
                 <!-- Botones dentro del cuadro blanco -->
                 <div class="button-container">
                     <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
@@ -71,7 +71,7 @@ function enviarTodosLosFormularios() {
             nuevoCuadroBlanco.className = 'cuadro-blanco';
             nuevoCuadroBlanco.innerHTML = `
                 <h2>Código Completo:</h2>
-                <pre>${data.texto_completo}</pre>
+                <pre id="texto-completo">${data.texto_completo}</pre>
                 <!-- Botones dentro del cuadro blanco -->
                 <div class="button-container">
                     <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
@@ -89,19 +89,74 @@ function enviarTodosLosFormularios() {
     });
 }
 
-function borrarScript() {
-    // Limpiar el contenido del cuadro blanco
-    const cuadroBlanco = document.getElementById('cuadro-blanco');
-    if (cuadroBlanco) {
-        cuadroBlanco.remove();
-    }
-    // Remover la tabla de tokens si existe
-    const tablaExistente = document.querySelector('.tabla-tokens');
-    if (tablaExistente) {
-        tablaExistente.remove();
-    }
+// Añadir evento para mover al siguiente campo al presionar Enter
+document.querySelectorAll('.step-input').forEach((element, index, array) => {
+    element.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevenir el salto de línea
+            const nextElement = array[index + 1];
+            if (nextElement) {
+                nextElement.focus();
+            }
+        }
+    });
+});
+
+// Función para analizar el código
+function analizarCodigo() {
+    // Obtener el texto completo desde el elemento pre
+    var textoCompleto = document.getElementById('texto-completo').innerText;
+
+    // Enviar el texto al servidor mediante una solicitud AJAX POST
+    $.ajax({
+        url: '/analizar',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ 'texto_completo': textoCompleto }),
+        success: function(response) {
+            console.log('Respuesta del servidor:', response);
+
+            // Limpiar el div de resultados
+            $('#resultado-analisis').empty();
+
+            // Verificar si hay tokens en la respuesta
+            if (response.tokens && response.tokens.length > 0) {
+                // Crear la tabla
+                var tabla = '<table class="tabla-tokens">';
+                tabla += '<tr><th>Línea</th><th>Token</th><th>Valor</th></tr>';
+
+                // Recorrer los tokens y agregarlos a la tabla
+                response.tokens.forEach(function(token) {
+                    tabla += '<tr>';
+                    tabla += '<td>' + token[0] + '</td>'; // Línea
+                    tabla += '<td>' + token[1] + '</td>'; // Tipo de Token
+                    tabla += '<td>' + token[2] + '</td>'; // Valor
+                    tabla += '</tr>';
+                });
+
+                tabla += '</table>';
+
+                // Insertar la tabla en el div de resultados
+                $('#resultado-analisis').html(tabla);
+            } else {
+                $('#resultado-analisis').html('<p>No se encontraron tokens.</p>');
+            }
+        },
+        error: function(error) {
+            console.error('Error al analizar el código:', error);
+            $('#resultado-analisis').html('<p>Error al analizar el código.</p>');
+        }
+    });
 }
 
+// Función para borrar el contenido del script y el análisis
+function borrarScript() {
+    // Limpiar el contenido del código y el resultado
+    document.getElementById('texto-completo').innerText = '';
+    $('#resultado-analisis').empty();
+}
+
+// Función para generar el script y descargarlo como archivo .sql
 function generarScript() {
     console.log("La función generarScript() se ha llamado.");
     var textoCompleto = document.getElementById('texto-completo').innerText;

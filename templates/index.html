@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto PostgreSQL</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Enlace a jQuery (ya lo tienes) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -29,31 +30,31 @@
                 <br>
                 <!-- Formulario para Crear base de datos -->
                 <form action="/submit_db_name" method="POST">
-                    <input type="text" name="db_name" placeholder="Paso 1 - Crea tu base de datos (CREATE DATABASE)" class="step-input" required>
+                    <textarea name="db_name" placeholder="Paso 1 - Crea tu base de datos (CREATE DATABASE)" class="step-input textarea" required></textarea>
                     <button type="submit" class="btn enviar">Enviar</button>
                 </form>
                 <br>
                 <!-- Formulario para Usar base de datos -->
                 <form action="/submit_use_db" method="POST">
-                    <input type="text" name="use_db" placeholder="Paso 2 - Utiliza tu base de datos (USE)" class="step-input" required>
+                    <textarea name="use_db" placeholder="Paso 2 - Utiliza tu base de datos (USE)" class="step-input textarea" required></textarea>
                     <button type="submit" class="btn enviar">Enviar</button>
                 </form>
                 <br>
                 <!-- Formulario para Crear tabla -->
                 <form action="/submit_table_name" method="POST">
-                    <input type="text" name="table_name" placeholder="Paso 3 - Crea una tabla en tu base de datos (CREATE TABLE)" class="step-input" required>
+                    <textarea name="table_name" placeholder="Paso 3 - Crea una tabla en tu base de datos (CREATE TABLE)" class="step-input textarea" required></textarea>
                     <button type="submit" class="btn enviar">Enviar</button>
                 </form>
                 <br>
                 <!-- Formulario para Insertar datos -->
                 <form action="/submit_insert_data" method="POST">
-                    <input type="text" name="insert_data" placeholder="Paso 4 - Añade entradas a tu base de datos (INSERT INTO)" class="step-input" required>
+                    <textarea name="insert_data" placeholder="Paso 4 - Añade entradas a tu base de datos (INSERT INTO)" class="step-input textarea" required></textarea>
                     <button type="submit" class="btn enviar">Enviar</button>
                 </form>
                 <br>
                 <!-- Formulario para Consultar datos -->
                 <form action="/submit_query_data" method="POST">
-                    <input type="text" name="query_data" placeholder="Paso 5 - Consulta y gestiona los datos (SELECT, UPDATE, DELETE)" class="step-input" required>
+                    <textarea name="query_data" placeholder="Paso 5 - Consulta y gestiona los datos (SELECT, UPDATE, DELETE)" class="step-input textarea" required></textarea>
                     <button type="submit" class="btn enviar">Enviar</button>
                 </form>
                 <br>
@@ -72,66 +73,6 @@
                 </div>
                 <!-- Div para mostrar la tabla de tokens -->
                 <div id="resultado-analisis"></div>
-
-                <!-- Scripts para manejar el análisis léxico y la generación del script -->
-                <script>
-                    function analizarCodigo() {
-                        // Obtener el texto completo desde el elemento pre
-                        var textoCompleto = document.getElementById('texto-completo').innerText;
-
-                        // Imprimir el texto para verificar
-                        console.log('Texto completo:', textoCompleto);
-
-                        // Enviar el texto al servidor mediante una solicitud AJAX POST
-                        $.ajax({
-                            url: '/analizar',
-                            type: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({ 'texto_completo': textoCompleto }),
-                            success: function(response) {
-                                console.log('Respuesta del servidor:', response);
-
-                                // Limpiar el div de resultados
-                                $('#resultado-analisis').empty();
-
-                                // Verificar si hay tokens en la respuesta
-                                if (response.tokens && response.tokens.length > 0) {
-                                    // Crear la tabla
-                                    var tabla = '<table class="tabla-tokens">';
-                                    tabla += '<tr><th>Línea</th><th>Token</th><th>Valor</th></tr>';
-
-                                    // Recorrer los tokens y agregarlos a la tabla
-                                    response.tokens.forEach(function(token) {
-                                        tabla += '<tr>';
-                                        tabla += '<td>' + token[0] + '</td>'; // Línea
-                                        tabla += '<td>' + token[1] + '</td>'; // Tipo de Token
-                                        tabla += '<td>' + token[2] + '</td>'; // Valor
-                                        tabla += '</tr>';
-                                    });
-
-                                    tabla += '</table>';
-
-                                    // Insertar la tabla en el div de resultados
-                                    $('#resultado-analisis').html(tabla);
-                                } else {
-                                    $('#resultado-analisis').html('<p>No se encontraron tokens.</p>');
-                                }
-                            },
-                            error: function(error) {
-                                console.error('Error al analizar el código:', error);
-                                $('#resultado-analisis').html('<p>Error al analizar el código.</p>');
-                            }
-                        });
-                    }
-
-                    function borrarScript() {
-                        // Limpiar el contenido del código y el resultado
-                        document.getElementById('texto-completo').innerText = '';
-                        $('#resultado-analisis').empty();
-                    }
-
-                    
-                </script> 
                 {% endif %}
 
             </div>
