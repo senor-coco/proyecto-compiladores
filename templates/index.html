@@ -5,82 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto PostgreSQL</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- Enlace a jQuery (ya lo tienes) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="light-mode">
 <header>
     <img src="{{ url_for('static', filename='img/sql.png') }}" style="width:50px; height:50px;">
-     <div class="logo">PostgreSQL</div>
-        <div class="theme-switch">
-         <label class="switch">
+    <div class="logo">PostgreSQL</div>
+    <div class="theme-switch">
+        <label class="switch">
             <input type="checkbox" id="theme-toggle">
             <span class="slider"></span>
-         </label>
-    <a href="https://github.com" target="_blank">
-    <img src="{{ url_for('static', filename='img/git.png') }}" alt="GitHub" style="width:50px; height:50px;">
-    </a>            
+        </label>
+        <a href="https://github.com" target="_blank">
+            <img src="{{ url_for('static', filename='img/git.png') }}" alt="GitHub" style="width:50px; height:50px;">
+        </a>            
     </div>
 </header>   
-    <main>
-        <div class="content">
-            <div class="steps-container">
-                <h1>Crea una base de datos SQL</h1>
-                <br>
-                <!-- Formulario para Crear base de datos -->
-                <form action="/submit_db_name" method="POST">
-                    <textarea name="db_name" placeholder="Paso 1 - Crea tu base de datos (CREATE DATABASE)" class="step-input textarea" required></textarea>
-                    <button type="submit" class="btn enviar">Enviar</button>
-                </form>
-                <br>
-                <!-- Formulario para Usar base de datos -->
-                <form action="/submit_use_db" method="POST">
-                    <textarea name="use_db" placeholder="Paso 2 - Utiliza tu base de datos (USE)" class="step-input textarea" required></textarea>
-                    <button type="submit" class="btn enviar">Enviar</button>
-                </form>
-                <br>
-                <!-- Formulario para Crear tabla -->
-                <form action="/submit_table_name" method="POST">
-                    <textarea name="table_name" placeholder="Paso 3 - Crea una tabla en tu base de datos (CREATE TABLE)" class="step-input textarea" required></textarea>
-                    <button type="submit" class="btn enviar">Enviar</button>
-                </form>
-                <br>
-                <!-- Formulario para Insertar datos -->
-                <form action="/submit_insert_data" method="POST">
-                    <textarea name="insert_data" placeholder="Paso 4 - Añade entradas a tu base de datos (INSERT INTO)" class="step-input textarea" required></textarea>
-                    <button type="submit" class="btn enviar">Enviar</button>
-                </form>
-                <br>
-                <!-- Formulario para Consultar datos -->
-                <form action="/submit_query_data" method="POST">
-                    <textarea name="query_data" placeholder="Paso 5 - Consulta y gestiona los datos (SELECT, UPDATE, DELETE)" class="step-input textarea" required></textarea>
-                    <button type="submit" class="btn enviar">Enviar</button>
-                </form>
-                <br>
-                
-                <!-- Mostrar el cuadro blanco con el texto completo si existe -->
-                {% if texto_completo %}
-                <div id="cuadro-blanco" class="cuadro-blanco">
-                    <h2>Código Completo:</h2>
-                    <pre id="texto-completo">{{ texto_completo }}</pre>
-                    <!-- Botones dentro del cuadro blanco -->
-                    <div class="button-container">
-                        <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
-                        <button type="button" class="btn borrar" onclick="borrarScript()">Borrar</button>
-                        <button type="button" class="btn generar" onclick="generarScript()">Generar Script</button>
-                    </div>
-                </div>
-                <!-- Div para mostrar la tabla de tokens -->
-                <div id="resultado-analisis"></div>
-                {% endif %}
+<main>
+    <div class="content">
+        <div class="steps-container">
+            <h1>Crea una base de datos SQL</h1>
+            <br>
+            <!-- Formulario para Crear base de datos -->
+            <form action="/submit_db_name" method="POST">
+                <textarea name="db_name" placeholder="Paso 1 - Crea tu base de datos (CREATE DATABASE)" class="step-input textarea" required></textarea>
+                <button type="submit" class="btn enviar">Enviar</button>
+            </form>
+            <br>
+            <!-- Formulario para Usar base de datos -->
+            <form action="/submit_use_db" method="POST">
+                <textarea name="use_db" placeholder="Paso 2 - Utiliza tu base de datos (USE)" class="step-input textarea" required></textarea>
+                <button type="submit" class="btn enviar">Enviar</button>
+            </form>
+            <br>
+            <!-- Formulario para Crear tabla -->
+            <form action="/submit_table_name" method="POST">
+                <textarea name="table_name" placeholder="Paso 3 - Crea una tabla en tu base de datos (CREATE TABLE)" class="step-input textarea" required></textarea>
+                <button type="submit" class="btn enviar">Enviar</button>
+            </form>
+            <br>
+            <!-- Formulario para Insertar datos -->
+            <form action="/submit_insert_data" method="POST">
+                <textarea name="insert_data" placeholder="Paso 4 - Añade entradas a tu base de datos (INSERT INTO)" class="step-input textarea" required></textarea>
+                <button type="submit" class="btn enviar">Enviar</button>
+            </form>
+            <br>
+            <!-- Formulario para Consultar datos -->
+            <form action="/submit_query_data" method="POST">
+                <textarea name="query_data" placeholder="Paso 5 - Consulta y gestiona los datos (SELECT, UPDATE, DELETE)" class="step-input textarea" required></textarea>
+                <button type="submit" class="btn enviar">Enviar</button>
+            </form>
+            <br>
+            
+            <!-- Botón para enviar todos los campos al código completo -->
+            <button type="button" class="btn enviar-todos" onclick="enviarTodosLosFormularios()">Enviar Todos</button>
 
+            <!-- Mostrar el cuadro blanco con el texto completo si existe -->
+            {% if texto_completo %}
+            <div id="cuadro-blanco" class="cuadro-blanco">
+                <h2>Código Completo:</h2>
+                <pre id="texto-completo">{{ texto_completo }}</pre>
+                <!-- Botones dentro del cuadro blanco -->
+                <div class="button-container">
+                    <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
+                    <button type="button" class="btn borrar" onclick="borrarScript()">Borrar</button>
+                    <button type="button" class="btn generar" onclick="generarScript()">Generar Script</button>
+                    <button type="button" class="btn ejecutar" onclick="ejecutarEnPostgreSQL()">Ejecutar en PostgreSQL</button>
+                </div>
             </div>
-            <div class="db-icon">
-                <img src="{{ url_for('static', filename='img/bd.png') }}" alt="Icono de base de datos" class="animate-image">
-            </div>        
-    </main>    
-    <!-- Enlace al archivo JavaScript -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+            <!-- Div para mostrar la tabla de tokens -->
+            <div id="resultado-analisis"></div>
+            {% endif %}
+
+        </div>
+        <div class="db-icon">
+            <img src="{{ url_for('static', filename='img/bd.png') }}" alt="Icono de base de datos" class="animate-image">
+        </div>        
+</main>    
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

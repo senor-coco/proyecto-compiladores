@@ -344,3 +344,33 @@ h1 {
     outline: none;
     border-color: #2196F3;
 }
+
+.btn.ejecutar {
+    background-color: #4CAF50; /* Verde más visible */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn.ejecutar:hover {
+    background-color: #45a049; /* Un verde más oscuro para el efecto hover */
+}
+
+.btn.enviar-todos {
+    background-color: #007bff; /* Cambia a un azul más oscuro o el color que prefieras */
+    color: white; /* Texto en blanco para contraste */
+    border: none; /* Sin borde */
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn.enviar-todos:hover {
+    background-color: #0056b3; /* Un azul aún más oscuro al hacer hover */
+}

@@ -62,6 +62,7 @@ function enviarTodosLosFormularios() {
                     <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
                     <button type="button" class="btn borrar" onclick="borrarScript()">Borrar</button>
                     <button type="button" class="btn generar" onclick="generarScript()">Generar Script</button>
+                    <button type="button" class="btn ejecutar" onclick="ejecutarEnPostgreSQL()">Ejecutar en PostgreSQL</button>
                 </div>
             `;
         } else {
@@ -77,6 +78,7 @@ function enviarTodosLosFormularios() {
                     <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
                     <button type="button" class="btn borrar" onclick="borrarScript()">Borrar</button>
                     <button type="button" class="btn generar" onclick="generarScript()">Generar Script</button>
+                    <button type="button" class="btn ejecutar" onclick="ejecutarEnPostgreSQL()">Ejecutar en PostgreSQL</button>
                 </div>
             `;
             // Insertar el cuadro blanco en el DOM
@@ -99,6 +101,21 @@ document.querySelectorAll('.step-input').forEach((element, index, array) => {
                 nextElement.focus();
             }
         }
+    });
+});
+
+// Función para almacenar y cargar datos previos de los formularios
+document.querySelectorAll('.step-input').forEach((element) => {
+    const name = element.getAttribute('name');
+    
+    // Cargar datos previos
+    if (localStorage.getItem(name)) {
+        element.value = localStorage.getItem(name);
+    }
+
+    // Guardar cambios en localStorage al escribir en el campo
+    element.addEventListener('input', function() {
+        localStorage.setItem(name, element.value);
     });
 });
 
@@ -177,4 +194,26 @@ function generarScript() {
     } else {
         alert('Tu navegador no soporta la descarga de archivos. Por favor, copia y pega el contenido manualmente.');
     }
+}
+
+// Nueva función para ejecutar el código completo en PostgreSQL
+function ejecutarEnPostgreSQL() {
+    const textoCompleto = document.getElementById('texto-completo').innerText;
+
+    fetch('/ejecutar_sql', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 'codigo_sql': textoCompleto })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+        alert(data.message); // Muestra un mensaje con el resultado de la ejecución
+    })
+    .catch(error => {
+        console.error('Error al ejecutar en PostgreSQL:', error);
+        alert('Error al ejecutar el código en PostgreSQL');
+    });
 }

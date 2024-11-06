@@ -17,9 +17,15 @@ def get_db_connection():
         conn = psycopg2.connect(
             host="localhost",
             database="compiladores",  # Cambia este nombre al de tu base de datos
-            user="root",
+            user="postgres",
             password="contraseña"
         )
+        conn.autocommit = True  # Configura autocommit para permitir comandos como CREATE DATABASE
+        # Comando de prueba para verificar conexión
+        cursor = conn.cursor()
+        cursor.execute("SELECT version();")
+        print("Conexión exitosa:", cursor.fetchone())  # Muestra la versión de PostgreSQL para confirmar conexión
+        cursor.close()
         return conn
     except Exception as e:
         print("Error al conectar a PostgreSQL:", e)
@@ -50,15 +56,15 @@ def submit_db_name():
     # Crear la base de datos en PostgreSQL
     conn = get_db_connection()
     if conn:
-        conn.autocommit = True
         cursor = conn.cursor()
         try:
             cursor.execute(f"CREATE DATABASE {db_name};")
             print("Base de datos creada exitosamente.")
         except Exception as e:
             print(f"Error al crear la base de datos: {e}")
-        cursor.close()
-        conn.close()
+        finally:
+            cursor.close()
+            conn.close()
     return redirect(url_for('index'))
 
 @app.route('/submit_use_db', methods=['POST'])
@@ -82,8 +88,9 @@ def submit_table_name():
             print("Tabla creada exitosamente.")
         except Exception as e:
             print(f"Error al crear la tabla: {e}")
-        cursor.close()
-        conn.close()
+        finally:
+            cursor.close()
+            conn.close()
     return redirect(url_for('index'))
 
 @app.route('/submit_insert_data', methods=['POST'])
@@ -101,8 +108,9 @@ def submit_insert_data():
             print("Datos insertados exitosamente.")
         except Exception as e:
             print(f"Error al insertar datos: {e}")
-        cursor.close()
-        conn.close()
+        finally:
+            cursor.close()
+            conn.close()
     return redirect(url_for('index'))
 
 @app.route('/submit_query_data', methods=['POST'])
@@ -124,8 +132,9 @@ def submit_query_data():
                 print("Operación realizada exitosamente.")
         except Exception as e:
             print(f"Error al ejecutar la consulta: {e}")
-        cursor.close()
-        conn.close()
+        finally:
+            cursor.close()
+            conn.close()
     return redirect(url_for('index'))
 
 # Nueva ruta para el análisis léxico
@@ -142,6 +151,56 @@ def analizar():
 
     # Devolver los tokens como JSON
     return jsonify({'tokens': tokens})
+
+# Nueva ruta para ejecutar el código completo en PostgreSQL
+@app.route('/ejecutar_sql', methods=['POST'])
+def ejecutar_sql():
+    data = request.get_json()
+    codigo_sql = data.get('codigo_sql', '')
+
+    # Conectarse a PostgreSQL
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(codigo_sql)
+            conn.commit()
+            message = "Código ejecutado exitosamente en PostgreSQL."
+        except Exception as e:
+            message = f"Error al ejecutar el código: {e}"
+        finally:
+            cursor.close()
+            conn.close()
+    else:
+        message = "No se pudo conectar a PostgreSQL."
+
+    return jsonify({"message": message})
+
+# Nueva ruta para recibir todos los campos juntos y enviarlos al "Código Completo"
+@app.route('/submit_all', methods=['POST'])
+def submit_all():
+    global db_name, use_db, table_name, insert_data, query_data
+    
+    data = request.get_json()
+    db_name = data.get('db_name', '')
+    use_db = data.get('use_db', '')
+    table_name = data.get('table_name', '')
+    insert_data = data.get('insert_data', '')
+    query_data = data.get('query_data', '')
+
+    # Combinar todos los textos en uno solo
+    texto_completo = f"""
+{db_name}
+
+{use_db}
+
+{table_name}
+
+{insert_data}
+
+{query_data}
+"""
+    return jsonify({"texto_completo": texto_completo})
 
 if __name__ == '__main__':
     app.run(debug=True)
