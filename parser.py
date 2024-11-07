@@ -6,9 +6,9 @@ start = 'instrucciones'
 
 # Resultados del análisis sintáctico
 resultado_sintactico = []
+error_sintactico = None  # Variable para almacenar errores
 
 # Reglas para las producciones
-
 def p_instrucciones_lista(p):
     '''instrucciones : instrucciones instruccion
                      | instruccion'''
@@ -128,13 +128,23 @@ def p_operador(p):
 
 # Error de sintaxis
 def p_error(p):
-    print(f"Error de sintaxis en '{p.value}'" if p else "Error de sintaxis en EOF")
+    global error_sintactico
+    if p:
+        error_sintactico = f"Error de sintaxis en '{p.value}' en la línea {p.lineno}"
+    else:
+        error_sintactico = "Error de sintaxis en EOF"
 
 # Construimos el parser
 parser = yacc.yacc()
 
 # Función de análisis
 def parse(data):
+    global error_sintactico
     resultado_sintactico.clear()
+    error_sintactico = None  # Reinicia el error antes de analizar
     parser.parse(data)
-    return resultado_sintactico
+
+    if error_sintactico:
+        return {"correcto": False, "error": error_sintactico}
+    else:
+        return {"correcto": True, "resultado": resultado_sintactico}
