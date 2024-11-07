@@ -2,7 +2,7 @@ import ply.lex as lex
 
 resultadoLex = []
 
-# Palabras reservadas de PostgreSQL
+# Palabras reservadas de PostgreSQL, incluyendo tipos de datos
 reservadas = {
     'select': 'SELECT',
     'insert': 'INSERT',
@@ -56,6 +56,50 @@ reservadas = {
     'revoke': 'REVOKE',
     'use': 'USE',
     'database': 'DATABASE',
+    # Tipos de datos
+    'bigint': 'BIGINT',
+    'int8': 'INT8',
+    'bigserial': 'BIGSERIAL',
+    'serial8': 'SERIAL8',
+    'bit': 'BIT',
+    'varbit': 'VARBIT',
+    'boolean': 'BOOLEAN',
+    'bool': 'BOOL',
+    'box': 'BOX',
+    'bytea': 'BYTEA',
+    'varchar': 'VARCHAR',
+    'character': 'CHARACTER',
+    'char': 'CHAR',
+    'cidr': 'CIDR',
+    'circle': 'CIRCLE',
+    'date': 'DATE',
+    'double precision': 'DOUBLE_PRECISION',
+    'float8': 'FLOAT8',
+    'inet': 'INET',
+    'integer': 'INTEGER',
+    'int': 'INT',
+    'int4': 'INT4',
+    'interval': 'INTERVAL',
+    'line': 'LINE',
+    'lseg': 'LSEG',
+    'macaddr': 'MACADDR',
+    'money': 'MONEY',
+    'numeric': 'NUMERIC',
+    'decimal': 'DECIMAL',
+    'path': 'PATH',
+    'point': 'POINT',
+    'polygon': 'POLYGON',
+    'real': 'REAL',
+    'float4': 'FLOAT4',
+    'smallint': 'SMALLINT',
+    'int2': 'INT2',
+    'serial': 'SERIAL',
+    'serial4': 'SERIAL4',
+    'text': 'TEXT',
+    'time': 'TIME',
+    'timetz': 'TIMETZ',
+    'timestamp': 'TIMESTAMP',
+    'timestamptz': 'TIMESTAMPTZ',
 }
 
 tokens = [
