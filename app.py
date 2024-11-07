@@ -45,20 +45,37 @@ def index():
 
 {query_data}
 """
-    # No ejecutamos el análisis aquí
     return render_template('index.html', texto_completo=texto_completo, db_name=db_name, use_db=use_db, table_name=table_name, insert_data=insert_data, query_data=query_data)
+
+# Validación de comandos SQL correctos para cada paso
+def validar_comando(comando, tipo):
+    if tipo == "CREATE DATABASE" and not comando.strip().upper().startswith("CREATE DATABASE"):
+        return False
+    elif tipo == "USE" and not comando.strip().upper().startswith("USE"):
+        return False
+    elif tipo == "CREATE TABLE" and not comando.strip().upper().startswith("CREATE TABLE"):
+        return False
+    elif tipo == "INSERT INTO" and not comando.strip().upper().startswith("INSERT INTO"):
+        return False
+    elif tipo in ["SELECT", "UPDATE", "DELETE"] and not any(comando.strip().upper().startswith(cmd) for cmd in ["SELECT", "UPDATE", "DELETE"]):
+        return False
+    return True
 
 @app.route('/submit_db_name', methods=['POST'])
 def submit_db_name():
     global db_name
     db_name = request.form.get('db_name', '')
 
-    # Crear la base de datos en PostgreSQL
+    # Verificar que el código contiene CREATE DATABASE
+    if not validar_comando(db_name, "CREATE DATABASE"):
+        return jsonify({"error": "El código debe comenzar con 'CREATE DATABASE'"}), 400
+
+    # Crear la base de datos en PostgreSQL si es válido
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute(f"CREATE DATABASE {db_name};")
+            cursor.execute(db_name)
             print("Base de datos creada exitosamente.")
         except Exception as e:
             print(f"Error al crear la base de datos: {e}")
@@ -71,6 +88,11 @@ def submit_db_name():
 def submit_use_db():
     global use_db
     use_db = request.form.get('use_db', '')
+
+    # Verificar que el código contiene USE
+    if not validar_comando(use_db, "USE"):
+        return jsonify({"error": "El código debe comenzar con 'USE'"}), 400
+
     return redirect(url_for('index'))
 
 @app.route('/submit_table_name', methods=['POST'])
@@ -78,12 +100,16 @@ def submit_table_name():
     global table_name
     table_name = request.form.get('table_name', '')
 
-    # Crear una tabla en PostgreSQL
+    # Verificar que el código contiene CREATE TABLE
+    if not validar_comando(table_name, "CREATE TABLE"):
+        return jsonify({"error": "El código debe comenzar con 'CREATE TABLE'"}), 400
+
+    # Crear la tabla en PostgreSQL si es válido
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute(table_name)  # Asumimos que table_name contiene la instrucción completa CREATE TABLE
+            cursor.execute(table_name)
             conn.commit()
             print("Tabla creada exitosamente.")
         except Exception as e:
@@ -98,12 +124,16 @@ def submit_insert_data():
     global insert_data
     insert_data = request.form.get('insert_data', '')
 
-    # Insertar datos en la tabla
+    # Verificar que el código contiene INSERT INTO
+    if not validar_comando(insert_data, "INSERT INTO"):
+        return jsonify({"error": "El código debe comenzar con 'INSERT INTO'"}), 400
+
+    # Insertar datos en la tabla si es válido
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute(insert_data)  # Asumimos que insert_data contiene la instrucción completa INSERT INTO
+            cursor.execute(insert_data)
             conn.commit()
             print("Datos insertados exitosamente.")
         except Exception as e:
@@ -118,12 +148,16 @@ def submit_query_data():
     global query_data
     query_data = request.form.get('query_data', '')
 
-    # Ejecutar consulta en la base de datos
+    # Verificar que el código contiene SELECT, UPDATE, o DELETE
+    if not validar_comando(query_data, "SELECT"):
+        return jsonify({"error": "El código debe comenzar con 'SELECT', 'UPDATE', o 'DELETE'"}), 400
+
+    # Ejecutar la consulta si es válido
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute(query_data)  # Asumimos que query_data contiene una instrucción SELECT, UPDATE, o DELETE
+            cursor.execute(query_data)
             if query_data.strip().upper().startswith("SELECT"):
                 results = cursor.fetchall()
                 print("Resultados de la consulta:", results)
@@ -137,46 +171,7 @@ def submit_query_data():
             conn.close()
     return redirect(url_for('index'))
 
-# Nueva ruta para el análisis léxico
-@app.route('/analizar', methods=['POST'])
-def analizar():
-    data = request.get_json()
-    texto_completo = data.get('texto_completo', '')
-
-    # Realizar el análisis léxico
-    tokens = prueba(texto_completo)
-
-    # Imprimir los tokens en la consola para depuración
-    print('Tokens generados:', tokens)
-
-    # Devolver los tokens como JSON
-    return jsonify({'tokens': tokens})
-
-# Nueva ruta para ejecutar el código completo en PostgreSQL
-@app.route('/ejecutar_sql', methods=['POST'])
-def ejecutar_sql():
-    data = request.get_json()
-    codigo_sql = data.get('codigo_sql', '')
-
-    # Conectarse a PostgreSQL
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor()
-        try:
-            cursor.execute(codigo_sql)
-            conn.commit()
-            message = "Código ejecutado exitosamente en PostgreSQL."
-        except Exception as e:
-            message = f"Error al ejecutar el código: {e}"
-        finally:
-            cursor.close()
-            conn.close()
-    else:
-        message = "No se pudo conectar a PostgreSQL."
-
-    return jsonify({"message": message})
-
-# Nueva ruta para recibir todos los campos juntos y enviarlos al "Código Completo"
+# Ruta para el envío de todos los campos a la vez con validación
 @app.route('/submit_all', methods=['POST'])
 def submit_all():
     global db_name, use_db, table_name, insert_data, query_data
@@ -188,7 +183,19 @@ def submit_all():
     insert_data = data.get('insert_data', '')
     query_data = data.get('query_data', '')
 
-    # Combinar todos los textos en uno solo
+    # Validar cada campo
+    if not validar_comando(db_name, "CREATE DATABASE"):
+        return jsonify({"error": "El código para crear la base de datos es incorrecto"}), 400
+    if not validar_comando(use_db, "USE"):
+        return jsonify({"error": "El código para usar la base de datos es incorrecto"}), 400
+    if not validar_comando(table_name, "CREATE TABLE"):
+        return jsonify({"error": "El código para crear la tabla es incorrecto"}), 400
+    if not validar_comando(insert_data, "INSERT INTO"):
+        return jsonify({"error": "El código para insertar datos es incorrecto"}), 400
+    if not validar_comando(query_data, "SELECT"):
+        return jsonify({"error": "El código para consultar los datos es incorrecto"}), 400
+
+    # Combinar todos los textos en uno solo si son válidos
     texto_completo = f"""
 {db_name}
 
