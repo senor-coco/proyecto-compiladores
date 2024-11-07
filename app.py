@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from lexer import prueba  # Importamos la función `prueba` para analizar el código
+from lexer import prueba  # Importamos la función `prueba` del lexer para analizar el código
+from parser import parse  # Importamos la función `parse` para el análisis sintáctico
 import psycopg2
+import os
 
 app = Flask(__name__)
 
@@ -12,15 +14,15 @@ insert_data = ''
 query_data = ''
 
 # Función de conexión a PostgreSQL
-def get_db_connection():
+def get_db_connection(database="compiladores"):
     try:
         conn = psycopg2.connect(
             host="localhost",
-            database="compiladores",  # Cambia este nombre al de tu base de datos
+            database=database,  # Nombre de la base de datos a conectar
             user="postgres",
-            password="contraseña"
+            password="contraseña"  # Cambiar por la contraseña real
         )
-        conn.autocommit = True  # Configura autocommit para permitir comandos como CREATE DATABASE
+        conn.autocommit = True
         cursor = conn.cursor()
         cursor.execute("SELECT version();")
         print("Conexión exitosa:", cursor.fetchone())
@@ -45,7 +47,12 @@ def index():
 """
     return render_template('index.html', texto_completo=texto_completo, db_name=db_name, use_db=use_db, table_name=table_name, insert_data=insert_data, query_data=query_data)
 
-# Nueva ruta para analizar el código ingresado y devolver los tokens
+@app.route('/analizar_sintaxis', methods=['POST'])
+def analizar_sintaxis():
+    code = request.form.get('code', '')
+    resultado_sintactico = parse(code)  # Usamos la función `parse` del parser
+    return jsonify(sintaxis=resultado_sintactico)
+
 @app.route('/analizar', methods=['POST'])
 def analizar():
     code = request.form.get('code', '')
@@ -90,11 +97,19 @@ def submit_db_name():
 @app.route('/submit_use_db', methods=['POST'])
 def submit_use_db():
     global use_db
-    use_db = request.form.get('use_db', '')
+    use_db = request.form.get('use_db', '').strip()
 
     if not validar_comando(use_db, "USE"):
         return jsonify({"error": "El código debe comenzar con 'USE'"}), 400
 
+    # Cambiamos la base de datos al nombre especificado en lugar de ejecutar un comando `USE`
+    db_name = use_db.split()[1]  # Extraer el nombre de la base de datos
+    conn = get_db_connection(database=db_name)
+    if conn:
+        print(f"Cambiado a la base de datos: {db_name}")
+        conn.close()
+    else:
+        return jsonify({"error": f"No se pudo conectar a la base de datos {db_name}"}), 500
     return redirect(url_for('index'))
 
 @app.route('/submit_table_name', methods=['POST'])
@@ -153,11 +168,12 @@ def submit_query_data():
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute(query_data)
             if query_data.strip().upper().startswith("SELECT"):
+                cursor.execute(query_data)
                 results = cursor.fetchall()
                 print("Resultados de la consulta:", results)
             else:
+                cursor.execute(query_data)
                 conn.commit()
                 print("Operación realizada exitosamente.")
         except Exception as e:

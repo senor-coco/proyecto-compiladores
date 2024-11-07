@@ -1,90 +1,72 @@
-# parser.py
 import ply.yacc as yacc
 from lexer import tokens
 
-# Lista para almacenar errores de sintaxis
-syntax_errors = []
+# Resultados del análisis sintáctico
+resultado_sintactico = []
 
-# Precedencia de operadores (si es necesario)
-precedence = (
-    ('left', 'AND', 'OR'),
-    ('nonassoc', 'IGUAL', 'DIFERENTE', 'MENORQUE', 'MAYORQUE', 'MENORIGUAL', 'MAYORIGUAL'),
-    ('left', 'MAS', 'MENOS'),
-    ('left', 'MULTIPLICACION', 'DIVISION', 'MODULO'),
-)
+# Reglas para las producciones
+def p_instrucciones_lista(p):
+    '''instrucciones : instrucciones instruccion
+                     | instruccion'''
+    pass
 
-# Definición de la gramática
+def p_instruccion(p):
+    '''instruccion : crear_db
+                   | usar_db
+                   | crear_tabla
+                   | insertar_datos
+                   | consulta_datos
+                   | modificar_datos
+                   | eliminar_datos'''
+    resultado_sintactico.append(p[1])
 
-def p_inicio(p):
-    '''inicio : sentencias'''
-    p[0] = p[1]
+# Producción para `CREATE DATABASE`
+def p_crear_db(p):
+    '''crear_db : CREATE DATABASE IDENTIFICADOR PUNTOCOMA'''
+    p[0] = ('crear_db', p[3])
 
-def p_sentencias(p):
-    '''sentencias : sentencias sentencia PUNTOCOMA
-                  | sentencia PUNTOCOMA
-    '''
-    if len(p) == 4:
-        p[0] = p[1] + [p[2]]
-    else:
-        p[0] = [p[1]]
+# Producción para `USE`
+def p_usar_db(p):
+    '''usar_db : USE IDENTIFICADOR PUNTOCOMA'''
+    p[0] = ('usar_db', p[2])
 
-def p_sentencia(p):
-    '''sentencia : crear_base_datos
-                 | usar_base_datos
-                 | crear_tabla
-                 | insertar_datos
-                 | consulta_select
-                 | actualizar_datos
-                 | eliminar_datos
-    '''
-    p[0] = p[1]
-
-def p_crear_base_datos(p):
-    'crear_base_datos : CREATE DATABASE IDENTIFICADOR'
-    p[0] = ('CREATE_DATABASE', p[3])
-
-def p_usar_base_datos(p):
-    'usar_base_datos : USE IDENTIFICADOR'
-    p[0] = ('USE_DATABASE', p[2])
-
+# Producción para `CREATE TABLE`
 def p_crear_tabla(p):
-    'crear_tabla : CREATE TABLE IDENTIFICADOR PARIZQ definicion_columnas PARDER'
-    p[0] = ('CREATE_TABLE', p[3], p[5])
+    '''crear_tabla : CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA'''
+    p[0] = ('crear_tabla', p[3], p[5], p[7])
 
-def p_definicion_columnas(p):
-    '''definicion_columnas : definicion_columnas COMA definicion_columna
-                           | definicion_columna
-    '''
+def p_columnas_lista(p):
+    '''columnas : columnas COMA columna
+                | columna'''
     if len(p) == 4:
         p[0] = p[1] + [p[3]]
     else:
         p[0] = [p[1]]
 
-def p_definicion_columna(p):
-    'definicion_columna : IDENTIFICADOR tipo_dato'
-    p[0] = (p[1], p[2])
+def p_columna(p):
+    '''columna : IDENTIFICADOR tipos_datos atributos'''
+    p[0] = (p[1], p[2], p[3])
 
-def p_tipo_dato(p):
-    '''tipo_dato : IDENTIFICADOR'''
+def p_tipos_datos(p):
+    '''tipos_datos : BIGINT
+                   | CHARACTER VARYING PARIZQ NUMERO PARDER
+                   | CHAR'''
     p[0] = p[1]
 
+def p_atributos(p):
+    '''atributos : NOT NULL
+                 | NULL
+                 | '''
+    p[0] = p[1] if len(p) > 1 else 'NULL'
+
+# Producción para `INSERT INTO`
 def p_insertar_datos(p):
-    'insertar_datos : INSERT INTO IDENTIFICADOR PARIZQ lista_columnas PARDER VALUES PARIZQ lista_valores PARDER'
-    p[0] = ('INSERT_INTO', p[3], p[5], p[9])
+    '''insertar_datos : INSERT INTO IDENTIFICADOR PUNTO IDENTIFICADOR VALUES PARIZQ valores PARDER PUNTOCOMA'''
+    p[0] = ('insertar_datos', p[3], p[5], p[8])
 
-def p_lista_columnas(p):
-    '''lista_columnas : lista_columnas COMA IDENTIFICADOR
-                      | IDENTIFICADOR
-    '''
-    if len(p) == 4:
-        p[0] = p[1] + [p[3]]
-    else:
-        p[0] = [p[1]]
-
-def p_lista_valores(p):
-    '''lista_valores : lista_valores COMA valor
-                     | valor
-    '''
+def p_valores(p):
+    '''valores : valores COMA valor
+               | valor'''
     if len(p) == 4:
         p[0] = p[1] + [p[3]]
     else:
@@ -92,78 +74,59 @@ def p_lista_valores(p):
 
 def p_valor(p):
     '''valor : NUMERO
-             | CADENA
-             | NULL
-    '''
+             | CADENA'''
     p[0] = p[1]
 
-def p_consulta_select(p):
-    'consulta_select : SELECT lista_seleccion FROM IDENTIFICADOR'
-    p[0] = ('SELECT', p[2], p[4])
+# Producción para `SELECT`
+def p_consulta_datos(p):
+    '''consulta_datos : SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA'''
+    p[0] = ('consulta_datos', p[2], p[4], p[6])
 
-def p_lista_seleccion(p):
-    '''lista_seleccion : MULTIPLICACION
-                       | lista_columnas
-    '''
-    p[0] = p[1]
+# Producción para `UPDATE`
+def p_modificar_datos(p):
+    '''modificar_datos : UPDATE IDENTIFICADOR PUNTO IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA'''
+    p[0] = ('modificar_datos', p[2], p[4], p[6], p[8])
 
-def p_actualizar_datos(p):
-    'actualizar_datos : UPDATE IDENTIFICADOR SET asignaciones where_clause'
-    p[0] = ('UPDATE', p[2], p[4], p[5])
-
-def p_asignaciones(p):
+def p_asignaciones_lista(p):
     '''asignaciones : asignaciones COMA asignacion
-                    | asignacion
-    '''
+                    | asignacion'''
     if len(p) == 4:
         p[0] = p[1] + [p[3]]
     else:
         p[0] = [p[1]]
 
 def p_asignacion(p):
-    'asignacion : IDENTIFICADOR IGUAL valor'
+    '''asignacion : IDENTIFICADOR IGUAL valor'''
     p[0] = (p[1], p[3])
 
+# Producción para `DELETE`
 def p_eliminar_datos(p):
-    'eliminar_datos : DELETE FROM IDENTIFICADOR where_clause'
-    p[0] = ('DELETE', p[3], p[4])
+    '''eliminar_datos : DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA'''
+    p[0] = ('eliminar_datos', p[3], p[5], p[7])
 
-def p_where_clause(p):
-    '''where_clause : WHERE condicion
-                    | empty
-    '''
-    p[0] = p[2] if len(p) > 2 else None
-
+# Condición para `WHERE`
 def p_condicion(p):
-    '''condicion : expresion'''
-    p[0] = p[1]
-
-def p_expresion(p):
-    '''expresion : valor operador valor'''
-    p[0] = (p[2], p[1], p[3])
+    '''condicion : IDENTIFICADOR operador valor'''
+    p[0] = (p[1], p[2], p[3])
 
 def p_operador(p):
     '''operador : IGUAL
                 | DIFERENTE
-                | MENORQUE
                 | MAYORQUE
-                | MENORIGUAL
+                | MENORQUE
                 | MAYORIGUAL
-    '''
+                | MENORIGUAL'''
     p[0] = p[1]
 
-def p_empty(p):
-    'empty :'
-    pass
-
+# Error de sintaxis
 def p_error(p):
-    if p:
-        error_msg = f"Error de sintaxis en '{p.value}' en la línea {p.lineno}"
-    else:
-        error_msg = "Error de sintaxis al final de la entrada"
-    syntax_errors.append(error_msg)
-    # Imprimir el stack de análisis para depuración
-    parser.errok()
+    print(f"Error de sintaxis en '{p.value}'" if p else "Error de sintaxis en EOF")
 
-
+# Construimos el parser
 parser = yacc.yacc()
+
+# Función de análisis
+def parse(data):
+    resultado_sintactico.clear()
+    parser.parse(data)
+    return resultado_sintactico
