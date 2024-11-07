@@ -20,7 +20,7 @@ def get_db_connection(database="compiladores"):
             host="localhost",
             database=database,  # Nombre de la base de datos a conectar
             user="postgres",
-            password="contraseña"  # Cambiar por la contraseña real
+            password="HolaShepi"  # Cambiar por la contraseña real
         )
         conn.autocommit = True
         cursor = conn.cursor()

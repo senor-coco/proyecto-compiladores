@@ -25,36 +25,36 @@
 <main>
     <div class="content">
         <div class="steps-container">
-            <h1>Crea una base de datos SQL</h1>
-            <br>
-            <!-- Formulario para Crear base de datos -->
-            <form action="/submit_db_name" method="POST">
-                <textarea name="db_name" placeholder="Paso 1 - Crea tu base de datos (CREATE DATABASE)" class="step-input textarea" required></textarea>
-                <button type="submit" class="btn enviar">Enviar</button>
-            </form>
-            <br>
-            <!-- Formulario para Crear tabla -->
-            <form action="/submit_table_name" method="POST">
-                <textarea name="table_name" placeholder="Paso 2 - Crea una tabla en tu base de datos (CREATE TABLE)" class="step-input textarea" required></textarea>
-                <button type="submit" class="btn enviar">Enviar</button>
-            </form>
-            <br>
-            <!-- Formulario para Insertar datos -->
-            <form action="/submit_insert_data" method="POST">
-                <textarea name="insert_data" placeholder="Paso 3 - Añade entradas a tu base de datos (INSERT INTO)" class="step-input textarea" required></textarea>
-                <button type="submit" class="btn enviar">Enviar</button>
-            </form>
-            <br>
-            <!-- Formulario para Consultar datos -->
-            <form action="/submit_query_data" method="POST">
-                <textarea name="query_data" placeholder="Paso 4 - Consulta y gestiona los datos (SELECT, UPDATE, DELETE)" class="step-input textarea" required></textarea>
-                <button type="submit" class="btn enviar">Enviar</button>
-            </form>
-            <br>
+            <h1>Ingrese su código SQL</h1>
+    <br>
+    <form id="form-codigo1">
+        <textarea name="codigo1" placeholder="Ingrese el código SQL - Parte 1" class="step-input textarea" required></textarea>
+        <button type="button" class="btn enviar" onclick="enviarParte('codigo1')">Enviar Parte 1</button>
+        <button type="button" class="btn borrar" onclick="borrarParte('codigo1')">Borrar Parte 1</button>
+    </form>
+    <br>
+    
+    <form id="form-codigo2">
+        <textarea name="codigo2" placeholder="Ingrese el código SQL - Parte 2" class="step-input textarea" required></textarea>
+        <button type="button" class="btn enviar" onclick="enviarParte('codigo2')">Enviar Parte 2</button>
+        <button type="button" class="btn borrar" onclick="borrarParte('codigo2')">Borrar Parte 2</button>
+    </form>
+    <br>
+    
+    <form id="form-codigo3">
+        <textarea name="codigo3" placeholder="Ingrese el código SQL - Parte 3" class="step-input textarea" required></textarea>
+        <button type="button" class="btn enviar" onclick="enviarParte('codigo3')">Enviar Parte 3</button>
+        <button type="button" class="btn borrar" onclick="borrarParte('codigo3')">Borrar Parte 3</button>
+    </form>
+    <br>
+    
+    <form id="form-codigo4">
+        <textarea name="codigo4" placeholder="Ingrese el código SQL - Parte 4" class="step-input textarea" required></textarea>
+        <button type="button" class="btn enviar" onclick="enviarParte('codigo4')">Enviar Parte 4</button>
+        <button type="button" class="btn borrar" onclick="borrarParte('codigo4')">Borrar Parte 4</button>
+    </form>
+    <br>
             
-            <!-- Botón para enviar todos los campos al código completo -->
-            <button type="button" class="btn enviar-todos" onclick="enviarTodosLosFormularios()">Enviar Todos</button>
-
             <!-- Mostrar el cuadro blanco con el texto completo si existe -->
             {% if texto_completo %}
     <div id="cuadro-blanco" class="cuadro-blanco">
@@ -75,7 +75,7 @@
 <script>
     function analizarCodigo() {
         const code = document.getElementById("texto-completo").innerText;
-
+    
         fetch("/analizar", {
             method: "POST",
             headers: {
@@ -89,6 +89,7 @@
             resultadoDiv.innerHTML = ""; 
             
             if (data.tokens && data.tokens.length > 0) {
+                // Renderizar la tabla de tokens
                 let tableHTML = '<table class="tabla-tokens"><tr><th>Línea</th><th>Tipo</th><th>Valor</th></tr>';
                 
                 data.tokens.forEach(token => {
@@ -106,11 +107,54 @@
             document.getElementById("resultado-analisis").innerHTML = "<p>Error al analizar el código.</p>";
         });
     }
+    
 
-    function borrarScript() {
-        document.getElementById("texto-completo").innerText = "";
-        document.getElementById("resultado-analisis").innerHTML = "";
+    function enviarCodigoCompleto() {
+        // Obtener el contenido de cada caja de texto
+        const codigo1 = document.querySelector('textarea[name="codigo1"]').value;
+        const codigo2 = document.querySelector('textarea[name="codigo2"]').value;
+        const codigo3 = document.querySelector('textarea[name="codigo3"]').value;
+        const codigo4 = document.querySelector('textarea[name="codigo4"]').value;
+    
+        // Combinar el contenido en una sola variable
+        const codigoCompleto = `${codigo1}\n${codigo2}\n${codigo3}\n${codigo4}`;
+    
+        // Mostrar el cuadro blanco con el contenido combinado
+        const cuadroBlanco = document.getElementById("cuadro-blanco");
+        const textoCompleto = document.getElementById("texto-completo");
+        textoCompleto.innerText = codigoCompleto;
+        cuadro
+        Blanco.style.display = "block";
     }
+
+    function enviarParte(parte) {
+        // Obtener el contenido de la caja de texto específica
+        const textarea = document.querySelector(`textarea[name="${parte}"]`);
+        const contenido = textarea.value;
+    
+        // Obtener el cuadro blanco y el elemento donde se muestra el texto completo
+        const cuadroBlanco = document.getElementById("cuadro-blanco");
+        const textoCompleto = document.getElementById("texto-completo");
+    
+        // Agregar el contenido al cuadro blanco
+        textoCompleto.innerText += contenido + "\n";
+    
+        // Mostrar el cuadro blanco si no está visible
+        cuadroBlanco.style.display = "block";
+    }
+
+    // Función para borrar el contenido de la caja de texto específica
+function borrarParte(parte) {
+    const textarea = document.querySelector(`textarea[name="${parte}"]`);
+    textarea.value = ''; // Borrar el contenido de la caja de texto
+}
+
+// Función para borrar todo el contenido del cuadro blanco y del análisis
+function borrarScript() {
+    document.getElementById("texto-completo").innerText = "";
+    document.getElementById("resultado-analisis").innerHTML = "";
+}
+
 </script>
             
         </div>
