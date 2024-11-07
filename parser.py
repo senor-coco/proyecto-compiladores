@@ -1,14 +1,21 @@
 import ply.yacc as yacc
 from lexer import tokens
 
+# Definir la producción de inicio
+start = 'instrucciones'
+
 # Resultados del análisis sintáctico
 resultado_sintactico = []
 
 # Reglas para las producciones
+
 def p_instrucciones_lista(p):
     '''instrucciones : instrucciones instruccion
                      | instruccion'''
-    pass
+    if len(p) == 3:
+        p[0] = p[1] + [p[2]]
+    else:
+        p[0] = [p[1]]
 
 def p_instruccion(p):
     '''instruccion : crear_db
@@ -19,6 +26,7 @@ def p_instruccion(p):
                    | modificar_datos
                    | eliminar_datos'''
     resultado_sintactico.append(p[1])
+    p[0] = p[1]
 
 # Producción para `CREATE DATABASE`
 def p_crear_db(p):

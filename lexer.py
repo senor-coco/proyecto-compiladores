@@ -68,6 +68,7 @@ reservadas = {
     'box': 'BOX',
     'bytea': 'BYTEA',
     'varchar': 'VARCHAR',
+    'varying': 'VARYING',
     'character': 'CHARACTER',
     'char': 'CHAR',
     'cidr': 'CIDR',
