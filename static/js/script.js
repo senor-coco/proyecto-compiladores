@@ -152,7 +152,12 @@ function generarScript() {
 
 // Nueva función para ejecutar el código completo en PostgreSQL
 function ejecutarEnPostgreSQL() {
-    const textoCompleto = document.getElementById('texto-completo').innerText;
+    const textoCompleto = document.getElementById('texto-completo').innerText.trim();
+
+    if (!textoCompleto) {
+        alert("No hay código SQL para ejecutar.");
+        return;
+    }
 
     fetch('/ejecutar_sql', {
         method: 'POST',
@@ -161,7 +166,12 @@ function ejecutarEnPostgreSQL() {
         },
         body: JSON.stringify({ 'codigo_sql': textoCompleto })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error en la solicitud: " + response.statusText);
+        }
+        return response.json();
+    })
     .then(data => {
         console.log(data.message);
         alert(data.message); // Muestra un mensaje con el resultado de la ejecución

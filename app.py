@@ -18,7 +18,7 @@ def get_db_connection(database="compiladores"):
     try:
         conn = psycopg2.connect(
             host="localhost",
-            database=database,  # Nombre de la base de datos a conectar
+            database="compiladores",  # Nombre de la base de datos a conectar
             user="postgres",
             password="HolaShepi"  # Cambiar por la contraseña real
         )
@@ -31,6 +31,7 @@ def get_db_connection(database="compiladores"):
     except Exception as e:
         print("Error al conectar a PostgreSQL:", e)
         return None
+
 
 @app.route('/')
 def index():
@@ -72,6 +73,41 @@ def validar_comando(comando, tipo):
     elif tipo in ["SELECT", "UPDATE", "DELETE"] and not any(comando.strip().upper().startswith(cmd) for cmd in ["SELECT", "UPDATE", "DELETE"]):
         return False
     return True
+
+@app.route('/ejecutar_sql', methods=['POST'])
+def ejecutar_sql():
+    data = request.get_json()
+    codigo_sql = data.get('codigo_sql', '')
+
+    # Verificar que el código SQL no esté vacío
+    if not codigo_sql.strip():
+        return jsonify({"message": "El código SQL está vacío."}), 400
+
+    # Ejecutar el SQL en PostgreSQL
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(codigo_sql)
+            if codigo_sql.strip().upper().startswith("SELECT"):
+                # Si es una consulta SELECT, devolver los resultados
+                results = cursor.fetchall()
+                message = f"Consulta ejecutada exitosamente. Resultados: {results}"
+            else:
+                # Para otros comandos, simplemente confirmar la ejecución
+                conn.commit()
+                message = "Código SQL ejecutado exitosamente."
+        except Exception as e:
+            print(f"Error al ejecutar el código SQL: {e}")
+            message = f"Error al ejecutar el código SQL: {e}"
+        finally:
+            cursor.close()
+            conn.close()
+    else:
+        message = "No se pudo establecer la conexión con la base de datos."
+
+    return jsonify({"message": message})
+
 
 @app.route('/submit_db_name', methods=['POST'])
 def submit_db_name():
