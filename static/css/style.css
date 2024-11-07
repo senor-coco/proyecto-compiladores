@@ -275,31 +275,58 @@ h1 {
 }
 
 /* Estilos para la tabla de tokens */
+/* Estilos para la tabla de tokens */
 .tabla-tokens {
-    width: 95%;
+    width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
-    font-size: 17px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    border-radius: 8px;
 }
 
 .tabla-tokens th, .tabla-tokens td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
+    text-align: left;
+    transition: background-color 0.3s ease;
 }
 
 .tabla-tokens th {
-    background-color: #f2f2f2;
-    text-align: left;
+    background-color: #4CAF50; /* Verde para encabezados */
+    color: #fff;
+    font-weight: bold;
 }
 
+.tabla-tokens tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+.tabla-tokens tr:nth-child(odd) td {
+    background-color: #fff;
+}
+
+/* Ajustes para el modo oscuro */
 .dark-mode .tabla-tokens th {
-    background-color: #444;
+    background-color: #333;
     color: #fff;
 }
 
 .dark-mode .tabla-tokens td {
+    background-color: #444;
+    color: #ddd;
     border-color: #555;
 }
+
+.dark-mode .tabla-tokens tr:nth-child(even) td {
+    background-color: #3a3a3a;
+}
+
+.dark-mode .tabla-tokens tr:nth-child(odd) td {
+    background-color: #444;
+}
+
 /* Estilo de los inputs */
 .step-input {
     background-color: #fff;

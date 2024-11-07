@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from lexer import prueba
+from lexer import prueba  # Importamos la función `prueba` para analizar el código
 import psycopg2
 
 app = Flask(__name__)
@@ -21,10 +21,9 @@ def get_db_connection():
             password="contraseña"
         )
         conn.autocommit = True  # Configura autocommit para permitir comandos como CREATE DATABASE
-        # Comando de prueba para verificar conexión
         cursor = conn.cursor()
         cursor.execute("SELECT version();")
-        print("Conexión exitosa:", cursor.fetchone())  # Muestra la versión de PostgreSQL para confirmar conexión
+        print("Conexión exitosa:", cursor.fetchone())
         cursor.close()
         return conn
     except Exception as e:
@@ -33,7 +32,6 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    # Combinar todos los textos en uno solo
     texto_completo = f"""
 {db_name}
 
@@ -46,6 +44,13 @@ def index():
 {query_data}
 """
     return render_template('index.html', texto_completo=texto_completo, db_name=db_name, use_db=use_db, table_name=table_name, insert_data=insert_data, query_data=query_data)
+
+# Nueva ruta para analizar el código ingresado y devolver los tokens
+@app.route('/analizar', methods=['POST'])
+def analizar():
+    code = request.form.get('code', '')
+    tokens = prueba(code)  # Usamos la función `prueba` del lexer para obtener los tokens
+    return jsonify(tokens=tokens)
 
 # Validación de comandos SQL correctos para cada paso
 def validar_comando(comando, tipo):
@@ -66,11 +71,9 @@ def submit_db_name():
     global db_name
     db_name = request.form.get('db_name', '')
 
-    # Verificar que el código contiene CREATE DATABASE
     if not validar_comando(db_name, "CREATE DATABASE"):
         return jsonify({"error": "El código debe comenzar con 'CREATE DATABASE'"}), 400
 
-    # Crear la base de datos en PostgreSQL si es válido
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
@@ -89,7 +92,6 @@ def submit_use_db():
     global use_db
     use_db = request.form.get('use_db', '')
 
-    # Verificar que el código contiene USE
     if not validar_comando(use_db, "USE"):
         return jsonify({"error": "El código debe comenzar con 'USE'"}), 400
 
@@ -100,11 +102,9 @@ def submit_table_name():
     global table_name
     table_name = request.form.get('table_name', '')
 
-    # Verificar que el código contiene CREATE TABLE
     if not validar_comando(table_name, "CREATE TABLE"):
         return jsonify({"error": "El código debe comenzar con 'CREATE TABLE'"}), 400
 
-    # Crear la tabla en PostgreSQL si es válido
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
@@ -124,11 +124,9 @@ def submit_insert_data():
     global insert_data
     insert_data = request.form.get('insert_data', '')
 
-    # Verificar que el código contiene INSERT INTO
     if not validar_comando(insert_data, "INSERT INTO"):
         return jsonify({"error": "El código debe comenzar con 'INSERT INTO'"}), 400
 
-    # Insertar datos en la tabla si es válido
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
@@ -148,11 +146,9 @@ def submit_query_data():
     global query_data
     query_data = request.form.get('query_data', '')
 
-    # Verificar que el código contiene SELECT, UPDATE, o DELETE
     if not validar_comando(query_data, "SELECT"):
         return jsonify({"error": "El código debe comenzar con 'SELECT', 'UPDATE', o 'DELETE'"}), 400
 
-    # Ejecutar la consulta si es válido
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
@@ -171,7 +167,6 @@ def submit_query_data():
             conn.close()
     return redirect(url_for('index'))
 
-# Ruta para el envío de todos los campos a la vez con validación
 @app.route('/submit_all', methods=['POST'])
 def submit_all():
     global db_name, use_db, table_name, insert_data, query_data
@@ -183,7 +178,6 @@ def submit_all():
     insert_data = data.get('insert_data', '')
     query_data = data.get('query_data', '')
 
-    # Validar cada campo
     if not validar_comando(db_name, "CREATE DATABASE"):
         return jsonify({"error": "El código para crear la base de datos es incorrecto"}), 400
     if not validar_comando(use_db, "USE"):
@@ -195,7 +189,6 @@ def submit_all():
     if not validar_comando(query_data, "SELECT"):
         return jsonify({"error": "El código para consultar los datos es incorrecto"}), 400
 
-    # Combinar todos los textos en uno solo si son válidos
     texto_completo = f"""
 {db_name}
 

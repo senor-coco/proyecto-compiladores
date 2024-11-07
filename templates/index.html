@@ -63,21 +63,62 @@
 
             <!-- Mostrar el cuadro blanco con el texto completo si existe -->
             {% if texto_completo %}
-            <div id="cuadro-blanco" class="cuadro-blanco">
-                <h2>Código Completo:</h2>
-                <pre id="texto-completo">{{ texto_completo }}</pre>
-                <!-- Botones dentro del cuadro blanco -->
-                <div class="button-container">
-                    <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
-                    <button type="button" class="btn borrar" onclick="borrarScript()">Borrar</button>
-                    <button type="button" class="btn generar" onclick="generarScript()">Generar Script</button>
-                    <button type="button" class="btn ejecutar" onclick="ejecutarEnPostgreSQL()">Ejecutar en PostgreSQL</button>
-                </div>
-            </div>
-            <!-- Div para mostrar la tabla de tokens -->
-            <div id="resultado-analisis"></div>
-            {% endif %}
+    <div id="cuadro-blanco" class="cuadro-blanco">
+        <h2>Código Completo:</h2>
+        <pre id="texto-completo">{{ texto_completo }}</pre>
+        <!-- Botones dentro del cuadro blanco -->
+        <div class="button-container">
+            <button type="button" class="btn analizar" onclick="analizarCodigo()">Analizar</button>
+            <button type="button" class="btn borrar" onclick="borrarScript()">Borrar</button>
+            <button type="button" class="btn generar" onclick="generarScript()">Generar Script</button>
+            <button type="button" class="btn ejecutar" onclick="ejecutarEnPostgreSQL()">Ejecutar en PostgreSQL</button>
+        </div>
+    </div>
+    <!-- Div para mostrar la tabla de tokens -->
+    <div id="resultado-analisis" class="table-box tables-container"></div>
+{% endif %}
 
+<script>
+    function analizarCodigo() {
+        const code = document.getElementById("texto-completo").innerText;
+
+        fetch("/analizar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({ code })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultadoDiv = document.getElementById("resultado-analisis");
+            resultadoDiv.innerHTML = ""; 
+            
+            if (data.tokens && data.tokens.length > 0) {
+                let tableHTML = '<table class="tabla-tokens"><tr><th>Línea</th><th>Tipo</th><th>Valor</th></tr>';
+                
+                data.tokens.forEach(token => {
+                    tableHTML += `<tr><td>${token[0]}</td><td>${token[1]}</td><td>${token[2]}</td></tr>`;
+                });
+                
+                tableHTML += "</table>";
+                resultadoDiv.innerHTML = tableHTML;
+            } else {
+                resultadoDiv.innerHTML = "<p>No se encontraron tokens en el análisis.</p>";
+            }
+        })
+        .catch(error => {
+            console.error("Error en el análisis:", error);
+            document.getElementById("resultado-analisis").innerHTML = "<p>Error al analizar el código.</p>";
+        });
+    }
+
+    function borrarScript() {
+        document.getElementById("texto-completo").innerText = "";
+        document.getElementById("resultado-analisis").innerHTML = "";
+    }
+</script>
+            
         </div>
         <div class="db-icon">
             <img src="{{ url_for('static', filename='img/bd.png') }}" alt="Icono de base de datos" class="animate-image">

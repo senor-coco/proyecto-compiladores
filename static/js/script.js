@@ -119,52 +119,6 @@ document.querySelectorAll('.step-input').forEach((element) => {
     });
 });
 
-// Función para analizar el código
-function analizarCodigo() {
-    // Obtener el texto completo desde el elemento pre
-    var textoCompleto = document.getElementById('texto-completo').innerText;
-
-    // Enviar el texto al servidor mediante una solicitud AJAX POST
-    $.ajax({
-        url: '/analizar',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ 'texto_completo': textoCompleto }),
-        success: function(response) {
-            console.log('Respuesta del servidor:', response);
-
-            // Limpiar el div de resultados
-            $('#resultado-analisis').empty();
-
-            // Verificar si hay tokens en la respuesta
-            if (response.tokens && response.tokens.length > 0) {
-                // Crear la tabla
-                var tabla = '<table class="tabla-tokens">';
-                tabla += '<tr><th>Línea</th><th>Token</th><th>Valor</th></tr>';
-
-                // Recorrer los tokens y agregarlos a la tabla
-                response.tokens.forEach(function(token) {
-                    tabla += '<tr>';
-                    tabla += '<td>' + token[0] + '</td>'; // Línea
-                    tabla += '<td>' + token[1] + '</td>'; // Tipo de Token
-                    tabla += '<td>' + token[2] + '</td>'; // Valor
-                    tabla += '</tr>';
-                });
-
-                tabla += '</table>';
-
-                // Insertar la tabla en el div de resultados
-                $('#resultado-analisis').html(tabla);
-            } else {
-                $('#resultado-analisis').html('<p>No se encontraron tokens.</p>');
-            }
-        },
-        error: function(error) {
-            console.error('Error al analizar el código:', error);
-            $('#resultado-analisis').html('<p>Error al analizar el código.</p>');
-        }
-    });
-}
 
 // Función para borrar el contenido del script y el análisis
 function borrarScript() {
