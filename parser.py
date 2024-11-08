@@ -1,3 +1,4 @@
+# En el archivo del parser
 import ply.yacc as yacc
 from lexer import tokens
 
@@ -69,7 +70,7 @@ def p_atributos(p):
 
 # Producción para `INSERT INTO`
 def p_insertar_datos(p):
-    '''insertar_datos : INSERT INTO IDENTIFICADOR PUNTO IDENTIFICADOR VALUES PARIZQ valores PARDER PUNTOCOMA'''
+    '''insertar_datos : INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA'''
     p[0] = ('insertar_datos', p[3], p[5], p[8])
 
 def p_valores(p):
@@ -92,8 +93,8 @@ def p_consulta_datos(p):
 
 # Producción para `UPDATE`
 def p_modificar_datos(p):
-    '''modificar_datos : UPDATE IDENTIFICADOR PUNTO IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA'''
-    p[0] = ('modificar_datos', p[2], p[4], p[6], p[8])
+    '''modificar_datos : UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA'''
+    p[0] = ('modificar_datos', p[2], p[4], p[6])
 
 def p_asignaciones_lista(p):
     '''asignaciones : asignaciones COMA asignacion

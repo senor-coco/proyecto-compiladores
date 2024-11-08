@@ -18,7 +18,7 @@ def get_db_connection(database="compiladores"):
     try:
         conn = psycopg2.connect(
             host="localhost",
-            database="compiladores",  # Nombre de la base de datos a conectar
+            database="hola",  # Nombre de la base de datos a conectar
             user="postgres",
             password="HolaShepi"  # Cambiar por la contraseña real
         )
