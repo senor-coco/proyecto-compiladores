@@ -8,7 +8,6 @@ Unused terminals:
     AS
     BEGIN
     BIGSERIAL
-    BIT
     BOOL
     BOOLEAN
     BOX
@@ -46,7 +45,6 @@ Unused terminals:
     INTERVAL
     IS
     JOIN
-    KEY
     LIMIT
     LINE
     LSEG
@@ -64,7 +62,6 @@ Unused terminals:
     PATH
     POINT
     POLYGON
-    PRIMARY
     PROCEDURE
     REAL
     REFERENCES
@@ -83,7 +80,6 @@ Unused terminals:
     UNION
     UNIQUE
     VARBIT
-    VARCHAR
     VIEW
 
 Grammar
@@ -100,34 +96,39 @@ Rule 8     instruccion -> modificar_datos
 Rule 9     instruccion -> eliminar_datos
 Rule 10    crear_db -> CREATE DATABASE IDENTIFICADOR PUNTOCOMA
 Rule 11    usar_db -> USE IDENTIFICADOR PUNTOCOMA
-Rule 12    crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA
-Rule 13    columnas -> columnas COMA columna
-Rule 14    columnas -> columna
-Rule 15    columna -> IDENTIFICADOR tipos_datos atributos
-Rule 16    tipos_datos -> BIGINT
-Rule 17    tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER
-Rule 18    tipos_datos -> CHAR
-Rule 19    atributos -> NOT NULL
-Rule 20    atributos -> NULL
-Rule 21    atributos -> <empty>
-Rule 22    insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
-Rule 23    valores -> valores COMA valor
-Rule 24    valores -> valor
-Rule 25    valor -> NUMERO
-Rule 26    valor -> CADENA
-Rule 27    consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
-Rule 28    modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA
-Rule 29    asignaciones -> asignaciones COMA asignacion
-Rule 30    asignaciones -> asignacion
-Rule 31    asignacion -> IDENTIFICADOR IGUAL valor
-Rule 32    eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
-Rule 33    condicion -> IDENTIFICADOR operador valor
-Rule 34    operador -> IGUAL
-Rule 35    operador -> DIFERENTE
-Rule 36    operador -> MAYORQUE
-Rule 37    operador -> MENORQUE
-Rule 38    operador -> MAYORIGUAL
-Rule 39    operador -> MENORIGUAL
+Rule 12    crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA
+Rule 13    definiciones -> definiciones COMA definicion
+Rule 14    definiciones -> definicion
+Rule 15    definicion -> columna
+Rule 16    definicion -> primary_key
+Rule 17    columna -> IDENTIFICADOR tipos_datos atributos
+Rule 18    primary_key -> PRIMARY KEY PARIZQ IDENTIFICADOR PARDER
+Rule 19    tipos_datos -> BIGINT
+Rule 20    tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER
+Rule 21    tipos_datos -> CHAR
+Rule 22    tipos_datos -> BIT VARYING
+Rule 23    tipos_datos -> VARCHAR
+Rule 24    atributos -> NOT NULL
+Rule 25    atributos -> NULL
+Rule 26    atributos -> <empty>
+Rule 27    insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
+Rule 28    valores -> valores COMA valor
+Rule 29    valores -> valor
+Rule 30    valor -> NUMERO
+Rule 31    valor -> CADENA
+Rule 32    consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
+Rule 33    modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA
+Rule 34    asignaciones -> asignaciones COMA asignacion
+Rule 35    asignaciones -> asignacion
+Rule 36    asignacion -> IDENTIFICADOR IGUAL valor
+Rule 37    eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
+Rule 38    condicion -> IDENTIFICADOR operador valor
+Rule 39    operador -> IGUAL
+Rule 40    operador -> DIFERENTE
+Rule 41    operador -> MAYORQUE
+Rule 42    operador -> MENORQUE
+Rule 43    operador -> MAYORIGUAL
+Rule 44    operador -> MENORIGUAL
 
 Terminals, with rules where they appear
 
@@ -136,21 +137,21 @@ ALTER                :
 AND                  : 
 AS                   : 
 BEGIN                : 
-BIGINT               : 16
+BIGINT               : 19
 BIGSERIAL            : 
-BIT                  : 
+BIT                  : 22
 BOOL                 : 
 BOOLEAN              : 
 BOX                  : 
 BY                   : 
 BYTEA                : 
-CADENA               : 26
-CHAR                 : 18
-CHARACTER            : 17
+CADENA               : 31
+CHAR                 : 21
+CHARACTER            : 20
 CHECK                : 
 CIDR                 : 
 CIRCLE               : 
-COMA                 : 13 23 29
+COMA                 : 13 28 34
 COMMIT               : 
 CONSTRAINT           : 
 CREATE               : 10 12
@@ -158,8 +159,8 @@ DATABASE             : 10
 DATE                 : 
 DECIMAL              : 
 DEFAULT              : 
-DELETE               : 32
-DIFERENTE            : 35
+DELETE               : 37
+DIFERENTE            : 40
 DISTINCT             : 
 DIVISION             : 
 DOS_PUNTOS           : 
@@ -169,66 +170,66 @@ END                  :
 FLOAT4               : 
 FLOAT8               : 
 FOREIGN              : 
-FROM                 : 27 32
+FROM                 : 32 37
 FUNCTION             : 
 GRANT                : 
 GROUP                : 
 HAVING               : 
-IDENTIFICADOR        : 10 11 12 12 15 22 22 27 27 27 28 31 32 32 33
-IGUAL                : 31 34
+IDENTIFICADOR        : 10 11 12 12 17 18 27 27 32 32 32 33 36 37 37 38
+IGUAL                : 36 39
 IN                   : 
 INDEX                : 
 INET                 : 
-INSERT               : 22
+INSERT               : 27
 INT                  : 
 INT2                 : 
 INT4                 : 
 INT8                 : 
 INTEGER              : 
 INTERVAL             : 
-INTO                 : 22
+INTO                 : 27
 IS                   : 
 JOIN                 : 
-KEY                  : 
+KEY                  : 18
 LIMIT                : 
 LINE                 : 
 LSEG                 : 
 MACADDR              : 
 MAS                  : 
-MAYORIGUAL           : 38
-MAYORQUE             : 36
-MENORIGUAL           : 39
-MENORQUE             : 37
+MAYORIGUAL           : 43
+MAYORQUE             : 41
+MENORIGUAL           : 44
+MENORQUE             : 42
 MENOS                : 
 MODULO               : 
 MONEY                : 
 MULTIPLICACION       : 
-NOT                  : 19
-NULL                 : 19 20
+NOT                  : 24
+NULL                 : 24 25
 NUMERIC              : 
-NUMERO               : 17 25
+NUMERO               : 20 30
 OFFSET               : 
 ON                   : 
 OR                   : 
 ORDER                : 
-PARDER               : 12 17 22 22
-PARIZQ               : 12 17 22 22
+PARDER               : 12 18 20 27 27
+PARIZQ               : 12 18 20 27 27
 PATH                 : 
 POINT                : 
 POLYGON              : 
-PRIMARY              : 
+PRIMARY              : 18
 PROCEDURE            : 
-PUNTO                : 12 27 32
-PUNTOCOMA            : 10 11 12 22 27 28 32
+PUNTO                : 12 32 37
+PUNTOCOMA            : 10 11 12 27 32 33 37
 REAL                 : 
 REFERENCES           : 
 REVOKE               : 
 ROLLBACK             : 
-SELECT               : 27
+SELECT               : 32
 SERIAL               : 
 SERIAL4              : 
 SERIAL8              : 
-SET                  : 28
+SET                  : 33
 SMALLINT             : 
 TABLE                : 12
 TEXT                 : 
@@ -239,37 +240,39 @@ TIMETZ               :
 TRIGGER              : 
 UNION                : 
 UNIQUE               : 
-UPDATE               : 28
+UPDATE               : 33
 USE                  : 11
-VALUES               : 22
+VALUES               : 27
 VARBIT               : 
-VARCHAR              : 
-VARYING              : 17
+VARCHAR              : 23
+VARYING              : 20 22
 VIEW                 : 
-WHERE                : 28 32
+WHERE                : 33 37
 error                : 
 
 Nonterminals, with rules where they appear
 
-asignacion           : 29 30
-asignaciones         : 28 29
-atributos            : 15
-columna              : 13 14
-columnas             : 12 13
-condicion            : 28 32
+asignacion           : 34 35
+asignaciones         : 33 34
+atributos            : 17
+columna              : 15
+condicion            : 33 37
 consulta_datos       : 7
 crear_db             : 3
 crear_tabla          : 5
+definicion           : 13 14
+definiciones         : 12 13
 eliminar_datos       : 9
 insertar_datos       : 6
 instruccion          : 1 2
 instrucciones        : 1 0
 modificar_datos      : 8
-operador             : 33
-tipos_datos          : 15
+operador             : 38
+primary_key          : 16
+tipos_datos          : 17
 usar_db              : 4
-valor                : 23 24 31 33
-valores              : 22 23
+valor                : 28 29 36 38
+valores              : 27 28
 
 Parsing method: LALR
 
@@ -287,11 +290,11 @@ state 0
     (9) instruccion -> . eliminar_datos
     (10) crear_db -> . CREATE DATABASE IDENTIFICADOR PUNTOCOMA
     (11) usar_db -> . USE IDENTIFICADOR PUNTOCOMA
-    (12) crear_tabla -> . CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA
-    (22) insertar_datos -> . INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
-    (27) consulta_datos -> . SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
-    (28) modificar_datos -> . UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA
-    (32) eliminar_datos -> . DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
+    (12) crear_tabla -> . CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA
+    (27) insertar_datos -> . INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
+    (32) consulta_datos -> . SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
+    (33) modificar_datos -> . UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA
+    (37) eliminar_datos -> . DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
 
     CREATE          shift and go to state 10
     USE             shift and go to state 11
@@ -323,11 +326,11 @@ state 1
     (9) instruccion -> . eliminar_datos
     (10) crear_db -> . CREATE DATABASE IDENTIFICADOR PUNTOCOMA
     (11) usar_db -> . USE IDENTIFICADOR PUNTOCOMA
-    (12) crear_tabla -> . CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA
-    (22) insertar_datos -> . INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
-    (27) consulta_datos -> . SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
-    (28) modificar_datos -> . UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA
-    (32) eliminar_datos -> . DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
+    (12) crear_tabla -> . CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA
+    (27) insertar_datos -> . INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
+    (32) consulta_datos -> . SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
+    (33) modificar_datos -> . UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA
+    (37) eliminar_datos -> . DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
 
     CREATE          shift and go to state 10
     USE             shift and go to state 11
@@ -452,7 +455,7 @@ state 9
 state 10
 
     (10) crear_db -> CREATE . DATABASE IDENTIFICADOR PUNTOCOMA
-    (12) crear_tabla -> CREATE . TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA
+    (12) crear_tabla -> CREATE . TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA
 
     DATABASE        shift and go to state 17
     TABLE           shift and go to state 18
@@ -467,28 +470,28 @@ state 11
 
 state 12
 
-    (22) insertar_datos -> INSERT . INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
+    (27) insertar_datos -> INSERT . INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
 
     INTO            shift and go to state 20
 
 
 state 13
 
-    (27) consulta_datos -> SELECT . IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
+    (32) consulta_datos -> SELECT . IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 21
 
 
 state 14
 
-    (28) modificar_datos -> UPDATE . IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA
+    (33) modificar_datos -> UPDATE . IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 22
 
 
 state 15
 
-    (32) eliminar_datos -> DELETE . FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
+    (37) eliminar_datos -> DELETE . FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
 
     FROM            shift and go to state 23
 
@@ -515,7 +518,7 @@ state 17
 
 state 18
 
-    (12) crear_tabla -> CREATE TABLE . IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA
+    (12) crear_tabla -> CREATE TABLE . IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 25
 
@@ -529,28 +532,28 @@ state 19
 
 state 20
 
-    (22) insertar_datos -> INSERT INTO . IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
+    (27) insertar_datos -> INSERT INTO . IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 27
 
 
 state 21
 
-    (27) consulta_datos -> SELECT IDENTIFICADOR . FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
+    (32) consulta_datos -> SELECT IDENTIFICADOR . FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
 
     FROM            shift and go to state 28
 
 
 state 22
 
-    (28) modificar_datos -> UPDATE IDENTIFICADOR . SET asignaciones WHERE condicion PUNTOCOMA
+    (33) modificar_datos -> UPDATE IDENTIFICADOR . SET asignaciones WHERE condicion PUNTOCOMA
 
     SET             shift and go to state 29
 
 
 state 23
 
-    (32) eliminar_datos -> DELETE FROM . IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
+    (37) eliminar_datos -> DELETE FROM . IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 30
 
@@ -564,7 +567,7 @@ state 24
 
 state 25
 
-    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR . PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA
+    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR . PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA
 
     PUNTO           shift and go to state 32
 
@@ -584,24 +587,24 @@ state 26
 
 state 27
 
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR . PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR . PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
 
     PARIZQ          shift and go to state 33
 
 
 state 28
 
-    (27) consulta_datos -> SELECT IDENTIFICADOR FROM . IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
+    (32) consulta_datos -> SELECT IDENTIFICADOR FROM . IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 34
 
 
 state 29
 
-    (28) modificar_datos -> UPDATE IDENTIFICADOR SET . asignaciones WHERE condicion PUNTOCOMA
-    (29) asignaciones -> . asignaciones COMA asignacion
-    (30) asignaciones -> . asignacion
-    (31) asignacion -> . IDENTIFICADOR IGUAL valor
+    (33) modificar_datos -> UPDATE IDENTIFICADOR SET . asignaciones WHERE condicion PUNTOCOMA
+    (34) asignaciones -> . asignaciones COMA asignacion
+    (35) asignaciones -> . asignacion
+    (36) asignacion -> . IDENTIFICADOR IGUAL valor
 
     IDENTIFICADOR   shift and go to state 35
 
@@ -610,7 +613,7 @@ state 29
 
 state 30
 
-    (32) eliminar_datos -> DELETE FROM IDENTIFICADOR . PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
+    (37) eliminar_datos -> DELETE FROM IDENTIFICADOR . PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA
 
     PUNTO           shift and go to state 38
 
@@ -630,36 +633,36 @@ state 31
 
 state 32
 
-    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO . IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA
+    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO . IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 39
 
 
 state 33
 
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ . IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ . IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 40
 
 
 state 34
 
-    (27) consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR . PUNTO IDENTIFICADOR PUNTOCOMA
+    (32) consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR . PUNTO IDENTIFICADOR PUNTOCOMA
 
     PUNTO           shift and go to state 41
 
 
 state 35
 
-    (31) asignacion -> IDENTIFICADOR . IGUAL valor
+    (36) asignacion -> IDENTIFICADOR . IGUAL valor
 
     IGUAL           shift and go to state 42
 
 
 state 36
 
-    (28) modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones . WHERE condicion PUNTOCOMA
-    (29) asignaciones -> asignaciones . COMA asignacion
+    (33) modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones . WHERE condicion PUNTOCOMA
+    (34) asignaciones -> asignaciones . COMA asignacion
 
     WHERE           shift and go to state 43
     COMA            shift and go to state 44
@@ -667,45 +670,45 @@ state 36
 
 state 37
 
-    (30) asignaciones -> asignacion .
+    (35) asignaciones -> asignacion .
 
-    WHERE           reduce using rule 30 (asignaciones -> asignacion .)
-    COMA            reduce using rule 30 (asignaciones -> asignacion .)
+    WHERE           reduce using rule 35 (asignaciones -> asignacion .)
+    COMA            reduce using rule 35 (asignaciones -> asignacion .)
 
 
 state 38
 
-    (32) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO . IDENTIFICADOR WHERE condicion PUNTOCOMA
+    (37) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO . IDENTIFICADOR WHERE condicion PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 45
 
 
 state 39
 
-    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR . PARIZQ columnas PARDER PUNTOCOMA
+    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR . PARIZQ definiciones PARDER PUNTOCOMA
 
     PARIZQ          shift and go to state 46
 
 
 state 40
 
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR . PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR . PARDER VALUES PARIZQ valores PARDER PUNTOCOMA
 
     PARDER          shift and go to state 47
 
 
 state 41
 
-    (27) consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO . IDENTIFICADOR PUNTOCOMA
+    (32) consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO . IDENTIFICADOR PUNTOCOMA
 
     IDENTIFICADOR   shift and go to state 48
 
 
 state 42
 
-    (31) asignacion -> IDENTIFICADOR IGUAL . valor
-    (25) valor -> . NUMERO
-    (26) valor -> . CADENA
+    (36) asignacion -> IDENTIFICADOR IGUAL . valor
+    (30) valor -> . NUMERO
+    (31) valor -> . CADENA
 
     NUMERO          shift and go to state 50
     CADENA          shift and go to state 51
@@ -714,8 +717,8 @@ state 42
 
 state 43
 
-    (28) modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE . condicion PUNTOCOMA
-    (33) condicion -> . IDENTIFICADOR operador valor
+    (33) modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE . condicion PUNTOCOMA
+    (38) condicion -> . IDENTIFICADOR operador valor
 
     IDENTIFICADOR   shift and go to state 52
 
@@ -723,8 +726,8 @@ state 43
 
 state 44
 
-    (29) asignaciones -> asignaciones COMA . asignacion
-    (31) asignacion -> . IDENTIFICADOR IGUAL valor
+    (34) asignaciones -> asignaciones COMA . asignacion
+    (36) asignacion -> . IDENTIFICADOR IGUAL valor
 
     IDENTIFICADOR   shift and go to state 35
 
@@ -732,463 +735,558 @@ state 44
 
 state 45
 
-    (32) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR . WHERE condicion PUNTOCOMA
+    (37) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR . WHERE condicion PUNTOCOMA
 
     WHERE           shift and go to state 55
 
 
 state 46
 
-    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ . columnas PARDER PUNTOCOMA
-    (13) columnas -> . columnas COMA columna
-    (14) columnas -> . columna
-    (15) columna -> . IDENTIFICADOR tipos_datos atributos
+    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ . definiciones PARDER PUNTOCOMA
+    (13) definiciones -> . definiciones COMA definicion
+    (14) definiciones -> . definicion
+    (15) definicion -> . columna
+    (16) definicion -> . primary_key
+    (17) columna -> . IDENTIFICADOR tipos_datos atributos
+    (18) primary_key -> . PRIMARY KEY PARIZQ IDENTIFICADOR PARDER
 
     IDENTIFICADOR   shift and go to state 56
+    PRIMARY         shift and go to state 61
 
-    columnas                       shift and go to state 57
-    columna                        shift and go to state 58
+    definiciones                   shift and go to state 57
+    definicion                     shift and go to state 58
+    columna                        shift and go to state 59
+    primary_key                    shift and go to state 60
 
 state 47
 
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER . VALUES PARIZQ valores PARDER PUNTOCOMA
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER . VALUES PARIZQ valores PARDER PUNTOCOMA
 
-    VALUES          shift and go to state 59
+    VALUES          shift and go to state 62
 
 
 state 48
 
-    (27) consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR . PUNTOCOMA
+    (32) consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR . PUNTOCOMA
 
-    PUNTOCOMA       shift and go to state 60
+    PUNTOCOMA       shift and go to state 63
 
 
 state 49
 
-    (31) asignacion -> IDENTIFICADOR IGUAL valor .
+    (36) asignacion -> IDENTIFICADOR IGUAL valor .
 
-    WHERE           reduce using rule 31 (asignacion -> IDENTIFICADOR IGUAL valor .)
-    COMA            reduce using rule 31 (asignacion -> IDENTIFICADOR IGUAL valor .)
+    WHERE           reduce using rule 36 (asignacion -> IDENTIFICADOR IGUAL valor .)
+    COMA            reduce using rule 36 (asignacion -> IDENTIFICADOR IGUAL valor .)
 
 
 state 50
 
-    (25) valor -> NUMERO .
+    (30) valor -> NUMERO .
 
-    WHERE           reduce using rule 25 (valor -> NUMERO .)
-    COMA            reduce using rule 25 (valor -> NUMERO .)
-    PUNTOCOMA       reduce using rule 25 (valor -> NUMERO .)
-    PARDER          reduce using rule 25 (valor -> NUMERO .)
+    WHERE           reduce using rule 30 (valor -> NUMERO .)
+    COMA            reduce using rule 30 (valor -> NUMERO .)
+    PUNTOCOMA       reduce using rule 30 (valor -> NUMERO .)
+    PARDER          reduce using rule 30 (valor -> NUMERO .)
 
 
 state 51
 
-    (26) valor -> CADENA .
+    (31) valor -> CADENA .
 
-    WHERE           reduce using rule 26 (valor -> CADENA .)
-    COMA            reduce using rule 26 (valor -> CADENA .)
-    PUNTOCOMA       reduce using rule 26 (valor -> CADENA .)
-    PARDER          reduce using rule 26 (valor -> CADENA .)
+    WHERE           reduce using rule 31 (valor -> CADENA .)
+    COMA            reduce using rule 31 (valor -> CADENA .)
+    PUNTOCOMA       reduce using rule 31 (valor -> CADENA .)
+    PARDER          reduce using rule 31 (valor -> CADENA .)
 
 
 state 52
 
-    (33) condicion -> IDENTIFICADOR . operador valor
-    (34) operador -> . IGUAL
-    (35) operador -> . DIFERENTE
-    (36) operador -> . MAYORQUE
-    (37) operador -> . MENORQUE
-    (38) operador -> . MAYORIGUAL
-    (39) operador -> . MENORIGUAL
+    (38) condicion -> IDENTIFICADOR . operador valor
+    (39) operador -> . IGUAL
+    (40) operador -> . DIFERENTE
+    (41) operador -> . MAYORQUE
+    (42) operador -> . MENORQUE
+    (43) operador -> . MAYORIGUAL
+    (44) operador -> . MENORIGUAL
 
-    IGUAL           shift and go to state 62
-    DIFERENTE       shift and go to state 63
-    MAYORQUE        shift and go to state 64
-    MENORQUE        shift and go to state 65
-    MAYORIGUAL      shift and go to state 66
-    MENORIGUAL      shift and go to state 67
+    IGUAL           shift and go to state 65
+    DIFERENTE       shift and go to state 66
+    MAYORQUE        shift and go to state 67
+    MENORQUE        shift and go to state 68
+    MAYORIGUAL      shift and go to state 69
+    MENORIGUAL      shift and go to state 70
 
-    operador                       shift and go to state 61
+    operador                       shift and go to state 64
 
 state 53
 
-    (28) modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion . PUNTOCOMA
+    (33) modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion . PUNTOCOMA
 
-    PUNTOCOMA       shift and go to state 68
+    PUNTOCOMA       shift and go to state 71
 
 
 state 54
 
-    (29) asignaciones -> asignaciones COMA asignacion .
+    (34) asignaciones -> asignaciones COMA asignacion .
 
-    WHERE           reduce using rule 29 (asignaciones -> asignaciones COMA asignacion .)
-    COMA            reduce using rule 29 (asignaciones -> asignaciones COMA asignacion .)
+    WHERE           reduce using rule 34 (asignaciones -> asignaciones COMA asignacion .)
+    COMA            reduce using rule 34 (asignaciones -> asignaciones COMA asignacion .)
 
 
 state 55
 
-    (32) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE . condicion PUNTOCOMA
-    (33) condicion -> . IDENTIFICADOR operador valor
+    (37) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE . condicion PUNTOCOMA
+    (38) condicion -> . IDENTIFICADOR operador valor
 
     IDENTIFICADOR   shift and go to state 52
 
-    condicion                      shift and go to state 69
+    condicion                      shift and go to state 72
 
 state 56
 
-    (15) columna -> IDENTIFICADOR . tipos_datos atributos
-    (16) tipos_datos -> . BIGINT
-    (17) tipos_datos -> . CHARACTER VARYING PARIZQ NUMERO PARDER
-    (18) tipos_datos -> . CHAR
+    (17) columna -> IDENTIFICADOR . tipos_datos atributos
+    (19) tipos_datos -> . BIGINT
+    (20) tipos_datos -> . CHARACTER VARYING PARIZQ NUMERO PARDER
+    (21) tipos_datos -> . CHAR
+    (22) tipos_datos -> . BIT VARYING
+    (23) tipos_datos -> . VARCHAR
 
-    BIGINT          shift and go to state 71
-    CHARACTER       shift and go to state 72
-    CHAR            shift and go to state 73
+    BIGINT          shift and go to state 74
+    CHARACTER       shift and go to state 75
+    CHAR            shift and go to state 76
+    BIT             shift and go to state 77
+    VARCHAR         shift and go to state 78
 
-    tipos_datos                    shift and go to state 70
+    tipos_datos                    shift and go to state 73
 
 state 57
 
-    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas . PARDER PUNTOCOMA
-    (13) columnas -> columnas . COMA columna
+    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones . PARDER PUNTOCOMA
+    (13) definiciones -> definiciones . COMA definicion
 
-    PARDER          shift and go to state 74
-    COMA            shift and go to state 75
+    PARDER          shift and go to state 79
+    COMA            shift and go to state 80
 
 
 state 58
 
-    (14) columnas -> columna .
+    (14) definiciones -> definicion .
 
-    PARDER          reduce using rule 14 (columnas -> columna .)
-    COMA            reduce using rule 14 (columnas -> columna .)
+    PARDER          reduce using rule 14 (definiciones -> definicion .)
+    COMA            reduce using rule 14 (definiciones -> definicion .)
 
 
 state 59
 
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES . PARIZQ valores PARDER PUNTOCOMA
+    (15) definicion -> columna .
 
-    PARIZQ          shift and go to state 76
+    PARDER          reduce using rule 15 (definicion -> columna .)
+    COMA            reduce using rule 15 (definicion -> columna .)
 
 
 state 60
 
-    (27) consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .
+    (16) definicion -> primary_key .
 
-    CREATE          reduce using rule 27 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
-    USE             reduce using rule 27 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
-    INSERT          reduce using rule 27 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
-    SELECT          reduce using rule 27 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
-    UPDATE          reduce using rule 27 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
-    DELETE          reduce using rule 27 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
-    $end            reduce using rule 27 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
+    PARDER          reduce using rule 16 (definicion -> primary_key .)
+    COMA            reduce using rule 16 (definicion -> primary_key .)
 
 
 state 61
 
-    (33) condicion -> IDENTIFICADOR operador . valor
-    (25) valor -> . NUMERO
-    (26) valor -> . CADENA
+    (18) primary_key -> PRIMARY . KEY PARIZQ IDENTIFICADOR PARDER
 
-    NUMERO          shift and go to state 50
-    CADENA          shift and go to state 51
+    KEY             shift and go to state 81
 
-    valor                          shift and go to state 77
 
 state 62
 
-    (34) operador -> IGUAL .
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES . PARIZQ valores PARDER PUNTOCOMA
 
-    NUMERO          reduce using rule 34 (operador -> IGUAL .)
-    CADENA          reduce using rule 34 (operador -> IGUAL .)
+    PARIZQ          shift and go to state 82
 
 
 state 63
 
-    (35) operador -> DIFERENTE .
+    (32) consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .
 
-    NUMERO          reduce using rule 35 (operador -> DIFERENTE .)
-    CADENA          reduce using rule 35 (operador -> DIFERENTE .)
+    CREATE          reduce using rule 32 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
+    USE             reduce using rule 32 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
+    INSERT          reduce using rule 32 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
+    SELECT          reduce using rule 32 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
+    UPDATE          reduce using rule 32 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
+    DELETE          reduce using rule 32 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
+    $end            reduce using rule 32 (consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA .)
 
 
 state 64
 
-    (36) operador -> MAYORQUE .
+    (38) condicion -> IDENTIFICADOR operador . valor
+    (30) valor -> . NUMERO
+    (31) valor -> . CADENA
 
-    NUMERO          reduce using rule 36 (operador -> MAYORQUE .)
-    CADENA          reduce using rule 36 (operador -> MAYORQUE .)
+    NUMERO          shift and go to state 50
+    CADENA          shift and go to state 51
 
+    valor                          shift and go to state 83
 
 state 65
 
-    (37) operador -> MENORQUE .
+    (39) operador -> IGUAL .
 
-    NUMERO          reduce using rule 37 (operador -> MENORQUE .)
-    CADENA          reduce using rule 37 (operador -> MENORQUE .)
+    NUMERO          reduce using rule 39 (operador -> IGUAL .)
+    CADENA          reduce using rule 39 (operador -> IGUAL .)
 
 
 state 66
 
-    (38) operador -> MAYORIGUAL .
+    (40) operador -> DIFERENTE .
 
-    NUMERO          reduce using rule 38 (operador -> MAYORIGUAL .)
-    CADENA          reduce using rule 38 (operador -> MAYORIGUAL .)
+    NUMERO          reduce using rule 40 (operador -> DIFERENTE .)
+    CADENA          reduce using rule 40 (operador -> DIFERENTE .)
 
 
 state 67
 
-    (39) operador -> MENORIGUAL .
+    (41) operador -> MAYORQUE .
 
-    NUMERO          reduce using rule 39 (operador -> MENORIGUAL .)
-    CADENA          reduce using rule 39 (operador -> MENORIGUAL .)
+    NUMERO          reduce using rule 41 (operador -> MAYORQUE .)
+    CADENA          reduce using rule 41 (operador -> MAYORQUE .)
 
 
 state 68
 
-    (28) modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .
+    (42) operador -> MENORQUE .
 
-    CREATE          reduce using rule 28 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
-    USE             reduce using rule 28 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
-    INSERT          reduce using rule 28 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
-    SELECT          reduce using rule 28 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
-    UPDATE          reduce using rule 28 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
-    DELETE          reduce using rule 28 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
-    $end            reduce using rule 28 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
+    NUMERO          reduce using rule 42 (operador -> MENORQUE .)
+    CADENA          reduce using rule 42 (operador -> MENORQUE .)
 
 
 state 69
 
-    (32) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion . PUNTOCOMA
+    (43) operador -> MAYORIGUAL .
 
-    PUNTOCOMA       shift and go to state 78
+    NUMERO          reduce using rule 43 (operador -> MAYORIGUAL .)
+    CADENA          reduce using rule 43 (operador -> MAYORIGUAL .)
 
 
 state 70
 
-    (15) columna -> IDENTIFICADOR tipos_datos . atributos
-    (19) atributos -> . NOT NULL
-    (20) atributos -> . NULL
-    (21) atributos -> .
+    (44) operador -> MENORIGUAL .
 
-    NOT             shift and go to state 80
-    NULL            shift and go to state 81
-    PARDER          reduce using rule 21 (atributos -> .)
-    COMA            reduce using rule 21 (atributos -> .)
+    NUMERO          reduce using rule 44 (operador -> MENORIGUAL .)
+    CADENA          reduce using rule 44 (operador -> MENORIGUAL .)
 
-    atributos                      shift and go to state 79
 
 state 71
 
-    (16) tipos_datos -> BIGINT .
+    (33) modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .
 
-    NOT             reduce using rule 16 (tipos_datos -> BIGINT .)
-    NULL            reduce using rule 16 (tipos_datos -> BIGINT .)
-    PARDER          reduce using rule 16 (tipos_datos -> BIGINT .)
-    COMA            reduce using rule 16 (tipos_datos -> BIGINT .)
+    CREATE          reduce using rule 33 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
+    USE             reduce using rule 33 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
+    INSERT          reduce using rule 33 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
+    SELECT          reduce using rule 33 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
+    UPDATE          reduce using rule 33 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
+    DELETE          reduce using rule 33 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
+    $end            reduce using rule 33 (modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA .)
 
 
 state 72
 
-    (17) tipos_datos -> CHARACTER . VARYING PARIZQ NUMERO PARDER
+    (37) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion . PUNTOCOMA
 
-    VARYING         shift and go to state 82
+    PUNTOCOMA       shift and go to state 84
 
 
 state 73
 
-    (18) tipos_datos -> CHAR .
+    (17) columna -> IDENTIFICADOR tipos_datos . atributos
+    (24) atributos -> . NOT NULL
+    (25) atributos -> . NULL
+    (26) atributos -> .
 
-    NOT             reduce using rule 18 (tipos_datos -> CHAR .)
-    NULL            reduce using rule 18 (tipos_datos -> CHAR .)
-    PARDER          reduce using rule 18 (tipos_datos -> CHAR .)
-    COMA            reduce using rule 18 (tipos_datos -> CHAR .)
+    NOT             shift and go to state 86
+    NULL            shift and go to state 87
+    PARDER          reduce using rule 26 (atributos -> .)
+    COMA            reduce using rule 26 (atributos -> .)
 
+    atributos                      shift and go to state 85
 
 state 74
 
-    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER . PUNTOCOMA
+    (19) tipos_datos -> BIGINT .
 
-    PUNTOCOMA       shift and go to state 83
+    NOT             reduce using rule 19 (tipos_datos -> BIGINT .)
+    NULL            reduce using rule 19 (tipos_datos -> BIGINT .)
+    PARDER          reduce using rule 19 (tipos_datos -> BIGINT .)
+    COMA            reduce using rule 19 (tipos_datos -> BIGINT .)
 
 
 state 75
 
-    (13) columnas -> columnas COMA . columna
-    (15) columna -> . IDENTIFICADOR tipos_datos atributos
+    (20) tipos_datos -> CHARACTER . VARYING PARIZQ NUMERO PARDER
 
-    IDENTIFICADOR   shift and go to state 56
+    VARYING         shift and go to state 88
 
-    columna                        shift and go to state 84
 
 state 76
 
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ . valores PARDER PUNTOCOMA
-    (23) valores -> . valores COMA valor
-    (24) valores -> . valor
-    (25) valor -> . NUMERO
-    (26) valor -> . CADENA
+    (21) tipos_datos -> CHAR .
 
-    NUMERO          shift and go to state 50
-    CADENA          shift and go to state 51
+    NOT             reduce using rule 21 (tipos_datos -> CHAR .)
+    NULL            reduce using rule 21 (tipos_datos -> CHAR .)
+    PARDER          reduce using rule 21 (tipos_datos -> CHAR .)
+    COMA            reduce using rule 21 (tipos_datos -> CHAR .)
 
-    valores                        shift and go to state 85
-    valor                          shift and go to state 86
 
 state 77
 
-    (33) condicion -> IDENTIFICADOR operador valor .
+    (22) tipos_datos -> BIT . VARYING
 
-    PUNTOCOMA       reduce using rule 33 (condicion -> IDENTIFICADOR operador valor .)
+    VARYING         shift and go to state 89
 
 
 state 78
 
-    (32) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .
+    (23) tipos_datos -> VARCHAR .
 
-    CREATE          reduce using rule 32 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
-    USE             reduce using rule 32 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
-    INSERT          reduce using rule 32 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
-    SELECT          reduce using rule 32 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
-    UPDATE          reduce using rule 32 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
-    DELETE          reduce using rule 32 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
-    $end            reduce using rule 32 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
+    NOT             reduce using rule 23 (tipos_datos -> VARCHAR .)
+    NULL            reduce using rule 23 (tipos_datos -> VARCHAR .)
+    PARDER          reduce using rule 23 (tipos_datos -> VARCHAR .)
+    COMA            reduce using rule 23 (tipos_datos -> VARCHAR .)
 
 
 state 79
 
-    (15) columna -> IDENTIFICADOR tipos_datos atributos .
+    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER . PUNTOCOMA
 
-    PARDER          reduce using rule 15 (columna -> IDENTIFICADOR tipos_datos atributos .)
-    COMA            reduce using rule 15 (columna -> IDENTIFICADOR tipos_datos atributos .)
+    PUNTOCOMA       shift and go to state 90
 
 
 state 80
 
-    (19) atributos -> NOT . NULL
+    (13) definiciones -> definiciones COMA . definicion
+    (15) definicion -> . columna
+    (16) definicion -> . primary_key
+    (17) columna -> . IDENTIFICADOR tipos_datos atributos
+    (18) primary_key -> . PRIMARY KEY PARIZQ IDENTIFICADOR PARDER
 
-    NULL            shift and go to state 87
+    IDENTIFICADOR   shift and go to state 56
+    PRIMARY         shift and go to state 61
 
+    definicion                     shift and go to state 91
+    columna                        shift and go to state 59
+    primary_key                    shift and go to state 60
 
 state 81
 
-    (20) atributos -> NULL .
+    (18) primary_key -> PRIMARY KEY . PARIZQ IDENTIFICADOR PARDER
 
-    PARDER          reduce using rule 20 (atributos -> NULL .)
-    COMA            reduce using rule 20 (atributos -> NULL .)
+    PARIZQ          shift and go to state 92
 
 
 state 82
 
-    (17) tipos_datos -> CHARACTER VARYING . PARIZQ NUMERO PARDER
-
-    PARIZQ          shift and go to state 88
-
-
-state 83
-
-    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA .
-
-    CREATE          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA .)
-    USE             reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA .)
-    INSERT          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA .)
-    SELECT          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA .)
-    UPDATE          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA .)
-    DELETE          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA .)
-    $end            reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA .)
-
-
-state 84
-
-    (13) columnas -> columnas COMA columna .
-
-    PARDER          reduce using rule 13 (columnas -> columnas COMA columna .)
-    COMA            reduce using rule 13 (columnas -> columnas COMA columna .)
-
-
-state 85
-
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores . PARDER PUNTOCOMA
-    (23) valores -> valores . COMA valor
-
-    PARDER          shift and go to state 89
-    COMA            shift and go to state 90
-
-
-state 86
-
-    (24) valores -> valor .
-
-    PARDER          reduce using rule 24 (valores -> valor .)
-    COMA            reduce using rule 24 (valores -> valor .)
-
-
-state 87
-
-    (19) atributos -> NOT NULL .
-
-    PARDER          reduce using rule 19 (atributos -> NOT NULL .)
-    COMA            reduce using rule 19 (atributos -> NOT NULL .)
-
-
-state 88
-
-    (17) tipos_datos -> CHARACTER VARYING PARIZQ . NUMERO PARDER
-
-    NUMERO          shift and go to state 91
-
-
-state 89
-
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER . PUNTOCOMA
-
-    PUNTOCOMA       shift and go to state 92
-
-
-state 90
-
-    (23) valores -> valores COMA . valor
-    (25) valor -> . NUMERO
-    (26) valor -> . CADENA
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ . valores PARDER PUNTOCOMA
+    (28) valores -> . valores COMA valor
+    (29) valores -> . valor
+    (30) valor -> . NUMERO
+    (31) valor -> . CADENA
 
     NUMERO          shift and go to state 50
     CADENA          shift and go to state 51
 
-    valor                          shift and go to state 93
+    valores                        shift and go to state 93
+    valor                          shift and go to state 94
+
+state 83
+
+    (38) condicion -> IDENTIFICADOR operador valor .
+
+    PUNTOCOMA       reduce using rule 38 (condicion -> IDENTIFICADOR operador valor .)
+
+
+state 84
+
+    (37) eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .
+
+    CREATE          reduce using rule 37 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
+    USE             reduce using rule 37 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
+    INSERT          reduce using rule 37 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
+    SELECT          reduce using rule 37 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
+    UPDATE          reduce using rule 37 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
+    DELETE          reduce using rule 37 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
+    $end            reduce using rule 37 (eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA .)
+
+
+state 85
+
+    (17) columna -> IDENTIFICADOR tipos_datos atributos .
+
+    PARDER          reduce using rule 17 (columna -> IDENTIFICADOR tipos_datos atributos .)
+    COMA            reduce using rule 17 (columna -> IDENTIFICADOR tipos_datos atributos .)
+
+
+state 86
+
+    (24) atributos -> NOT . NULL
+
+    NULL            shift and go to state 95
+
+
+state 87
+
+    (25) atributos -> NULL .
+
+    PARDER          reduce using rule 25 (atributos -> NULL .)
+    COMA            reduce using rule 25 (atributos -> NULL .)
+
+
+state 88
+
+    (20) tipos_datos -> CHARACTER VARYING . PARIZQ NUMERO PARDER
+
+    PARIZQ          shift and go to state 96
+
+
+state 89
+
+    (22) tipos_datos -> BIT VARYING .
+
+    NOT             reduce using rule 22 (tipos_datos -> BIT VARYING .)
+    NULL            reduce using rule 22 (tipos_datos -> BIT VARYING .)
+    PARDER          reduce using rule 22 (tipos_datos -> BIT VARYING .)
+    COMA            reduce using rule 22 (tipos_datos -> BIT VARYING .)
+
+
+state 90
+
+    (12) crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA .
+
+    CREATE          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA .)
+    USE             reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA .)
+    INSERT          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA .)
+    SELECT          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA .)
+    UPDATE          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA .)
+    DELETE          reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA .)
+    $end            reduce using rule 12 (crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA .)
+
 
 state 91
 
-    (17) tipos_datos -> CHARACTER VARYING PARIZQ NUMERO . PARDER
+    (13) definiciones -> definiciones COMA definicion .
 
-    PARDER          shift and go to state 94
+    PARDER          reduce using rule 13 (definiciones -> definiciones COMA definicion .)
+    COMA            reduce using rule 13 (definiciones -> definiciones COMA definicion .)
 
 
 state 92
 
-    (22) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .
+    (18) primary_key -> PRIMARY KEY PARIZQ . IDENTIFICADOR PARDER
 
-    CREATE          reduce using rule 22 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
-    USE             reduce using rule 22 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
-    INSERT          reduce using rule 22 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
-    SELECT          reduce using rule 22 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
-    UPDATE          reduce using rule 22 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
-    DELETE          reduce using rule 22 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
-    $end            reduce using rule 22 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
+    IDENTIFICADOR   shift and go to state 97
 
 
 state 93
 
-    (23) valores -> valores COMA valor .
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores . PARDER PUNTOCOMA
+    (28) valores -> valores . COMA valor
 
-    PARDER          reduce using rule 23 (valores -> valores COMA valor .)
-    COMA            reduce using rule 23 (valores -> valores COMA valor .)
+    PARDER          shift and go to state 98
+    COMA            shift and go to state 99
 
 
 state 94
 
-    (17) tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .
+    (29) valores -> valor .
 
-    NOT             reduce using rule 17 (tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .)
-    NULL            reduce using rule 17 (tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .)
-    PARDER          reduce using rule 17 (tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .)
-    COMA            reduce using rule 17 (tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .)
+    PARDER          reduce using rule 29 (valores -> valor .)
+    COMA            reduce using rule 29 (valores -> valor .)
+
+
+state 95
+
+    (24) atributos -> NOT NULL .
+
+    PARDER          reduce using rule 24 (atributos -> NOT NULL .)
+    COMA            reduce using rule 24 (atributos -> NOT NULL .)
+
+
+state 96
+
+    (20) tipos_datos -> CHARACTER VARYING PARIZQ . NUMERO PARDER
+
+    NUMERO          shift and go to state 100
+
+
+state 97
+
+    (18) primary_key -> PRIMARY KEY PARIZQ IDENTIFICADOR . PARDER
+
+    PARDER          shift and go to state 101
+
+
+state 98
+
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER . PUNTOCOMA
+
+    PUNTOCOMA       shift and go to state 102
+
+
+state 99
+
+    (28) valores -> valores COMA . valor
+    (30) valor -> . NUMERO
+    (31) valor -> . CADENA
+
+    NUMERO          shift and go to state 50
+    CADENA          shift and go to state 51
+
+    valor                          shift and go to state 103
+
+state 100
+
+    (20) tipos_datos -> CHARACTER VARYING PARIZQ NUMERO . PARDER
+
+    PARDER          shift and go to state 104
+
+
+state 101
+
+    (18) primary_key -> PRIMARY KEY PARIZQ IDENTIFICADOR PARDER .
+
+    PARDER          reduce using rule 18 (primary_key -> PRIMARY KEY PARIZQ IDENTIFICADOR PARDER .)
+    COMA            reduce using rule 18 (primary_key -> PRIMARY KEY PARIZQ IDENTIFICADOR PARDER .)
+
+
+state 102
+
+    (27) insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .
+
+    CREATE          reduce using rule 27 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
+    USE             reduce using rule 27 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
+    INSERT          reduce using rule 27 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
+    SELECT          reduce using rule 27 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
+    UPDATE          reduce using rule 27 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
+    DELETE          reduce using rule 27 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
+    $end            reduce using rule 27 (insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA .)
+
+
+state 103
+
+    (28) valores -> valores COMA valor .
+
+    PARDER          reduce using rule 28 (valores -> valores COMA valor .)
+    COMA            reduce using rule 28 (valores -> valores COMA valor .)
+
+
+state 104
+
+    (20) tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .
+
+    NOT             reduce using rule 20 (tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .)
+    NULL            reduce using rule 20 (tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .)
+    PARDER          reduce using rule 20 (tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .)
+    COMA            reduce using rule 20 (tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER .)
 

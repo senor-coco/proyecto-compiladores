@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'instruccionesALL ALTER AND AS BEGIN BIGINT BIGSERIAL BIT BOOL BOOLEAN BOX BY BYTEA CADENA CHAR CHARACTER CHECK CIDR CIRCLE COMA COMMIT CONSTRAINT CREATE DATABASE DATE DECIMAL DEFAULT DELETE DIFERENTE DISTINCT DIVISION DOS_PUNTOS DOUBLE_PRECISION DROP END FLOAT4 FLOAT8 FOREIGN FROM FUNCTION GRANT GROUP HAVING IDENTIFICADOR IGUAL IN INDEX INET INSERT INT INT2 INT4 INT8 INTEGER INTERVAL INTO IS JOIN KEY LIMIT LINE LSEG MACADDR MAS MAYORIGUAL MAYORQUE MENORIGUAL MENORQUE MENOS MODULO MONEY MULTIPLICACION NOT NULL NUMERIC NUMERO OFFSET ON OR ORDER PARDER PARIZQ PATH POINT POLYGON PRIMARY PROCEDURE PUNTO PUNTOCOMA REAL REFERENCES REVOKE ROLLBACK SELECT SERIAL SERIAL4 SERIAL8 SET SMALLINT TABLE TEXT TIME TIMESTAMP TIMESTAMPTZ TIMETZ TRIGGER UNION UNIQUE UPDATE USE VALUES VARBIT VARCHAR VARYING VIEW WHEREinstrucciones : instrucciones instruccion\n                     | instruccioninstruccion : crear_db\n                   | usar_db\n                   | crear_tabla\n                   | insertar_datos\n                   | consulta_datos\n                   | modificar_datos\n                   | eliminar_datoscrear_db : CREATE DATABASE IDENTIFICADOR PUNTOCOMAusar_db : USE IDENTIFICADOR PUNTOCOMAcrear_tabla : CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMAcolumnas : columnas COMA columna\n                | columnacolumna : IDENTIFICADOR tipos_datos atributostipos_datos : BIGINT\n                   | CHARACTER VARYING PARIZQ NUMERO PARDER\n                   | CHARatributos : NOT NULL\n                 | NULL\n                 | insertar_datos : INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMAvalores : valores COMA valor\n               | valorvalor : NUMERO\n             | CADENAconsulta_datos : SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMAmodificar_datos : UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMAasignaciones : asignaciones COMA asignacion\n                    | asignacionasignacion : IDENTIFICADOR IGUAL valoreliminar_datos : DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMAcondicion : IDENTIFICADOR operador valoroperador : IGUAL\n                | DIFERENTE\n                | MAYORQUE\n                | MENORQUE\n                | MAYORIGUAL\n                | MENORIGUAL'
+_lr_signature = 'instruccionesALL ALTER AND AS BEGIN BIGINT BIGSERIAL BIT BOOL BOOLEAN BOX BY BYTEA CADENA CHAR CHARACTER CHECK CIDR CIRCLE COMA COMMIT CONSTRAINT CREATE DATABASE DATE DECIMAL DEFAULT DELETE DIFERENTE DISTINCT DIVISION DOS_PUNTOS DOUBLE_PRECISION DROP END FLOAT4 FLOAT8 FOREIGN FROM FUNCTION GRANT GROUP HAVING IDENTIFICADOR IGUAL IN INDEX INET INSERT INT INT2 INT4 INT8 INTEGER INTERVAL INTO IS JOIN KEY LIMIT LINE LSEG MACADDR MAS MAYORIGUAL MAYORQUE MENORIGUAL MENORQUE MENOS MODULO MONEY MULTIPLICACION NOT NULL NUMERIC NUMERO OFFSET ON OR ORDER PARDER PARIZQ PATH POINT POLYGON PRIMARY PROCEDURE PUNTO PUNTOCOMA REAL REFERENCES REVOKE ROLLBACK SELECT SERIAL SERIAL4 SERIAL8 SET SMALLINT TABLE TEXT TIME TIMESTAMP TIMESTAMPTZ TIMETZ TRIGGER UNION UNIQUE UPDATE USE VALUES VARBIT VARCHAR VARYING VIEW WHEREinstrucciones : instrucciones instruccion\n                     | instruccioninstruccion : crear_db\n                   | usar_db\n                   | crear_tabla\n                   | insertar_datos\n                   | consulta_datos\n                   | modificar_datos\n                   | eliminar_datoscrear_db : CREATE DATABASE IDENTIFICADOR PUNTOCOMAusar_db : USE IDENTIFICADOR PUNTOCOMAcrear_tabla : CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMAdefiniciones : definiciones COMA definicion\n                    | definiciondefinicion : columna\n                  | primary_keycolumna : IDENTIFICADOR tipos_datos atributosprimary_key : PRIMARY KEY PARIZQ IDENTIFICADOR PARDERtipos_datos : BIGINT\n                   | CHARACTER VARYING PARIZQ NUMERO PARDER\n                   | CHAR\n                   | BIT VARYING\n                   | VARCHARatributos : NOT NULL\n                 | NULL\n                 | insertar_datos : INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMAvalores : valores COMA valor\n               | valorvalor : NUMERO\n             | CADENAconsulta_datos : SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMAmodificar_datos : UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMAasignaciones : asignaciones COMA asignacion\n                    | asignacionasignacion : IDENTIFICADOR IGUAL valoreliminar_datos : DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMAcondicion : IDENTIFICADOR operador valoroperador : IGUAL\n                | DIFERENTE\n                | MAYORQUE\n                | MENORQUE\n                | MAYORIGUAL\n                | MENORIGUAL'
     
-_lr_action_items = {'CREATE':([0,1,2,3,4,5,6,7,8,9,16,26,31,60,68,78,83,92,],[10,10,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-27,-28,-32,-12,-22,]),'USE':([0,1,2,3,4,5,6,7,8,9,16,26,31,60,68,78,83,92,],[11,11,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-27,-28,-32,-12,-22,]),'INSERT':([0,1,2,3,4,5,6,7,8,9,16,26,31,60,68,78,83,92,],[12,12,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-27,-28,-32,-12,-22,]),'SELECT':([0,1,2,3,4,5,6,7,8,9,16,26,31,60,68,78,83,92,],[13,13,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-27,-28,-32,-12,-22,]),'UPDATE':([0,1,2,3,4,5,6,7,8,9,16,26,31,60,68,78,83,92,],[14,14,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-27,-28,-32,-12,-22,]),'DELETE':([0,1,2,3,4,5,6,7,8,9,16,26,31,60,68,78,83,92,],[15,15,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-27,-28,-32,-12,-22,]),'$end':([1,2,3,4,5,6,7,8,9,16,26,31,60,68,78,83,92,],[0,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-27,-28,-32,-12,-22,]),'DATABASE':([10,],[17,]),'TABLE':([10,],[18,]),'IDENTIFICADOR':([11,13,14,17,18,20,23,28,29,32,33,38,41,43,44,46,55,75,],[19,21,22,24,25,27,30,34,35,39,40,45,48,52,35,56,52,56,]),'INTO':([12,],[20,]),'FROM':([15,21,],[23,28,]),'PUNTOCOMA':([19,24,48,50,51,53,69,74,77,89,],[26,31,60,-25,-26,68,78,83,-33,92,]),'SET':([22,],[29,]),'PUNTO':([25,30,34,],[32,38,41,]),'PARIZQ':([27,39,59,82,],[33,46,76,88,]),'IGUAL':([35,52,],[42,62,]),'WHERE':([36,37,45,49,50,51,54,],[43,-30,55,-31,-25,-26,-29,]),'COMA':([36,37,49,50,51,54,57,58,70,71,73,79,81,84,85,86,87,93,94,],[44,-30,-31,-25,-26,-29,75,-14,-21,-16,-18,-15,-20,-13,90,-24,-19,-23,-17,]),'PARDER':([40,50,51,57,58,70,71,73,79,81,84,85,86,87,91,93,94,],[47,-25,-26,74,-14,-21,-16,-18,-15,-20,-13,89,-24,-19,94,-23,-17,]),'NUMERO':([42,61,62,63,64,65,66,67,76,88,90,],[50,50,-34,-35,-36,-37,-38,-39,50,91,50,]),'CADENA':([42,61,62,63,64,65,66,67,76,90,],[51,51,-34,-35,-36,-37,-38,-39,51,51,]),'VALUES':([47,],[59,]),'DIFERENTE':([52,],[63,]),'MAYORQUE':([52,],[64,]),'MENORQUE':([52,],[65,]),'MAYORIGUAL':([52,],[66,]),'MENORIGUAL':([52,],[67,]),'BIGINT':([56,],[71,]),'CHARACTER':([56,],[72,]),'CHAR':([56,],[73,]),'NOT':([70,71,73,94,],[80,-16,-18,-17,]),'NULL':([70,71,73,80,94,],[81,-16,-18,87,-17,]),'VARYING':([72,],[82,]),}
+_lr_action_items = {'CREATE':([0,1,2,3,4,5,6,7,8,9,16,26,31,63,71,84,90,102,],[10,10,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-32,-33,-37,-12,-27,]),'USE':([0,1,2,3,4,5,6,7,8,9,16,26,31,63,71,84,90,102,],[11,11,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-32,-33,-37,-12,-27,]),'INSERT':([0,1,2,3,4,5,6,7,8,9,16,26,31,63,71,84,90,102,],[12,12,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-32,-33,-37,-12,-27,]),'SELECT':([0,1,2,3,4,5,6,7,8,9,16,26,31,63,71,84,90,102,],[13,13,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-32,-33,-37,-12,-27,]),'UPDATE':([0,1,2,3,4,5,6,7,8,9,16,26,31,63,71,84,90,102,],[14,14,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-32,-33,-37,-12,-27,]),'DELETE':([0,1,2,3,4,5,6,7,8,9,16,26,31,63,71,84,90,102,],[15,15,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-32,-33,-37,-12,-27,]),'$end':([1,2,3,4,5,6,7,8,9,16,26,31,63,71,84,90,102,],[0,-2,-3,-4,-5,-6,-7,-8,-9,-1,-11,-10,-32,-33,-37,-12,-27,]),'DATABASE':([10,],[17,]),'TABLE':([10,],[18,]),'IDENTIFICADOR':([11,13,14,17,18,20,23,28,29,32,33,38,41,43,44,46,55,80,92,],[19,21,22,24,25,27,30,34,35,39,40,45,48,52,35,56,52,56,97,]),'INTO':([12,],[20,]),'FROM':([15,21,],[23,28,]),'PUNTOCOMA':([19,24,48,50,51,53,72,79,83,98,],[26,31,63,-30,-31,71,84,90,-38,102,]),'SET':([22,],[29,]),'PUNTO':([25,30,34,],[32,38,41,]),'PARIZQ':([27,39,62,81,88,],[33,46,82,92,96,]),'IGUAL':([35,52,],[42,65,]),'WHERE':([36,37,45,49,50,51,54,],[43,-35,55,-36,-30,-31,-34,]),'COMA':([36,37,49,50,51,54,57,58,59,60,73,74,76,78,85,87,89,91,93,94,95,101,103,104,],[44,-35,-36,-30,-31,-34,80,-14,-15,-16,-26,-19,-21,-23,-17,-25,-22,-13,99,-29,-24,-18,-28,-20,]),'PARDER':([40,50,51,57,58,59,60,73,74,76,78,85,87,89,91,93,94,95,97,100,101,103,104,],[47,-30,-31,79,-14,-15,-16,-26,-19,-21,-23,-17,-25,-22,-13,98,-29,-24,101,104,-18,-28,-20,]),'NUMERO':([42,64,65,66,67,68,69,70,82,96,99,],[50,50,-39,-40,-41,-42,-43,-44,50,100,50,]),'CADENA':([42,64,65,66,67,68,69,70,82,99,],[51,51,-39,-40,-41,-42,-43,-44,51,51,]),'PRIMARY':([46,80,],[61,61,]),'VALUES':([47,],[62,]),'DIFERENTE':([52,],[66,]),'MAYORQUE':([52,],[67,]),'MENORQUE':([52,],[68,]),'MAYORIGUAL':([52,],[69,]),'MENORIGUAL':([52,],[70,]),'BIGINT':([56,],[74,]),'CHARACTER':([56,],[75,]),'CHAR':([56,],[76,]),'BIT':([56,],[77,]),'VARCHAR':([56,],[78,]),'KEY':([61,],[81,]),'NOT':([73,74,76,78,89,104,],[86,-19,-21,-23,-22,-20,]),'NULL':([73,74,76,78,86,89,104,],[87,-19,-21,-23,95,-22,-20,]),'VARYING':([75,77,],[88,89,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'instrucciones':([0,],[1,]),'instruccion':([0,1,],[2,16,]),'crear_db':([0,1,],[3,3,]),'usar_db':([0,1,],[4,4,]),'crear_tabla':([0,1,],[5,5,]),'insertar_datos':([0,1,],[6,6,]),'consulta_datos':([0,1,],[7,7,]),'modificar_datos':([0,1,],[8,8,]),'eliminar_datos':([0,1,],[9,9,]),'asignaciones':([29,],[36,]),'asignacion':([29,44,],[37,54,]),'valor':([42,61,76,90,],[49,77,86,93,]),'condicion':([43,55,],[53,69,]),'columnas':([46,],[57,]),'columna':([46,75,],[58,84,]),'operador':([52,],[61,]),'tipos_datos':([56,],[70,]),'atributos':([70,],[79,]),'valores':([76,],[85,]),}
+_lr_goto_items = {'instrucciones':([0,],[1,]),'instruccion':([0,1,],[2,16,]),'crear_db':([0,1,],[3,3,]),'usar_db':([0,1,],[4,4,]),'crear_tabla':([0,1,],[5,5,]),'insertar_datos':([0,1,],[6,6,]),'consulta_datos':([0,1,],[7,7,]),'modificar_datos':([0,1,],[8,8,]),'eliminar_datos':([0,1,],[9,9,]),'asignaciones':([29,],[36,]),'asignacion':([29,44,],[37,54,]),'valor':([42,64,82,99,],[49,83,94,103,]),'condicion':([43,55,],[53,72,]),'definiciones':([46,],[57,]),'definicion':([46,80,],[58,91,]),'columna':([46,80,],[59,59,]),'primary_key':([46,80,],[60,60,]),'operador':([52,],[64,]),'tipos_datos':([56,],[73,]),'atributos':([73,],[85,]),'valores':([82,],[93,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -38,32 +38,37 @@ _lr_productions = [
   ('instruccion -> eliminar_datos','instruccion',1,'p_instruccion','parser.py',27),
   ('crear_db -> CREATE DATABASE IDENTIFICADOR PUNTOCOMA','crear_db',4,'p_crear_db','parser.py',33),
   ('usar_db -> USE IDENTIFICADOR PUNTOCOMA','usar_db',3,'p_usar_db','parser.py',38),
-  ('crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA','crear_tabla',9,'p_crear_tabla','parser.py',43),
-  ('columnas -> columnas COMA columna','columnas',3,'p_columnas_lista','parser.py',47),
-  ('columnas -> columna','columnas',1,'p_columnas_lista','parser.py',48),
-  ('columna -> IDENTIFICADOR tipos_datos atributos','columna',3,'p_columna','parser.py',55),
-  ('tipos_datos -> BIGINT','tipos_datos',1,'p_tipos_datos','parser.py',59),
-  ('tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER','tipos_datos',5,'p_tipos_datos','parser.py',60),
-  ('tipos_datos -> CHAR','tipos_datos',1,'p_tipos_datos','parser.py',61),
-  ('atributos -> NOT NULL','atributos',2,'p_atributos','parser.py',65),
-  ('atributos -> NULL','atributos',1,'p_atributos','parser.py',66),
-  ('atributos -> <empty>','atributos',0,'p_atributos','parser.py',67),
-  ('insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA','insertar_datos',11,'p_insertar_datos','parser.py',72),
-  ('valores -> valores COMA valor','valores',3,'p_valores','parser.py',76),
-  ('valores -> valor','valores',1,'p_valores','parser.py',77),
-  ('valor -> NUMERO','valor',1,'p_valor','parser.py',84),
-  ('valor -> CADENA','valor',1,'p_valor','parser.py',85),
-  ('consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA','consulta_datos',7,'p_consulta_datos','parser.py',90),
-  ('modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA','modificar_datos',7,'p_modificar_datos','parser.py',95),
-  ('asignaciones -> asignaciones COMA asignacion','asignaciones',3,'p_asignaciones_lista','parser.py',99),
-  ('asignaciones -> asignacion','asignaciones',1,'p_asignaciones_lista','parser.py',100),
-  ('asignacion -> IDENTIFICADOR IGUAL valor','asignacion',3,'p_asignacion','parser.py',107),
-  ('eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA','eliminar_datos',8,'p_eliminar_datos','parser.py',112),
-  ('condicion -> IDENTIFICADOR operador valor','condicion',3,'p_condicion','parser.py',117),
-  ('operador -> IGUAL','operador',1,'p_operador','parser.py',121),
-  ('operador -> DIFERENTE','operador',1,'p_operador','parser.py',122),
-  ('operador -> MAYORQUE','operador',1,'p_operador','parser.py',123),
-  ('operador -> MENORQUE','operador',1,'p_operador','parser.py',124),
-  ('operador -> MAYORIGUAL','operador',1,'p_operador','parser.py',125),
-  ('operador -> MENORIGUAL','operador',1,'p_operador','parser.py',126),
+  ('crear_tabla -> CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA','crear_tabla',9,'p_crear_tabla','parser.py',43),
+  ('definiciones -> definiciones COMA definicion','definiciones',3,'p_definiciones_lista','parser.py',48),
+  ('definiciones -> definicion','definiciones',1,'p_definiciones_lista','parser.py',49),
+  ('definicion -> columna','definicion',1,'p_definicion','parser.py',57),
+  ('definicion -> primary_key','definicion',1,'p_definicion','parser.py',58),
+  ('columna -> IDENTIFICADOR tipos_datos atributos','columna',3,'p_columna','parser.py',63),
+  ('primary_key -> PRIMARY KEY PARIZQ IDENTIFICADOR PARDER','primary_key',5,'p_primary_key','parser.py',68),
+  ('tipos_datos -> BIGINT','tipos_datos',1,'p_tipos_datos','parser.py',73),
+  ('tipos_datos -> CHARACTER VARYING PARIZQ NUMERO PARDER','tipos_datos',5,'p_tipos_datos','parser.py',74),
+  ('tipos_datos -> CHAR','tipos_datos',1,'p_tipos_datos','parser.py',75),
+  ('tipos_datos -> BIT VARYING','tipos_datos',2,'p_tipos_datos','parser.py',76),
+  ('tipos_datos -> VARCHAR','tipos_datos',1,'p_tipos_datos','parser.py',77),
+  ('atributos -> NOT NULL','atributos',2,'p_atributos','parser.py',87),
+  ('atributos -> NULL','atributos',1,'p_atributos','parser.py',88),
+  ('atributos -> <empty>','atributos',0,'p_atributos','parser.py',89),
+  ('insertar_datos -> INSERT INTO IDENTIFICADOR PARIZQ IDENTIFICADOR PARDER VALUES PARIZQ valores PARDER PUNTOCOMA','insertar_datos',11,'p_insertar_datos','parser.py',94),
+  ('valores -> valores COMA valor','valores',3,'p_valores','parser.py',98),
+  ('valores -> valor','valores',1,'p_valores','parser.py',99),
+  ('valor -> NUMERO','valor',1,'p_valor','parser.py',106),
+  ('valor -> CADENA','valor',1,'p_valor','parser.py',107),
+  ('consulta_datos -> SELECT IDENTIFICADOR FROM IDENTIFICADOR PUNTO IDENTIFICADOR PUNTOCOMA','consulta_datos',7,'p_consulta_datos','parser.py',112),
+  ('modificar_datos -> UPDATE IDENTIFICADOR SET asignaciones WHERE condicion PUNTOCOMA','modificar_datos',7,'p_modificar_datos','parser.py',117),
+  ('asignaciones -> asignaciones COMA asignacion','asignaciones',3,'p_asignaciones_lista','parser.py',121),
+  ('asignaciones -> asignacion','asignaciones',1,'p_asignaciones_lista','parser.py',122),
+  ('asignacion -> IDENTIFICADOR IGUAL valor','asignacion',3,'p_asignacion','parser.py',129),
+  ('eliminar_datos -> DELETE FROM IDENTIFICADOR PUNTO IDENTIFICADOR WHERE condicion PUNTOCOMA','eliminar_datos',8,'p_eliminar_datos','parser.py',134),
+  ('condicion -> IDENTIFICADOR operador valor','condicion',3,'p_condicion','parser.py',139),
+  ('operador -> IGUAL','operador',1,'p_operador','parser.py',143),
+  ('operador -> DIFERENTE','operador',1,'p_operador','parser.py',144),
+  ('operador -> MAYORQUE','operador',1,'p_operador','parser.py',145),
+  ('operador -> MENORQUE','operador',1,'p_operador','parser.py',146),
+  ('operador -> MAYORIGUAL','operador',1,'p_operador','parser.py',147),
+  ('operador -> MENORIGUAL','operador',1,'p_operador','parser.py',148),
 ]

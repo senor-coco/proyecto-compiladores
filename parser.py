@@ -1,4 +1,3 @@
-# En el archivo del parser
 import ply.yacc as yacc
 from lexer import tokens
 
@@ -41,27 +40,49 @@ def p_usar_db(p):
 
 # Producción para `CREATE TABLE`
 def p_crear_tabla(p):
-    '''crear_tabla : CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ columnas PARDER PUNTOCOMA'''
+    '''crear_tabla : CREATE TABLE IDENTIFICADOR PUNTO IDENTIFICADOR PARIZQ definiciones PARDER PUNTOCOMA'''
     p[0] = ('crear_tabla', p[3], p[5], p[7])
 
-def p_columnas_lista(p):
-    '''columnas : columnas COMA columna
-                | columna'''
+# Producción para manejar las definiciones de columnas y claves en una tabla
+def p_definiciones_lista(p):
+    '''definiciones : definiciones COMA definicion
+                    | definicion'''
     if len(p) == 4:
         p[0] = p[1] + [p[3]]
     else:
         p[0] = [p[1]]
 
+# Producción para definir una columna o una clave primaria
+def p_definicion(p):
+    '''definicion : columna
+                  | primary_key'''
+    p[0] = p[1]
+
+# Producción para una columna
 def p_columna(p):
     '''columna : IDENTIFICADOR tipos_datos atributos'''
-    p[0] = (p[1], p[2], p[3])
+    p[0] = ('columna', p[1], p[2], p[3])
 
+# Producción para `PRIMARY KEY`
+def p_primary_key(p):
+    '''primary_key : PRIMARY KEY PARIZQ IDENTIFICADOR PARDER'''
+    p[0] = ('primary_key', p[4])
+
+# Tipos de datos, incluyendo `bit varying`
 def p_tipos_datos(p):
     '''tipos_datos : BIGINT
                    | CHARACTER VARYING PARIZQ NUMERO PARDER
-                   | CHAR'''
-    p[0] = p[1]
+                   | CHAR
+                   | BIT VARYING
+                   | VARCHAR'''
+    if len(p) == 3:
+        p[0] = f"{p[1]} {p[2]}"
+    elif len(p) == 6:
+        p[0] = f"{p[1]} {p[2]}({p[4]})"
+    else:
+        p[0] = p[1]
 
+# Atributos opcionales para las columnas (ej., `NULL`, `NOT NULL`)
 def p_atributos(p):
     '''atributos : NOT NULL
                  | NULL
