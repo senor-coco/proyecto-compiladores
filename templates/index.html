@@ -30,7 +30,7 @@
     <br>
     <form id="form-codigo1">
         <textarea name="codigo1" placeholder="Ingrese create database 'nombre' " class="step-input textarea" required></textarea>
-        <button type="button" class="btn enviar" onclick="enviarParte('codigo1')">Enviar</button>
+        <button type="button" class="btn enviar" onclick="analizarParte('codigo1')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo1')">Borrar</button>
         <div id="notificacion-codigo1" class="notificacion"></div>
     </form>
@@ -38,7 +38,7 @@
     
     <form id="form-codigo2">
         <textarea name="codigo2" placeholder="Ingrese el código para crear una tabla 'create table valores'" class="step-input textarea" required></textarea>
-        <button type="button" class="btn enviar" onclick="enviarParte('codigo2')">Enviar</button>
+        <button type="button" class="btn enviar" onclick="analizarParte('codigo2')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo2')">Borrar</button>
         <div id="notificacion-codigo2" class="notificacion"></div>
     </form>
@@ -46,7 +46,7 @@
     
     <form id="form-codigo3">
         <textarea name="codigo3" placeholder="Ingrese el código para ingresar datos 'insert into nombre_tabla'" class="step-input textarea" required></textarea>
-        <button type="button" class="btn enviar" onclick="enviarParte('codigo3')">Enviar</button>
+        <button type="button" class="btn enviar" onclick="analizarParte('codigo3')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo3')">Borrar</button>
         <div id="notificacion-codigo3" class="notificacion"></div>
     </form>
@@ -54,7 +54,7 @@
     
     <form id="form-codigo4">
         <textarea name="codigo4" placeholder="Ingrese el código para actualizar, seleccionar o eliminar datos. Ejemplo: 'UPDATE nombre_tabla SET columna = valor WHERE condición'; 'SELECT * FROM nombre_tabla'; 'DELETE FROM nombre_tabla WHERE condición';" class="step-input textarea" required></textarea>
-        <button type="button" class="btn enviar" onclick="enviarParte('codigo4')">Enviar</button>
+        <button type="button" class="btn enviar" onclick="analizarParte('codigo4')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo4')">Borrar</button>
         <div id="notificacion-codigo4" class="notificacion"></div>
     </form>
@@ -128,8 +128,7 @@
         const cuadroBlanco = document.getElementById("cuadro-blanco");
         const textoCompleto = document.getElementById("texto-completo");
         textoCompleto.innerText = codigoCompleto;
-        cuadro
-        Blanco.style.display = "block";
+        cuadroBlanco.style.display = "block";
     }
 
     function enviarParte(parte) {

@@ -52,7 +52,9 @@ def index():
 def analizar_sintaxis():
     code = request.form.get('code', '')
     resultado_sintactico = parse(code)  # Usamos la función `parse` del parser
-    return jsonify(sintaxis=resultado_sintactico)
+    return jsonify({
+        "sintaxis": resultado_sintactico
+    })
 
 @app.route('/analizar', methods=['POST'])
 def analizar():
