@@ -74,12 +74,13 @@ function enviarTodosLosFormularios() {
     });
 }
 
-// Función para analizar el contenido de cada textarea
+// Función para analizar y enviar el contenido de cada textarea
 function analizarParte(parte) {
     const textarea = document.querySelector(`textarea[name="${parte}"]`);
     const contenido = textarea.value;
     const notificacion = document.getElementById(`notificacion-${parte}`);
 
+    // Enviar el contenido al backend para su análisis
     fetch('/analizar_sintaxis', {
         method: 'POST',
         headers: {
@@ -93,9 +94,21 @@ function analizarParte(parte) {
         notificacion.style.display = "block";
 
         if (data.sintaxis.correcto) {
+            // Mostrar mensaje de éxito
             notificacion.className = 'notificacion verde';
             notificacion.textContent = 'Código correcto';
+
+            // Agregar el contenido al cuadro de "Código Completo"
+            const cuadroBlanco = document.getElementById("cuadro-blanco");
+            const textoCompleto = document.getElementById("texto-completo");
+
+            // Añadir el contenido al cuadro de texto completo
+            textoCompleto.innerText += contenido + "\n";
+
+            // Mostrar el cuadro de "Código Completo" si no está visible
+            cuadroBlanco.style.display = "block";
         } else {
+            // Mostrar mensaje de error
             notificacion.className = 'notificacion rojo';
             notificacion.textContent = `Error: ${data.sintaxis.error}`;
         }
