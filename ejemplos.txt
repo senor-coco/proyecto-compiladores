@@ -1,0 +1,113 @@
+-- Ejemplo 1
+
+-- Crear Tabla
+CREATE TABLE public.empleados (
+    empleado_id BIGINT,
+    nombre CHARACTER VARYING(100),
+    edad INTEGER,
+    puesto CHARACTER VARYING(50),
+    salario DECIMAL,
+    PRIMARY KEY (empleado_id)
+);
+
+-- Insertar Datos
+INSERT INTO public.empleados (empleado_id, nombre, edad, puesto, salario)
+VALUES (101, 'Ana López', 30, 'Gerente', 75000.50);
+
+-- Actualizar Datos
+UPDATE public.empleados
+SET salario = 80000.00
+WHERE empleado_id = 101;
+
+-- Eliminar Datos
+DELETE FROM public.empleados
+WHERE empleado_id = 101;
+
+-- Eliminar Tabla
+DROP TABLE public.empleados;
+
+
+-- Ejemplo 2
+
+-- Crear Tabla
+CREATE TABLE public.productos (
+    producto_id BIGINT,
+    nombre CHARACTER VARYING(100),
+    categoria CHARACTER VARYING(50),
+    precio DECIMAL,
+    stock INTEGER,
+    PRIMARY KEY (producto_id)
+);
+
+-- Insertar Datos
+INSERT INTO public.productos (producto_id, nombre, categoria, precio, stock)
+VALUES (2001, 'Laptop', 'Electrónica', 1500.99, 10);
+
+-- Actualizar Datos
+UPDATE public.productos
+SET stock = 8
+WHERE producto_id = 2001;
+
+-- Eliminar Datos
+DELETE FROM public.productos
+WHERE producto_id = 2001;
+
+-- Eliminar Tabla
+DROP TABLE public.productos;
+
+
+-- Ejemplo 3
+
+-- Crear Tabla
+CREATE TABLE public.clientes (
+    cliente_id BIGINT,
+    nombre CHARACTER VARYING(100),
+    direccion CHARACTER VARYING(150),
+    telefono CHARACTER VARYING(20),
+    email CHARACTER VARYING(100),
+    PRIMARY KEY (cliente_id)
+);
+
+-- Insertar Datos
+INSERT INTO public.clientes (cliente_id, nombre, direccion, telefono, email)
+VALUES (3001, 'Carlos Gómez', 'Calle 123', '555-1234', 'carlos.gomez@example.com');
+
+-- Actualizar Datos
+UPDATE public.clientes
+SET telefono = '555-5678'
+WHERE cliente_id = 3001;
+
+-- Eliminar Datos
+DELETE FROM public.clientes
+WHERE cliente_id = 3001;
+
+-- Eliminar Tabla
+DROP TABLE public.clientes;
+
+
+-- Ejemplo 4
+
+-- Crear Tabla
+CREATE TABLE public.departamentos (
+    depto_id BIGINT,
+    nombre CHARACTER VARYING(50),
+    ubicacion CHARACTER VARYING(100),
+    presupuesto DECIMAL,
+    PRIMARY KEY (depto_id)
+);
+
+-- Insertar Datos
+INSERT INTO public.departamentos (depto_id, nombre, ubicacion, presupuesto)
+VALUES (4001, 'Recursos Humanos', 'Edificio A', 200000.00);
+
+-- Actualizar Datos
+UPDATE public.departamentos
+SET presupuesto = 250000.00
+WHERE depto_id = 4001;
+
+-- Eliminar Datos
+DELETE FROM public.departamentos
+WHERE depto_id = 4001;
+
+-- Eliminar Tabla
+DROP TABLE public.departamentos;

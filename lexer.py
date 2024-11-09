@@ -56,6 +56,15 @@ reservadas = {
     'revoke': 'REVOKE',
     'use': 'USE',
     'database': 'DATABASE',
+    # Funciones de agregación
+    'sum': 'SUM',
+    'count': 'COUNT',
+    'avg': 'AVG',
+    'max': 'MAX',
+    'min': 'MIN',
+    # Ordenación
+    'asc': 'ASC',
+    'desc': 'DESC',
     # Tipos de datos
     'bigint': 'BIGINT',
     'int8': 'INT8',
