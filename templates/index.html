@@ -28,6 +28,27 @@
             <h1>Ingrese su código SQL</h1>
     <br>
     <br>
+    
+    <!-- Formulario para cambiar la conexión de la base de datos -->
+    <h2>Configuración de la conexión a la base de datos</h2>
+    <form id="database-connection-form">
+        <label for="db_host">Host:</label>
+        <input type="text" id="db_host" name="db_host" placeholder="localhost" required>
+        
+        <label for="db_name">Base de Datos:</label>
+        <input type="text" id="db_name" name="db_name" placeholder="Nombre de la base de datos" required>
+        
+        <label for="db_user">Usuario:</label>
+        <input type="text" id="db_user" name="db_user" placeholder="postgres" required>
+        
+        <label for="db_password">Contraseña:</label>
+        <input type="password" id="db_password" name="db_password" required>
+        
+        <button type="button" onclick="actualizarConexion()">Actualizar Conexión</button>
+    </form>
+    <div id="db-connection-message"></div> <!-- Div para mostrar mensajes de éxito o error -->
+    <br>
+
     <form id="form-codigo1">
         <textarea name="codigo1" placeholder="Ingrese create database 'nombre' " class="step-input textarea" required></textarea>
         <button type="button" class="btn enviar" onclick="analizarParte('codigo1')">Enviar</button>

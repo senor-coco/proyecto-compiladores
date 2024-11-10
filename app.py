@@ -13,14 +13,22 @@ table_name = ''
 insert_data = ''
 query_data = ''
 
+# Variables para la configuración dinámica de la base de datos
+db_config = {
+    "host": "localhost",
+    "database": "ange",  # Nombre predeterminado de la base de datos
+    "user": "postgres",
+    "password": "HolaShepi"  # Contraseña predeterminada
+}
+
 # Función de conexión a PostgreSQL
-def get_db_connection(database="compiladores"):
+def get_db_connection():
     try:
         conn = psycopg2.connect(
-            host="localhost",
-            database="ange",  # Nombre de la base de datos a conectar
-            user="postgres",
-            password="HolaShepi"  # Cambiar por la contraseña real
+            host=db_config["host"],
+            database=db_config["database"],
+            user=db_config["user"],
+            password=db_config["password"]
         )
         conn.autocommit = True
         cursor = conn.cursor()
@@ -32,6 +40,22 @@ def get_db_connection(database="compiladores"):
         print("Error al conectar a PostgreSQL:", e)
         return None
 
+@app.route('/actualizar_conexion', methods=['POST'])
+def actualizar_conexion():
+    # Actualizar los datos de conexión con los valores enviados desde el formulario
+    datos_conexion = request.json
+    db_config["host"] = datos_conexion.get("db_host", "localhost")
+    db_config["database"] = datos_conexion.get("db_name", "ange")
+    db_config["user"] = datos_conexion.get("db_user", "postgres")
+    db_config["password"] = datos_conexion.get("db_password", "HolaShepi")
+    
+    # Verificar la conexión con la nueva configuración
+    conn = get_db_connection()
+    if conn:
+        conn.close()
+        return jsonify({"message": "Conexión actualizada exitosamente"}), 200
+    else:
+        return jsonify({"message": "Error al conectar con la nueva configuración"}), 500
 
 @app.route('/')
 def index():
@@ -109,7 +133,6 @@ def ejecutar_sql():
         message = "No se pudo establecer la conexión con la base de datos."
 
     return jsonify({"message": message})
-
 
 @app.route('/submit_db_name', methods=['POST'])
 def submit_db_name():

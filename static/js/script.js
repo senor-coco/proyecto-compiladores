@@ -74,6 +74,35 @@ function enviarTodosLosFormularios() {
     });
 }
 
+// Función para actualizar la conexión a la base de datos desde la interfaz
+function actualizarConexion() {
+    const db_host = document.querySelector('input[name="db_host"]').value;
+    const db_name = document.querySelector('input[name="db_name"]').value;
+    const db_user = document.querySelector('input[name="db_user"]').value;
+    const db_password = document.querySelector('input[name="db_password"]').value;
+
+    const datosConexion = { db_host, db_name, db_user, db_password };
+
+    fetch('/actualizar_conexion', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datosConexion)
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("Conexión a la base de datos actualizada exitosamente.");
+        } else {
+            throw new Error("Error al actualizar la conexión.");
+        }
+    })
+    .catch(error => {
+        console.error('Error al actualizar la conexión:', error);
+        alert("Error al actualizar la conexión a la base de datos.");
+    });
+}
+
 // Función para analizar y enviar el contenido de cada textarea
 function analizarParte(parte) {
     const textarea = document.querySelector(`textarea[name="${parte}"]`);
