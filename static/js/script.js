@@ -241,9 +241,44 @@ function ejecutarEnPostgreSQL() {
     .then(data => {
         console.log(data.message);
         alert(data.message);
+
+        // Mostrar los resultados de SELECT en tabla HTML si es una consulta SELECT
+        if (textoCompleto.toUpperCase().startsWith("SELECT")) {
+            mostrarResultados(data);
+        }
     })
     .catch(error => {
         console.error('Error al ejecutar en PostgreSQL:', error);
         alert('Error al ejecutar el código en PostgreSQL');
     });
+}
+
+// Función para mostrar los resultados de SELECT en tabla HTML
+function mostrarResultados(data) {
+    const resultadoDiv = document.getElementById('resultado-analisis');
+    resultadoDiv.innerHTML = '';
+
+    if (data.result && data.result.length > 0) {
+        let tableHTML = '<table class="tabla-resultados"><tr>';
+
+        // Encabezados de la tabla
+        Object.keys(data.result[0]).forEach(key => {
+            tableHTML += `<th>${key}</th>`;
+        });
+        tableHTML += '</tr>';
+
+        // Filas de resultados
+        data.result.forEach(row => {
+            tableHTML += '<tr>';
+            Object.values(row).forEach(value => {
+                tableHTML += `<td>${value}</td>`;
+            });
+            tableHTML += '</tr>';
+        });
+
+        tableHTML += '</table>';
+        resultadoDiv.innerHTML = tableHTML;
+    } else {
+        resultadoDiv.innerHTML = "<p>No se encontraron resultados.</p>";
+    }
 }

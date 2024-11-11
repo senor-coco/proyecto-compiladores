@@ -305,5 +305,37 @@ def submit_all():
 """
     return jsonify({"texto_completo": texto_completo})
 
+# Nueva ruta para manejar SELECT * FROM <tabla> y devolver resultados en HTML
+@app.route('/select_data', methods=['POST'])
+def select_data():
+    table_name = request.json.get('table_name')
+    
+    if not table_name:
+        return jsonify({"error": "No se especificó el nombre de la tabla"}), 400
+
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(f"SELECT * FROM {table_name};")
+            rows = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+
+            # Crear la tabla HTML con los resultados
+            results_html = "<table border='1'><tr>" + "".join(f"<th>{col}</th>" for col in columns) + "</tr>"
+            for row in rows:
+                results_html += "<tr>" + "".join(f"<td>{data}</td>" for data in row) + "</tr>"
+            results_html += "</table>"
+
+            return jsonify({"result": results_html})
+        except Exception as e:
+            print(f"Error al ejecutar SELECT: {e}")
+            return jsonify({"error": f"Error al ejecutar SELECT: {e}"}), 500
+        finally:
+            cursor.close()
+            conn.close()
+    else:
+        return jsonify({"error": "No se pudo conectar a la base de datos"}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
