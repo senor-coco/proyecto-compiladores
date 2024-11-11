@@ -196,6 +196,8 @@ document.querySelectorAll('.step-input').forEach((element) => {
 function borrarScript() {
     document.getElementById('texto-completo').innerText = '';
     $('#resultado-analisis').empty();
+    // Agregado para limpiar los resultados de la tabla
+    document.getElementById('tabla-resultados').innerHTML = '';
 }
 
 function generarScript() {
@@ -234,7 +236,7 @@ function ejecutarEnPostgreSQL() {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error("Error en la solicitud: " + response.statusText);
+            return response.json().then(errorData => { throw new Error(errorData.message); });
         }
         return response.json();
     })
@@ -243,35 +245,35 @@ function ejecutarEnPostgreSQL() {
         alert(data.message);
 
         // Mostrar los resultados de SELECT en tabla HTML si es una consulta SELECT
-        if (textoCompleto.toUpperCase().startsWith("SELECT")) {
-            mostrarResultados(data);
+        if (data.data && data.columns) {
+            mostrarResultados(data.data, data.columns);
         }
     })
     .catch(error => {
         console.error('Error al ejecutar en PostgreSQL:', error);
-        alert('Error al ejecutar el código en PostgreSQL');
+        alert('Error al ejecutar el código en PostgreSQL: ' + error.message);
     });
 }
 
 // Función para mostrar los resultados de SELECT en tabla HTML
-function mostrarResultados(data) {
-    const resultadoDiv = document.getElementById('resultado-analisis');
+function mostrarResultados(data, columns) {
+    const resultadoDiv = document.getElementById('tabla-resultados');
     resultadoDiv.innerHTML = '';
 
-    if (data.result && data.result.length > 0) {
+    if (data.length > 0) {
         let tableHTML = '<table class="tabla-resultados"><tr>';
 
         // Encabezados de la tabla
-        Object.keys(data.result[0]).forEach(key => {
-            tableHTML += `<th>${key}</th>`;
+        columns.forEach(col => {
+            tableHTML += `<th>${col}</th>`;
         });
         tableHTML += '</tr>';
 
         // Filas de resultados
-        data.result.forEach(row => {
+        data.forEach(row => {
             tableHTML += '<tr>';
-            Object.values(row).forEach(value => {
-                tableHTML += `<td>${value}</td>`;
+            columns.forEach(col => {
+                tableHTML += `<td>${row[col]}</td>`;
             });
             tableHTML += '</tr>';
         });
@@ -282,3 +284,69 @@ function mostrarResultados(data) {
         resultadoDiv.innerHTML = "<p>No se encontraron resultados.</p>";
     }
 }
+
+// Código original (no eliminado)
+// function ejecutarEnPostgreSQL() {
+//     const textoCompleto = document.getElementById('texto-completo').innerText.trim();
+
+//     if (!textoCompleto) {
+//         alert("No hay código SQL para ejecutar.");
+//         return;
+//     }
+
+//     fetch('/ejecutar_sql', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ 'codigo_sql': textoCompleto })
+//     })
+//     .then(response => {
+//         if (!response.ok) {
+//             throw new Error("Error en la solicitud: " + response.statusText);
+//         }
+//         return response.json();
+//     })
+//     .then(data => {
+//         console.log(data.message);
+//         alert(data.message);
+
+//         // Mostrar los resultados de SELECT en tabla HTML si es una consulta SELECT
+//         if (textoCompleto.toUpperCase().startsWith("SELECT")) {
+//             mostrarResultados(data);
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error al ejecutar en PostgreSQL:', error);
+//         alert('Error al ejecutar el código en PostgreSQL');
+//     });
+// }
+
+// function mostrarResultados(data) {
+//     const resultadoDiv = document.getElementById('resultado-analisis');
+//     resultadoDiv.innerHTML = '';
+
+//     if (data.result && data.result.length > 0) {
+//         let tableHTML = '<table class="tabla-resultados"><tr>';
+
+//         // Encabezados de la tabla
+//         Object.keys(data.result[0]).forEach(key => {
+//             tableHTML += `<th>${key}</th>`;
+//         });
+//         tableHTML += '</tr>';
+
+//         // Filas de resultados
+//         data.result.forEach(row => {
+//             tableHTML += '<tr>';
+//             Object.values(row).forEach(value => {
+//                 tableHTML += `<td>${value}</td>`;
+//             });
+//             tableHTML += '</tr>';
+//         });
+
+//         tableHTML += '</table>';
+//         resultadoDiv.innerHTML = tableHTML;
+//     } else {
+//         resultadoDiv.innerHTML = "<p>No se encontraron resultados.</p>";
+//     }
+// }

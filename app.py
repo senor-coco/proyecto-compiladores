@@ -118,21 +118,48 @@ def ejecutar_sql():
             if codigo_sql.strip().upper().startswith("SELECT"):
                 # Si es una consulta SELECT, devolver los resultados
                 results = cursor.fetchall()
-                message = f"Consulta ejecutada exitosamente. Resultados: {results}"
+                columns = [desc[0] for desc in cursor.description]
+                data_result = [dict(zip(columns, row)) for row in results]
+                message = "Consulta ejecutada exitosamente."
+                # Devolvemos los datos y las columnas
+                return jsonify({"message": message, "data": data_result, "columns": columns})
             else:
                 # Para otros comandos, simplemente confirmar la ejecución
                 conn.commit()
                 message = "Código SQL ejecutado exitosamente."
+                return jsonify({"message": message})
         except Exception as e:
             print(f"Error al ejecutar el código SQL: {e}")
             message = f"Error al ejecutar el código SQL: {e}"
+            return jsonify({"message": message}), 500
         finally:
             cursor.close()
             conn.close()
     else:
         message = "No se pudo establecer la conexión con la base de datos."
+        return jsonify({"message": message}), 500
 
-    return jsonify({"message": message})
+    # Código original (no eliminado)
+    # try:
+    #     cursor.execute(codigo_sql)
+    #     if codigo_sql.strip().upper().startswith("SELECT"):
+    #         # Si es una consulta SELECT, devolver los resultados
+    #         results = cursor.fetchall()
+    #         message = f"Consulta ejecutada exitosamente. Resultados: {results}"
+    #     else:
+    #         # Para otros comandos, simplemente confirmar la ejecución
+    #         conn.commit()
+    #         message = "Código SQL ejecutado exitosamente."
+    # except Exception as e:
+    #     print(f"Error al ejecutar el código SQL: {e}")
+    #     message = f"Error al ejecutar el código SQL: {e}"
+    # finally:
+    #     cursor.close()
+    #     conn.close()
+    # else:
+    #     message = "No se pudo establecer la conexión con la base de datos."
+
+    # return jsonify({"message": message})
 
 @app.route('/crear_tabla', methods=['POST'])
 def crear_tabla():
@@ -159,6 +186,8 @@ def crear_tabla():
         message = "No se pudo establecer la conexión para crear la tabla."
 
     return jsonify({"message": message})
+
+# Rutas adicionales (manteniendo el código original)
 
 @app.route('/submit_db_name', methods=['POST'])
 def submit_db_name():

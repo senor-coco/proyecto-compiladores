@@ -96,6 +96,10 @@
     </div>
     <!-- Div para mostrar la tabla de tokens -->
     <div id="resultado-analisis" class="table-box tables-container"></div>
+
+    <!-- Agregamos un div para mostrar los resultados de la consulta SELECT -->
+    <div id="tabla-resultados" class="table-box tables-container"></div>
+
 {% endif %}
 
 <script>
@@ -133,7 +137,6 @@
             document.getElementById("resultado-analisis").innerHTML = "<p>Error al analizar el código.</p>";
         });
     }
-    
 
     function enviarCodigoCompleto() {
         // Obtener el contenido de cada caja de texto
@@ -169,17 +172,17 @@
     }
 
     // Función para borrar el contenido de la caja de texto específica
-function borrarParte(parte) {
-    const textarea = document.querySelector(`textarea[name="${parte}"]`);
-    textarea.value = ''; // Borrar el contenido de la caja de texto
-}
+    function borrarParte(parte) {
+        const textarea = document.querySelector(`textarea[name="${parte}"]`);
+        textarea.value = ''; // Borrar el contenido de la caja de texto
+    }
 
-// Función para borrar todo el contenido del cuadro blanco y del análisis
-function borrarScript() {
-    document.getElementById("texto-completo").innerText = "";
-    document.getElementById("resultado-analisis").innerHTML = "";
-}
-
+    // Función para borrar todo el contenido del cuadro blanco y del análisis
+    function borrarScript() {
+        document.getElementById("texto-completo").innerText = "";
+        document.getElementById("resultado-analisis").innerHTML = "";
+        document.getElementById("tabla-resultados").innerHTML = "";
+    }
 </script>
             
         </div>
