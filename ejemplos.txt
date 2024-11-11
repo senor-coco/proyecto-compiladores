@@ -111,3 +111,125 @@ WHERE depto_id = 4001;
 
 -- Eliminar Tabla
 DROP TABLE public.departamentos;
+
+-- Ejemplo 5
+
+-- Crear Tabla
+CREATE TABLE public.ventas (
+    venta_id BIGINT,
+    cliente_id BIGINT,
+    producto_id BIGINT,
+    cantidad INTEGER,
+    total DECIMAL,
+    PRIMARY KEY (venta_id)
+);
+
+-- Insertar Datos (Múltiples Filas)
+INSERT INTO public.ventas (venta_id, cliente_id, producto_id, cantidad, total)
+VALUES (5001, 3001, 2001, 2,  3001.98),
+       (5002, 3002, 2002, 1,  1499.99);
+
+-- Actualizar Datos
+UPDATE public.ventas
+SET total = 2999.98
+WHERE venta_id = 5001;
+
+-- Eliminar Datos
+DELETE FROM public.ventas
+WHERE venta_id = 5002;
+
+-- Eliminar Tabla
+DROP TABLE public.ventas;
+
+
+-- Ejemplo 6
+
+-- Crear Tabla
+CREATE TABLE public.inventario (
+    item_id BIGINT,
+    nombre CHARACTER VARYING(100),
+    categoria CHARACTER VARYING(50),
+    cantidad INTEGER,
+    precio DECIMAL,
+    PRIMARY KEY (item_id)
+);
+
+-- Insertar Datos (Múltiples Filas)
+INSERT INTO public.inventario (item_id, nombre, categoria, cantidad, precio)
+VALUES (6001, 'Silla', 'Muebles', 20, 120.50),
+       (6002, 'Mesa', 'Muebles', 15, 350.75),
+       (6003, 'Lámpara', 'Iluminación', 30, 45.00);
+
+-- Actualizar Datos
+UPDATE public.inventario
+SET cantidad = 25
+WHERE item_id = 6001;
+
+-- Eliminar Datos
+DELETE FROM public.inventario
+WHERE item_id = 6003;
+
+-- Eliminar Tabla
+DROP TABLE public.inventario;
+
+
+-- Ejemplo 7
+
+-- Crear Tabla
+CREATE TABLE public.proveedores (
+    proveedor_id BIGINT,
+    nombre CHARACTER VARYING(100),
+    contacto CHARACTER VARYING(100),
+    telefono CHARACTER VARYING(20),
+    email CHARACTER VARYING(100),
+    PRIMARY KEY (proveedor_id)
+);
+
+-- Insertar Datos (Múltiples Filas)
+INSERT INTO public.proveedores (proveedor_id, nombre, contacto, telefono, email)
+VALUES (7001, 'Proveedor A', 'Juan Pérez', '555-4321', 'contactoA@example.com'),
+       (7002, 'Proveedor B', 'Ana García', '555-8765', 'contactoB@example.com');
+
+-- Actualizar Datos
+UPDATE public.proveedores
+SET telefono = '555-6789'
+WHERE proveedor_id = 7001;
+
+-- Eliminar Datos
+DELETE FROM public.proveedores
+WHERE proveedor_id = 7002;
+
+-- Eliminar Tabla
+DROP TABLE public.proveedores;
+
+
+-- Ejemplo 8
+
+-- Crear Tabla
+CREATE TABLE public.pedidos (
+    pedido_id BIGINT,
+    cliente_id BIGINT,
+    estado CHARACTER VARYING(50),
+    total DECIMAL,
+    PRIMARY KEY (pedido_id)
+);
+
+-- Insertar Datos (Múltiples Filas)
+INSERT INTO public.pedidos (pedido_id, cliente_id, fecha, estado, total)
+VALUES (8001, 3001, 'Enviado', 450.75),
+       (8002, 3003,  'Pendiente', 125.00),
+       (8003, 3001,  'Completado', 780.20);
+
+-- Actualizar Datos
+UPDATE public.pedidos
+SET estado = 'Entregado'
+WHERE pedido_id = 8001;
+
+-- Eliminar Datos
+DELETE FROM public.pedidos
+WHERE pedido_id = 8003;
+
+-- Eliminar Tabla
+DROP TABLE public.pedidos;
+"""
+
