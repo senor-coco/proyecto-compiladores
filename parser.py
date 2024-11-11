@@ -151,15 +151,18 @@ def p_consulta_datos(p):
     else:
         p[0] = ('consulta_datos', p[2], p[4], p[6])
 
-# Actualizamos la regla `seleccion` para aceptar múltiples identificadores separados por comas
 def p_seleccion(p):
-    '''seleccion : seleccion COMA IDENTIFICADOR
+    '''seleccion : MULTIPLICACION
+                 | seleccion COMA IDENTIFICADOR
                  | IDENTIFICADOR
                  | agregacion'''
-    if len(p) == 4:
+    if len(p) == 2:
+        p[0] = '*' if p[1] == '*' else [p[1]]
+    elif len(p) == 4:
         p[0] = p[1] + [p[3]]
     else:
         p[0] = [p[1]]
+
 
 
 def p_joins(p):
