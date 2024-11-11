@@ -103,6 +103,27 @@ function actualizarConexion() {
     });
 }
 
+// Función para enviar y crear la tabla desde el formulario
+function crearTabla() {
+    const tableSql = document.querySelector('textarea[name="table_name"]').value;
+
+    fetch('/crear_tabla', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({ crear_tabla: tableSql })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(error => {
+        console.error('Error al crear la tabla:', error);
+        alert("Error al crear la tabla en PostgreSQL.");
+    });
+}
+
 // Función para analizar y enviar el contenido de cada textarea
 function analizarParte(parte) {
     const textarea = document.querySelector(`textarea[name="${parte}"]`);

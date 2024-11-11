@@ -134,6 +134,32 @@ def ejecutar_sql():
 
     return jsonify({"message": message})
 
+@app.route('/crear_tabla', methods=['POST'])
+def crear_tabla():
+    # Obtener el código SQL para crear la tabla desde el formulario
+    sql_crear_tabla = request.form.get('crear_tabla', '')
+    if not sql_crear_tabla.strip().upper().startswith("CREATE TABLE"):
+        return jsonify({"error": "El código debe comenzar con 'CREATE TABLE'"}), 400
+
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(sql_crear_tabla)
+            conn.commit()
+            print("Tabla creada exitosamente en pgAdmin.")
+            message = "Tabla creada exitosamente."
+        except Exception as e:
+            print(f"Error al crear la tabla: {e}")
+            message = f"Error al crear la tabla: {e}"
+        finally:
+            cursor.close()
+            conn.close()
+    else:
+        message = "No se pudo establecer la conexión para crear la tabla."
+
+    return jsonify({"message": message})
+
 @app.route('/submit_db_name', methods=['POST'])
 def submit_db_name():
     global db_name
@@ -165,7 +191,7 @@ def submit_use_db():
 
     # Cambiamos la base de datos al nombre especificado en lugar de ejecutar un comando `USE`
     db_name = use_db.split()[1]  # Extraer el nombre de la base de datos
-    conn = get_db_connection(database=db_name)
+    conn = get_db_connection()
     if conn:
         print(f"Cambiado a la base de datos: {db_name}")
         conn.close()
