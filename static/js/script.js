@@ -19,7 +19,42 @@ function borrarCampos() {
         input.value = '';
     });
 }
+// Función para iniciar el dictado de voz en un textarea específico
+function iniciarDictado(textareaName) {
+    // Verificar si el navegador soporta la API Web Speech
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        alert('Tu navegador no soporta el reconocimiento de voz. Por favor, utiliza un navegador compatible como Google Chrome.');
+        return;
+    }
 
+    const textarea = document.querySelector(`textarea[name="${textareaName}"]`);
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    // Cambiar el estado del botón de dictado (opcional)
+    const dictarButton = textarea.parentElement.querySelector('.btn.dictar');
+    dictarButton.disabled = true; // Deshabilitar el botón mientras se dicta
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        textarea.value += ' ' + transcript;
+    };
+
+    recognition.onerror = function(event) {
+        console.error('Error en el reconocimiento de voz:', event.error);
+        alert('Ocurrió un error durante el reconocimiento de voz: ' + event.error);
+    };
+
+    recognition.onend = function() {
+        // Rehabilitar el botón de dictado
+        dictarButton.disabled = false;
+    };
+}
 // Función para enviar todos los formularios
 function enviarTodosLosFormularios() {
     const db_name = document.querySelector('textarea[name="db_name"]').value;

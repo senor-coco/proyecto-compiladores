@@ -273,8 +273,6 @@ h1 {
     color: #fff;
     border-color: #555;
 }
-
-/* Estilos para la tabla de tokens */
 /* Estilos para la tabla de tokens */
 .tabla-tokens {
     width: 100%;
@@ -343,7 +341,7 @@ h1 {
 
 /* Estilo específico para textarea */
 .textarea {
-    min-height: 100px; /* Altura mínima para el textarea */
+    min-height: 90px; /* Altura mínima para el textarea */
 }
 
 /* Inputs en modo claro */
@@ -386,22 +384,6 @@ h1 {
 .btn.ejecutar:hover {
     background-color: #45a049; /* Un verde más oscuro para el efecto hover */
 }
-
-.btn.enviar-todos {
-    background-color: #007bff; /* Cambia a un azul más oscuro o el color que prefieras */
-    color: white; /* Texto en blanco para contraste */
-    border: none; /* Sin borde */
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn.enviar-todos:hover {
-    background-color: #0056b3; /* Un azul aún más oscuro al hacer hover */
-}
-
 .notificacion {
     width: 100%;
     padding: 12px;
@@ -440,13 +422,13 @@ form {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    max-width: 600px;
-    margin: 25px auto;
+    max-width: 650px;
+    margin: 10px auto;
     padding: 30px;
-    border-radius: 12px;
+    border-radius: 15px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transition: background-color 0.5s, color 0.5s, box-shadow 0.3s;
-    gap: 20px; /* Espacio entre elementos */
+    gap: 5px; /* Espacio entre elementos */
 }
 
 /* Estilo del formulario en modo claro */
@@ -578,4 +560,57 @@ form .btn.borrar:hover {
 
 .dark-mode .tabla-resultados tr:nth-child(odd) td {
     background-color: #444;
+}
+/* Estilos para el botón de dictado */
+.btn.dictar {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn.dictar img {
+    width: 20px;
+    height: 20px;
+}
+
+.btn.dictar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+/* Estilos para el contenedor de los botones dentro del formulario */
+.button-group {
+    display: flex;
+    flex-direction:row-reverse;
+    justify-content: flex-end; /* Alinear los botones a la derecha */
+    align-items:left;
+    gap: 15px; /* Espacio entre los botones */
+    margin-top: 10px; /* Separación del textarea */
+}
+/* Asegurarse de que los botones no tengan ancho completo */
+.button-group .btn {
+    width: auto;
+}
+/* Estilos para el botón de dictado */
+.btn.dictar {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn.dictar img {
+    width: 24px;
+    height: 24px;
+    transition: filter 0.3s;
+}
+
+/* Cambio de color en modo oscuro */
+.dark-mode .btn.dictar img {
+    filter: invert(100%); /* Invierte los colores de la imagen */
+}
+
+/* Opcional: efecto hover */
+.btn.dictar:hover img {
+    filter: brightness(0.8);
 }

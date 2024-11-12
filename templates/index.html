@@ -28,7 +28,6 @@
             <h1>Ingrese su código PostgreSQL</h1>
     <br>
     <br>
-    
     <!-- Formulario para cambiar la conexión de la base de datos -->
     <h2>Configuración de la conexión a la base de datos</h2>
     <form id="database-connection-form">
@@ -48,40 +47,64 @@
     </form>
     <div id="db-connection-message"></div> <!-- Div para mostrar mensajes de éxito o error -->
     <br>
-
-    <form id="form-codigo1">
-        <textarea name="codigo1" placeholder="Ingrese create database 'nombre' " class="step-input textarea" required></textarea>
+<!-- Formulario 1 -->
+<form id="form-codigo1">
+    <textarea name="codigo1" placeholder="Ingrese create database 'nombre' " class="step-input textarea" required></textarea>
+    <!-- Contenedor para los botones -->
+    <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo1')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo1')">Borrar</button>
-        <div id="notificacion-codigo1" class="notificacion"></div>
-    </form>
+        <!-- Botón de dictado de voz -->
+        <button type="button" class="btn dictar" onclick="iniciarDictado('codigo1')">
+            <img src="{{ url_for('static', filename='img/microfono.png') }}" alt="Dictado de voz">
+        </button>
+    </div>
+    <div id="notificacion-codigo1" class="notificacion"></div>
+</form>
     <br>
-    
-    <form id="form-codigo2">
-        <textarea name="codigo2" placeholder="Ingrese el código para crear una tabla 'create table valores'" class="step-input textarea" required></textarea>
+<!-- Formulario 2 -->
+<form id="form-codigo2">
+    <textarea name="codigo2" placeholder="Ingrese el código para crearuna tabla 'create table valores' " class="step-input textarea" required></textarea>
+    <!-- Contenedor para los botones -->
+    <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo2')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo2')">Borrar</button>
-        <div id="notificacion-codigo2" class="notificacion"></div>
-    </form>
-    <br>
-    
-    <form id="form-codigo3">
-        <textarea name="codigo3" placeholder="Ingrese el código para ingresar datos 'insert into nombre_tabla'" class="step-input textarea" required></textarea>
+        <!-- Botón de dictado de voz -->
+        <button type="button" class="btn dictar" onclick="iniciarDictado('codigo2')">
+            <img src="{{ url_for('static', filename='img/microfono.png') }}" alt="Dictado de voz">
+        </button>
+    </div>
+    <div id="notificacion-codigo2" class="notificacion"></div>
+</form>
+<!-- Formulario 3 -->
+<form id="form-codigo3">
+    <textarea name="codigo3" placeholder="Ingrese el código para ingresar datos 'insert into nombre_tabla'" class="step-input textarea" required></textarea>
+    <!-- Contenedor para los botones -->
+    <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo3')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo3')">Borrar</button>
-        <div id="notificacion-codigo3" class="notificacion"></div>
-    </form>
-    <br>
-    
-    <form id="form-codigo4">
-        <textarea name="codigo4" placeholder="Ingrese el código para actualizar, seleccionar o eliminar datos. Ejemplo: 'UPDATE nombre_tabla SET columna = valor WHERE condición'; 'SELECT * FROM nombre_tabla'; 'DELETE FROM nombre_tabla WHERE condición';" class="step-input textarea" required></textarea>
+        <!-- Botón de dictado de voz -->
+        <button type="button" class="btn dictar" onclick="iniciarDictado('codigo3')">
+            <img src="{{ url_for('static', filename='img/microfono.png') }}" alt="Dictado de voz">
+        </button>
+    </div>
+    <div id="notificacion-codigo3" class="notificacion"></div>
+</form>
+<!-- Formulario 4 -->
+<form id="form-codigo4">
+    <textarea name="codigo4" placeholder="Ingrese el código para actualizar, seleccionar o eliminar datos. Ejemplo: 'UPDATE nombre_tabla SET columna = valor WHERE condición'; 'SELECT * FROM nombre_tabla'; 'DELETE FROM nombre_tabla WHERE condición';" class="step-input textarea" required></textarea>
+    <!-- Contenedor para los botones -->
+    <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo4')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo4')">Borrar</button>
-        <div id="notificacion-codigo4" class="notificacion"></div>
-    </form>
-    <br>
-            
-            <!-- Mostrar el cuadro blanco con el texto completo si existe -->
+        <!-- Botón de dictado de voz -->
+        <button type="button" class="btn dictar" onclick="iniciarDictado('codigo4')">
+            <img src="{{ url_for('static', filename='img/microfono.png') }}" alt="Dictado de voz">
+        </button>
+    </div>
+    <div id="notificacion-codigo4" class="notificacion"></div>
+</form>
+    <!-- Mostrar el cuadro blanco con el texto completo si existe -->
             {% if texto_completo %}
     <div id="cuadro-blanco" class="cuadro-blanco">
         <h2>Código Completo:</h2>
