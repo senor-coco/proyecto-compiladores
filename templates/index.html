@@ -49,7 +49,17 @@
     <br>
 <!-- Formulario 1 -->
 <form id="form-codigo1">
-    <textarea name="codigo1" placeholder="Ingrese create database 'nombre' " class="step-input textarea" required></textarea>
+    <!-- Contenedor para el textarea y placeholder -->
+    <div style="position: relative; width: 100%;">
+        <!-- Placeholder siempre visible -->
+        <div style="position: absolute; top: 10px; left: 10px; color: #aaa; pointer-events: none; user-select: none;">
+            Ingrese create database 'nombre'
+        </div>
+        <!-- Área de texto para el código -->
+        <textarea name="codigo1" class="step-input textarea" required
+            style="background-color: transparent; position: relative; z-index: 1; width: 100%; padding-top: 50px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px; resize: vertical;">
+        </textarea>
+    </div>
     <!-- Contenedor para los botones -->
     <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo1')">Enviar</button>
@@ -61,49 +71,68 @@
     </div>
     <div id="notificacion-codigo1" class="notificacion"></div>
 </form>
-    <br>
+<br>
+
 <!-- Formulario 2 -->
 <form id="form-codigo2">
-    <textarea name="codigo2" placeholder="Ingrese el código para crearuna tabla 'create table valores' " class="step-input textarea" required></textarea>
-    <!-- Contenedor para los botones -->
+    <div style="position: relative; width: 100%;">
+        <div style="position: absolute; top: 10px; left: 10px; color: #aaa; pointer-events: none; user-select: none;">
+            Ingrese el código para crear una tabla 'create table valores'
+        </div>
+        <textarea name="codigo2" class="step-input textarea" required
+            style="background-color: transparent; position: relative; z-index: 1; width: 100%; padding-top: 60px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px; resize: vertical;">
+        </textarea>
+    </div>
     <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo2')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo2')">Borrar</button>
-        <!-- Botón de dictado de voz -->
         <button type="button" class="btn dictar" onclick="iniciarDictado('codigo2')">
             <img src="{{ url_for('static', filename='img/microfono.png') }}" alt="Dictado de voz">
         </button>
     </div>
     <div id="notificacion-codigo2" class="notificacion"></div>
 </form>
+
 <!-- Formulario 3 -->
 <form id="form-codigo3">
-    <textarea name="codigo3" placeholder="Ingrese el código para ingresar datos 'insert into nombre_tabla'" class="step-input textarea" required></textarea>
-    <!-- Contenedor para los botones -->
+    <div style="position: relative; width: 100%;">
+        <div style="position: absolute; top: 10px; left: 10px; color: #aaa; pointer-events: none; user-select: none;">
+            Ingrese el código para ingresar datos 'insert into nombre_tabla'
+        </div>
+        <textarea name="codigo3" class="step-input textarea" required
+            style="background-color: transparent; position: relative; z-index: 1; width: 100%; padding-top: 50px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px; resize: vertical;">
+        </textarea>
+    </div>
     <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo3')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo3')">Borrar</button>
-        <!-- Botón de dictado de voz -->
         <button type="button" class="btn dictar" onclick="iniciarDictado('codigo3')">
             <img src="{{ url_for('static', filename='img/microfono.png') }}" alt="Dictado de voz">
         </button>
     </div>
     <div id="notificacion-codigo3" class="notificacion"></div>
 </form>
+
 <!-- Formulario 4 -->
 <form id="form-codigo4">
-    <textarea name="codigo4" placeholder="Ingrese el código para actualizar, seleccionar o eliminar datos. Ejemplo: 'UPDATE nombre_tabla SET columna = valor WHERE condición'; 'SELECT * FROM nombre_tabla'; 'DELETE FROM nombre_tabla WHERE condición';" class="step-input textarea" required></textarea>
-    <!-- Contenedor para los botones -->
+    <div style="position: relative; width: 100%;">
+        <div style="position: absolute; top: 10px; left: 10px; color: #aaa; pointer-events: none; user-select: none;">
+            Ingrese el código para actualizar, seleccionar o eliminar datos. Ejemplo: 'UPDATE nombre_tabla SET columna = valor WHERE condición'; 'SELECT * FROM nombre_tabla'; 'DELETE FROM nombre_tabla WHERE condición';
+        </div>
+        <textarea name="codigo4" class="step-input textarea" required
+            style="background-color: transparent; position: relative; z-index: 1; width: 100%; padding-top: 80px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px; resize: vertical;">
+        </textarea>
+    </div>
     <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo4')">Enviar</button>
         <button type="button" class="btn borrar" onclick="borrarParte('codigo4')">Borrar</button>
-        <!-- Botón de dictado de voz -->
         <button type="button" class="btn dictar" onclick="iniciarDictado('codigo4')">
             <img src="{{ url_for('static', filename='img/microfono.png') }}" alt="Dictado de voz">
         </button>
     </div>
     <div id="notificacion-codigo4" class="notificacion"></div>
 </form>
+
     <!-- Mostrar el cuadro blanco con el texto completo si existe -->
             {% if texto_completo %}
     <div id="cuadro-blanco" class="cuadro-blanco">
