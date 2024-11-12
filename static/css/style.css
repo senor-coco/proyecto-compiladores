@@ -614,3 +614,11 @@ form .btn.borrar:hover {
 .btn.dictar:hover img {
     filter: brightness(0.8);
 }
+/* Estilos para el estado activo del botón de dictado */
+.btn.dictar.activo {
+    background-color: #ff0000; /* Color rojo para indicar que está grabando */
+}
+
+.btn.dictar.activo img {
+    filter: invert(100%); /* Invertir colores si es necesario */
+}

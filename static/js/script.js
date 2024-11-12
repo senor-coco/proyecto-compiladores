@@ -19,9 +19,11 @@ function borrarCampos() {
         input.value = '';
     });
 }
-// Función para iniciar el dictado de voz en un textarea específico
+// Objeto para almacenar el estado del reconocimiento por textarea
+const reconocimientoVoz = {};
+
+// Función para iniciar o detener el dictado de voz en un textarea específico
 function iniciarDictado(textareaName) {
-    // Verificar si el navegador soporta la API Web Speech
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
         alert('Tu navegador no soporta el reconocimiento de voz. Por favor, utiliza un navegador compatible como Google Chrome.');
@@ -29,31 +31,68 @@ function iniciarDictado(textareaName) {
     }
 
     const textarea = document.querySelector(`textarea[name="${textareaName}"]`);
+    const dictarButton = textarea.parentElement.querySelector('.btn.dictar');
+
+    // Verificar si ya hay un reconocimiento en curso para este textarea
+    if (reconocimientoVoz[textareaName] && reconocimientoVoz[textareaName].activo) {
+        // Detener el reconocimiento
+        reconocimientoVoz[textareaName].recognition.stop();
+        reconocimientoVoz[textareaName].activo = false;
+        dictarButton.classList.remove('activo'); // Actualizar apariencia del botón
+        dictarButton.disabled = false;
+        return;
+    }
+
+    // Configurar el reconocimiento de voz
     const recognition = new SpeechRecognition();
-    recognition.lang = 'es-ES';
-    recognition.interimResults = false;
+    recognition.lang = 'en-US'; // Idioma inglés
+    recognition.interimResults = true; // Habilitar resultados intermedios
+    recognition.continuous = true; // Continuar reconociendo hasta que el usuario detenga
     recognition.maxAlternatives = 1;
 
-    // Cambiar el estado del botón de dictado (opcional)
-    const dictarButton = textarea.parentElement.querySelector('.btn.dictar');
-    dictarButton.disabled = true; // Deshabilitar el botón mientras se dicta
+    reconocimientoVoz[textareaName] = {
+        recognition: recognition,
+        activo: true
+    };
 
-    recognition.start();
+    dictarButton.classList.add('activo'); // Cambiar apariencia del botón
+    dictarButton.disabled = false;
+
+    let textoTemporal = '';
+    let textoFinal = textarea.value;
 
     recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        textarea.value += ' ' + transcript;
+        textoTemporal = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+                textoFinal += transcript + ' ';
+            } else {
+                textoTemporal += transcript;
+            }
+        }
+        textarea.value = textoFinal + textoTemporal;
     };
 
     recognition.onerror = function(event) {
         console.error('Error en el reconocimiento de voz:', event.error);
         alert('Ocurrió un error durante el reconocimiento de voz: ' + event.error);
+        dictarButton.classList.remove('activo');
+        reconocimientoVoz[textareaName].activo = false;
     };
 
     recognition.onend = function() {
-        // Rehabilitar el botón de dictado
-        dictarButton.disabled = false;
+        if (reconocimientoVoz[textareaName].activo) {
+            // Reiniciar el reconocimiento si aún está activo
+            recognition.start();
+        } else {
+            dictarButton.classList.remove('activo');
+            dictarButton.disabled = false;
+        }
     };
+
+    // Iniciar el reconocimiento
+    recognition.start();
 }
 // Función para enviar todos los formularios
 function enviarTodosLosFormularios() {
