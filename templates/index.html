@@ -49,7 +49,7 @@
     <br>
 <!-- Formulario 1 -->
 <form id="form-codigo1">
-    <textarea name="codigo1" placeholder="Ingrese create database 'nombre' " class="step-input textarea" required></textarea>
+    <textarea id="codigo1" name="codigo1" placeholder="Ingrese create database 'nombre'" class="step-input textarea" required></textarea>
     <!-- Contenedor para los botones -->
     <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo1')">Enviar</button>
@@ -61,10 +61,47 @@
     </div>
     <div id="notificacion-codigo1" class="notificacion"></div>
 </form>
-    <br>
+
+<!-- Script para autocompletado -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const textarea = document.getElementById("codigo1");
+        const suggestions = [
+            "CREATE DATABASE nombre_db;",
+            "CREATE TABLE public.nombre_tabla (id SERIAL PRIMARY KEY, columna1 tipo1, columna2 tipo2);",
+            "INSERT INTO nombre_tabla (columna1, columna2) VALUES (valor1, valor2);",
+            "UPDATE nombre_tabla SET columna1 = valor WHERE condicion;",
+            "SELECT * FROM nombre_tabla WHERE condicion;",
+            "DELETE FROM nombre_tabla WHERE condicion;"
+        ];
+
+        textarea.addEventListener("input", function() {
+            const inputText = textarea.value.toUpperCase();
+            const matchingSuggestions = suggestions.filter(cmd => cmd.startsWith(inputText));
+            
+            if (matchingSuggestions.length === 1) {
+                textarea.value = matchingSuggestions[0];
+                textarea.setSelectionRange(inputText.length, matchingSuggestions[0].length);
+            }
+        });
+
+        textarea.addEventListener("keydown", function(event) {
+            if (event.key === "Tab") {
+                event.preventDefault();
+                const inputText = textarea.value.toUpperCase();
+                const matchingSuggestion = suggestions.find(cmd => cmd.startsWith(inputText));
+
+                if (matchingSuggestion) {
+                    textarea.value = matchingSuggestion;
+                }
+            }
+        });
+    });
+</script>
+<br>
 <!-- Formulario 2 -->
 <form id="form-codigo2">
-    <textarea name="codigo2" placeholder="Ingrese el código para crearuna tabla 'create table valores' " class="step-input textarea" required></textarea>
+    <textarea id="codigo2" name="codigo2" placeholder="Ingrese el código para crear una tabla 'create table valores'" class="step-input textarea" required></textarea>
     <!-- Contenedor para los botones -->
     <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo2')">Enviar</button>
@@ -76,9 +113,47 @@
     </div>
     <div id="notificacion-codigo2" class="notificacion"></div>
 </form>
+
+<!-- Script para autocompletado para Formulario 2 -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const textarea2 = document.getElementById("codigo2");
+        const suggestions = [
+            "CREATE DATABASE nombre_db;",
+            "CREATE TABLE public.nombre_tabla (id SERIAL PRIMARY KEY, columna1 tipo1, columna2 tipo2);",
+            "INSERT INTO nombre_tabla (columna1, columna2) VALUES (valor1, valor2);",
+            "UPDATE nombre_tabla SET columna1 = valor WHERE condicion;",
+            "SELECT * FROM nombre_tabla WHERE condicion;",
+            "DELETE FROM nombre_tabla WHERE condicion;"
+        ];
+
+        textarea2.addEventListener("input", function() {
+            const inputText = textarea2.value.toUpperCase();
+            const matchingSuggestions = suggestions.filter(cmd => cmd.startsWith(inputText));
+            
+            if (matchingSuggestions.length === 1) {
+                textarea2.value = matchingSuggestions[0];
+                textarea2.setSelectionRange(inputText.length, matchingSuggestions[0].length);
+            }
+        });
+
+        textarea2.addEventListener("keydown", function(event) {
+            if (event.key === "Tab") {
+                event.preventDefault();
+                const inputText = textarea2.value.toUpperCase();
+                const matchingSuggestion = suggestions.find(cmd => cmd.startsWith(inputText));
+
+                if (matchingSuggestion) {
+                    textarea2.value = matchingSuggestion;
+                }
+            }
+        });
+    });
+</script>
+<br>
 <!-- Formulario 3 -->
 <form id="form-codigo3">
-    <textarea name="codigo3" placeholder="Ingrese el código para ingresar datos 'insert into nombre_tabla'" class="step-input textarea" required></textarea>
+    <textarea id="codigo3" name="codigo3" placeholder="Ingrese el código para ingresar datos 'insert into nombre_tabla'" class="step-input textarea" required></textarea>
     <!-- Contenedor para los botones -->
     <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo3')">Enviar</button>
@@ -90,9 +165,47 @@
     </div>
     <div id="notificacion-codigo3" class="notificacion"></div>
 </form>
+
+<!-- Script para autocompletado para Formulario 3 -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const textarea3 = document.getElementById("codigo3");
+        const suggestions = [
+            "CREATE DATABASE nombre_db;",
+            "CREATE TABLE public.nombre_tabla (id SERIAL PRIMARY KEY, columna1 tipo1, columna2 tipo2);",
+            "INSERT INTO nombre_tabla (columna1, columna2) VALUES (valor1, valor2);",
+            "UPDATE nombre_tabla SET columna1 = valor WHERE condicion;",
+            "SELECT * FROM nombre_tabla WHERE condicion;",
+            "DELETE FROM nombre_tabla WHERE condicion;"
+        ];
+
+        textarea3.addEventListener("input", function() {
+            const inputText = textarea3.value.toUpperCase();
+            const matchingSuggestions = suggestions.filter(cmd => cmd.startsWith(inputText));
+            
+            if (matchingSuggestions.length === 1) {
+                textarea3.value = matchingSuggestions[0];
+                textarea3.setSelectionRange(inputText.length, matchingSuggestions[0].length);
+            }
+        });
+
+        textarea3.addEventListener("keydown", function(event) {
+            if (event.key === "Tab") {
+                event.preventDefault();
+                const inputText = textarea3.value.toUpperCase();
+                const matchingSuggestion = suggestions.find(cmd => cmd.startsWith(inputText));
+
+                if (matchingSuggestion) {
+                    textarea3.value = matchingSuggestion;
+                }
+            }
+        });
+    });
+</script>
+<br>
 <!-- Formulario 4 -->
 <form id="form-codigo4">
-    <textarea name="codigo4" placeholder="Ingrese el código para actualizar, seleccionar o eliminar datos. Ejemplo: 'UPDATE nombre_tabla SET columna = valor WHERE condición'; 'SELECT * FROM nombre_tabla'; 'DELETE FROM nombre_tabla WHERE condición';" class="step-input textarea" required></textarea>
+    <textarea id="codigo4" name="codigo4" placeholder="Ingrese el código para actualizar, seleccionar o eliminar datos. Ejemplo: 'UPDATE nombre_tabla SET columna = valor WHERE condición'; 'SELECT * FROM nombre_tabla'; 'DELETE FROM nombre_tabla WHERE condición';" class="step-input textarea" required></textarea>
     <!-- Contenedor para los botones -->
     <div class="button-group">
         <button type="button" class="btn enviar" onclick="analizarParte('codigo4')">Enviar</button>
@@ -104,6 +217,44 @@
     </div>
     <div id="notificacion-codigo4" class="notificacion"></div>
 </form>
+
+<!-- Script para autocompletado para Formulario 4 -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const textarea4 = document.getElementById("codigo4");
+        const suggestions = [
+            "CREATE DATABASE nombre_db;",
+            "CREATE TABLE public.nombre_tabla (id SERIAL PRIMARY KEY, columna1 tipo1, columna2 tipo2);",
+            "INSERT INTO nombre_tabla (columna1, columna2) VALUES (valor1, valor2);",
+            "UPDATE nombre_tabla SET columna1 = valor WHERE condicion;",
+            "SELECT * FROM nombre_tabla WHERE condicion;",
+            "DELETE FROM nombre_tabla WHERE condicion;"
+        ];
+
+        textarea4.addEventListener("input", function() {
+            const inputText = textarea4.value.toUpperCase();
+            const matchingSuggestions = suggestions.filter(cmd => cmd.startsWith(inputText));
+            
+            if (matchingSuggestions.length === 1) {
+                textarea4.value = matchingSuggestions[0];
+                textarea4.setSelectionRange(inputText.length, matchingSuggestions[0].length);
+            }
+        });
+
+        textarea4.addEventListener("keydown", function(event) {
+            if (event.key === "Tab") {
+                event.preventDefault();
+                const inputText = textarea4.value.toUpperCase();
+                const matchingSuggestion = suggestions.find(cmd => cmd.startsWith(inputText));
+
+                if (matchingSuggestion) {
+                    textarea4.value = matchingSuggestion;
+                }
+            }
+        });
+    });
+</script>
+<br>
     <!-- Mostrar el cuadro blanco con el texto completo si existe -->
             {% if texto_completo %}
     <div id="cuadro-blanco" class="cuadro-blanco">
